@@ -91,7 +91,7 @@ const Navside = () => {
                 <Link to='/Createsub'>User Role</Link>
               </li> */}
         <li>
-          <Link to='/Createsub'>
+          <Link to='/AddUserRole'>
             <div className="nav_icon_small">
               <img src="../img/menu-icon/dashboard.svg" alt="" />
             </div>
