@@ -73,13 +73,17 @@ const CreateSub = () => {
     AccountServices.SubCreate(data, auth.user)
       .then((response) => {
         console.log("============>>>>RES", response.data);
-        alert("Sub-Admin created successfully");
-        // auth.login();
-        //     navigate("/welcome");
+
+        toast.success("User Role created successfully");
+
+        // Delay the reload by a few seconds
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })
       .catch((error) => {
         console.error(error);
-        alert("Failed! Invalid Data");
+        toast.error("Failed! Invalid Data");
       });
   };
   return (
@@ -93,8 +97,6 @@ const CreateSub = () => {
             >
               <b className="mb-0">CREATE USER ROLE</b>
             </div>
-
-           
 
             <div className="card-body">
               <form>
@@ -194,94 +196,7 @@ const CreateSub = () => {
         </div>
       </div>
     </div>
-    // <>
-    //   <div className="d-flex justify-content-center container mt-5 pt-5">
-    //     <div class="row ">
-    //       <div class="col-12">
-    //         <div class="white_card card_height_100 mb_30">
-    //           <div class="white_card_header">
-    //             <div class="box_header m-0">
-    //               <div class="main-title">
-    //                 <h3 class="m-0">Add New User Role</h3>
-    //               </div>
-    //             </div>
-    //           </div>
-    //           <div class="white_card_body">
-    //             <div class="row">
-    //               <div class="col-lg-6">
-    //                 <div class="common_input mb_15">
-    //                   <input
-    //                     type="text"
-    //                     className="form-control"
-    //                     id="username"
-    //                     value={username}
-    //                     placeholder="Enter Username"
-    //                     onChange={handleUsernameChange}
-    //                   />
-    //                 </div>
-    //               </div>
-    //               <div class="col-lg-6">
-    //                 <div class="common_input mb_15">
-    //                   <input
-    //                     type="text"
-    //                     className="form-control"
-    //                     id="password"
-    //                     value={password}
-    //                     placeholder="Enter Password"
-    //                     onChange={handlePasswordChange}
-    //                   />
-    //                 </div>
-    //               </div>
-    //               <div className="mb-3">
-    //                 <div className="card text-dark">
-    //                   <h5
-    //                     className="card  text-dark"
-    //                     style={{ textAlign: "center" }}
-    //                   >
-    //                     PERMISSIONS
-    //                   </h5>
-    //                   <div className="card-body ">
-    //                     {Object.keys(permissions).map((permission) => (
-    //                       <div
-    //                         key={permission}
-    //                         className="form-check form-check-inline"
-    //                       >
-    //                         <input
-    //                           type="checkbox"
-    //                           className="form-check-input"
-    //                           id={permission}
-    //                           checked={checkedItems.includes(permission)}
-    //                           onChange={() => handleCheckboxChange(permission)}
-    //                         />
-    //                         <label
-    //                           htmlFor={permission}
-    //                           className="form-check-label"
-    //                         >
-    //                           {permission}
-    //                         </label>
-    //                       </div>
-    //                     ))}
-    //                   </div>
-    //                 </div>
-    //               </div>
-    //               <div class="col-12">
-    //                 <div class="create_report_btn mt_30">
-    //                   <a
-    //                     href="#"
-    //                     class="btn_1 radius_btn d-block text-center"
-    //                     onClick={handleAddSubAgentClick}
-    //                   >
-    //                     Add User Role
-    //                   </a>
-    //                 </div>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </>
+   
   );
 };
 export default CreateSub;

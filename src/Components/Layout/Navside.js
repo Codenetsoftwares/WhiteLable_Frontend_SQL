@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import { Link } from "react-router-dom";
 
 const Navside = () => {
@@ -95,9 +95,7 @@ const Navside = () => {
             </ul>
           </li>
         )}
-        {/* <li>
-                <Link to='/Createsub'>User Role</Link>
-              </li> */}
+     
 
         {userRole ? (
           <li className="" onClick={handleUserRoleToggle}>
@@ -131,7 +129,7 @@ const Navside = () => {
               </li>
 
               <li>
-                <Link to="/AddUserRole">
+                <Link to="/ExistingRoles">
                   <span>
                     <i class="fa-solid fa-circle"></i>View Existing
                   </span>

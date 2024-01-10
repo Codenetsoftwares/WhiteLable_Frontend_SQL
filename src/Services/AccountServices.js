@@ -139,6 +139,27 @@ class AccountService {
     });
   }
 
+  
+  getViewSubUserRole(id, user) {
+    return axios({
+      method: "GET",
+      url: `${API_HOST}/api/admin/view-sub-admins/${id}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+  }
+
+  getSingleViewSubUserRole(id, user) {
+    return axios({
+      method: "POST",
+      url: `${API_HOST}/api/admin/single-sub-admin/${id}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+  }
+
   SubCreate(data, user) {
     return axios({
       method: "POST",
@@ -149,6 +170,8 @@ class AccountService {
       },
     });
   }
+
+  
 }
 
 export default new AccountService();
