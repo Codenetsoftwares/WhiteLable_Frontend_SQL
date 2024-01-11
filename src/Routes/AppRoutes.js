@@ -15,6 +15,7 @@ import HierarchyPageView from "../Components/HierarchyPageView";
 import CreateSub from "../Components/CreateSub";
 import ViewExistingUserRoles from "../Components/UserRole/ViewExistingUserRole";
 import SingleExistingUserRoleView from "../Components/UserRole/SingleExistingUserRoleView";
+import AdminAccountStatement from "../Components/AdminAccountStatement";
 
 const AppRoutes = () => {
   const userrole = sessionStorage.getItem("role") || "";
@@ -112,10 +113,20 @@ const AppRoutes = () => {
             path="/SingleExistingRoles/:id"
             element={
               <RequireAuth>
-                <SingleExistingUserRoleView/>
+                <SingleExistingUserRoleView />
               </RequireAuth>
             }
           />
+
+          <Route
+            path="/adminaccountstatement"
+            element={
+              <RequireAuth>
+               <AdminAccountStatement/>
+              </RequireAuth>
+            }
+          />
+
         </Route>
       </Routes>
     </BrowserRouter>

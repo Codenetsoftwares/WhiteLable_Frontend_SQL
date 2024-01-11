@@ -66,6 +66,15 @@ class TransactionServices {
     });
   }
 
+  GetAdminAccStatement(id, user ,page , totalEntries) {
+    return axios({
+      method: "GET",
+      url:  `${API_HOST}/api/admin/account-statement/${id}?page=${page}&pageSize=${totalEntries}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+  }
 
 }
 
