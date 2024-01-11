@@ -140,10 +140,11 @@ class AccountService {
   }
 
   
-  getViewSubUserRole(id, user) {
+  getViewSubUserRole(id, page, name, totalEntries, user) {
+    console.log(name)
     return axios({
       method: "GET",
-      url: `${API_HOST}/api/admin/view-sub-admins/${id}`,
+      url: `${API_HOST}/api/admin/view-sub-admins/${id}?page=${page}&searchName=${name}&pageSize=${totalEntries}`,
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
@@ -159,6 +160,19 @@ class AccountService {
       },
     });
   }
+
+ RenewPermission( id, user, data) {
+    return axios({
+      method: "PUT",
+      url: `${API_HOST}/admin/edit-subadmin-permissions/${id}`,
+       data: data ,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+
+    });
+  }
+  
 
   SubCreate(data, user) {
     return axios({

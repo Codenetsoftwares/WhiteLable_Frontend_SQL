@@ -1,7 +1,10 @@
 import React, { useState, useEffect  } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Utils/Auth";
 import { useNavigate } from "react-router-dom";
+
 const Navside = () => {
+  const auth = useAuth();
   const [isUser, setIsUser] = useState(true);
   const [isRequest, setIsRequest] = useState(true);
   const [userRole, setUserRole] = useState(true);
@@ -110,7 +113,18 @@ const Navside = () => {
           </li>
         )}
 
-        {userRole ? (
+     
+     {
+        [
+          "superAdmin",
+          "WhiteLabel",
+          "HyperAgent",
+          "SuperAgent",
+          "MasterAgent",
+        ].includes(auth.user.roles[0].role) &&
+         <>
+         {userRole ? (
+
           <li className="" onClick={handleUserRoleToggle}>
             <a className="has-arrow" href="#" aria-expanded="false">
               <div className="nav_icon_small">
@@ -151,6 +165,10 @@ const Navside = () => {
             </ul>
           </li>
         )}
+         </>
+      }
+
+        
       </ul>
     </nav>
   );

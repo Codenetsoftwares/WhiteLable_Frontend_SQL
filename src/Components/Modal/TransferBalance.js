@@ -28,10 +28,10 @@ const TransferBalance = ({ userId, username, userRole }) => {
     e.preventDefault();
     if (Amount === 0 || Remarks === "" || password === "" || Amount < 0) {
       if (Amount < 0) {
-        toast.error("Amount cannot be negative");
+        toast.error("Amount Cannot Be Negative");
         return;
       }
-      toast.error("Amount field cannot be empty.");
+      toast.error(" Fields Cannot Be Empty.");
       return;
     }
     try {

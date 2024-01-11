@@ -20,10 +20,15 @@ const AccountLandingModal = () => {
   const [activeItem, setActiveItem] = useState("statement");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
-  const [startDate, setStartDate] = useState(new Date());
+
   const [endDate, setEndDate] = useState(new Date());
   const [totalData, setTotalData] = useState(0);
   const Id = userId.userId;
+
+  const defaultStartDate = new Date();
+  defaultStartDate.setDate(defaultStartDate.getDate() - 7);
+
+  const [startDate, setStartDate] = useState(defaultStartDate);
   useEffect(() => {
     MyAccountServices.getAccountStatement(
       userId,
