@@ -1,12 +1,14 @@
 import React, { useState, useEffect  } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Utils/Auth";
+import { useNavigate } from "react-router-dom";
 
 const Navside = () => {
   const auth = useAuth();
   const [isUser, setIsUser] = useState(true);
   const [isRequest, setIsRequest] = useState(true);
   const [userRole, setUserRole] = useState(true);
+  const navigate = useNavigate();
   const handleUserToggle = () => {
     setIsUser(!isUser);
   };
@@ -18,7 +20,9 @@ const Navside = () => {
   const handleUserRoleToggle = () => {
     setUserRole(!userRole);
   };
-
+  const takeMeToAdminAccount = () => {
+  navigate("/adminaccountstatement");
+}
   return (
     <nav className="sidebar">
       <div className="logo d-flex justify-content-between">
@@ -68,7 +72,18 @@ const Navside = () => {
             </ul>
           </li>
         )}
-
+        <li className="" onClick={takeMeToAdminAccount}>
+          <a className="has-arrow" href="#" aria-expanded="false">
+            <div>
+              <img src="../img/menu-icon/dashboard.svg" alt="" />
+            </div>
+            <div>
+             
+                <span>Account Statement</span>
+             
+            </div>
+          </a>
+        </li>
         {isRequest ? (
           <li className="" onClick={handleRequestToggle}>
             <a className="has-arrow" href="#" aria-expanded="false">
@@ -97,6 +112,7 @@ const Navside = () => {
             </ul>
           </li>
         )}
+
      
      {
         [
@@ -108,6 +124,7 @@ const Navside = () => {
         ].includes(auth.user.roles[0].role) &&
          <>
          {userRole ? (
+
           <li className="" onClick={handleUserRoleToggle}>
             <a className="has-arrow" href="#" aria-expanded="false">
               <div className="nav_icon_small">
