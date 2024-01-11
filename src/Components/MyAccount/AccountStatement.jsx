@@ -46,7 +46,7 @@ const AccountStatement = ({
           <b>&nbsp;&nbsp;Get Account Statement</b>
         </div>
         <div className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-md-between">
-          <div className="form-group mb-3 mb-md-0 px-2">
+          {/* <div className="form-group mb-3 mb-md-0 px-2">
             <label>Data Source:</label>
             <select
               className="form-control"
@@ -56,9 +56,9 @@ const AccountStatement = ({
               <option value="">Select a data source</option>
               <option value="source1">Source 1</option>
               <option value="source2">Source 2</option>
-              {/* Add more options as needed */}
+              Add more options as needed
             </select>
-          </div>
+          </div> */}
           <div className="form-group mb-3 mb-md-0 px-2">
             <label>From Date:</label>
             <DatePicker

@@ -3,8 +3,7 @@ const API_HOST = process.env.REACT_APP_API_HOST;
 
 class MyAccountServices {
   getAccountStatement(id, page, fromDate, toDate, user) {
-    // console.log('LINE NO. 6======>',page)
-
+  console.log(fromDate,toDate)
     return axios({
       method: "get",
       url: `${API_HOST}/api/transaction-view/${id}?page=${page}&startDate=${fromDate}&endDate=${toDate}`,
