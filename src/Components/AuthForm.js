@@ -46,6 +46,15 @@ const Authform = ({ purpose, authFormApin, userApi }) => {
   const handleAuthForm = (e) => {
     e.preventDefault();
     let data;
+        
+    if (username === "" || password==="") {
+      if (username === "") {
+        toast.error("username can not be empty");
+        return;
+      }
+      toast.error("password fields cannot be empty.");
+      return;
+    }
     if (purpose === "create") {
       if (role === "") {
         toast.error("Select the role");

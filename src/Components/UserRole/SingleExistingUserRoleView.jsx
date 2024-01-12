@@ -42,7 +42,7 @@ const SingleExistingUserRoleView = () => {
     return;
   }
     const data = {
-      permissions: checkedItems,
+      permission: checkedItems,
     };
     AccountServices.RenewPermission(id, auth.user, data)
       .then((res) => {
