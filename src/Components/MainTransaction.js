@@ -60,7 +60,7 @@ const MainTransaction = () => {
           "SubSuperAgent",
           "SubMasterAgent",
         ].includes(auth.user.roles[0].role) &&
-          AccountServices.getAllCreates(
+          AccountServices.ViewUserRole(
             auth.user.createBy,
             currentPage,
             name,
