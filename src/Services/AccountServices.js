@@ -185,7 +185,17 @@ class AccountService {
     });
   }
 
-  
+  ViewUserRole(id, page, name, totalEntries, user) {
+    console.log(name)
+    return axios({
+      method: "GET",
+      url: `${API_HOST}/api/view-all-subAdmin-creates/${id}?page=${page}&searchName=${name}&pageSize=${totalEntries}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+  }
+
 }
 
 export default new AccountService();
