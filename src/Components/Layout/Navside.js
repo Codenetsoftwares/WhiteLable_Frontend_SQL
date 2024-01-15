@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Utils/Auth";
 import { useNavigate } from "react-router-dom";
@@ -21,8 +21,8 @@ const Navside = () => {
     setUserRole(!userRole);
   };
   const takeMeToAdminAccount = () => {
-  navigate("/adminaccountstatement");
-}
+    navigate("/adminaccountstatement");
+  }
   return (
     <nav className="sidebar">
       <div className="logo d-flex justify-content-between">
@@ -58,10 +58,22 @@ const Navside = () => {
                 <span>User Management </span>
               </div>
             </a>
-            <ul>
-              <li>
-                <Link to="/Create">Create</Link>
-              </li>
+              <ul>
+                {[
+                  "superAdmin",
+                  "WhiteLabel",
+                  "HyperAgent",
+                  "SuperAgent",
+                  "MasterAgent",
+                ].includes(auth.user.roles[0].role) && <li>
+                    <Link to="/Create">Create</Link>
+                  </li>}
+
+
+                {auth.user.roles[0].permission.includes("Create-User") && <li>
+                  <Link to="/Create">Create</Link>
+                </li>}
+              
 
               <li>
                 <Link to="/maintransaction">wallet</Link>
@@ -72,19 +84,49 @@ const Navside = () => {
             </ul>
           </li>
         )}
-        <li className="" onClick={takeMeToAdminAccount}>
-          <a className="has-arrow" href="#" aria-expanded="false">
-            <div>
-              <img src="../img/menu-icon/dashboard.svg" alt="" />
-            </div>
-            <div>
-             
+
+        
+        {[
+          "superAdmin",
+          "WhiteLabel",
+          "HyperAgent",
+          "SuperAgent",
+          "MasterAgent",
+        ].includes(auth.user.roles[0].role) && <li className="" onClick={takeMeToAdminAccount}>
+            <a className="" href="#" aria-expanded="false">
+              <div>
+                <img src="../img/menu-icon/dashboard.svg" alt="" />
+              </div>
+              <div>
+
                 <span>Account Statement</span>
-             
-            </div>
-          </a>
-        </li>
-        {isRequest ? (
+
+              </div>
+            </a>
+          </li>}
+        
+
+        {auth.user.roles[0].permission.includes("AccountStatement") && <li className="" onClick={takeMeToAdminAccount}>
+            <a className="" href="#" aria-expanded="false">
+              <div>
+                <img src="../img/menu-icon/dashboard.svg" alt="" />
+              </div>
+              <div>
+
+                <span>Account Statement</span>
+
+              </div>
+            </a>
+          </li>}
+
+        
+        {[
+          "superAdmin",
+          "WhiteLabel",
+          "HyperAgent",
+          "SuperAgent",
+          "MasterAgent",
+        ].includes(auth.user.roles[0].role) && <>{isRequest ? (
           <li className="" onClick={handleRequestToggle}>
             <a className="has-arrow" href="#" aria-expanded="false">
               <div className="nav_icon_small">
@@ -111,64 +153,94 @@ const Navside = () => {
               </li>
             </ul>
           </li>
-        )}
+        )}</>}
 
-     
-     {
-        [
-          "superAdmin",
-          "WhiteLabel",
-          "HyperAgent",
-          "SuperAgent",
-          "MasterAgent",
-        ].includes(auth.user.roles[0].role) &&
-         <>
-         {userRole ? (
-
-          <li className="" onClick={handleUserRoleToggle}>
+        
+        {auth.user.roles[0].permission.includes("Delete-Admin") && <>{isRequest ? (
+          <li className="" onClick={handleRequestToggle}>
             <a className="has-arrow" href="#" aria-expanded="false">
               <div className="nav_icon_small">
                 <img src="../img/menu-icon/dashboard.svg" alt="" />
               </div>
               <div className="nav_title">
-                <span>User Role</span>
+                <span>Request </span>
               </div>
             </a>
           </li>
         ) : (
-          <li className="" onClick={handleUserRoleToggle}>
+          <li className="" onClick={handleRequestToggle}>
             <a className="has-arrow" href="#" aria-expanded="false">
               <div>
                 <img src="../img/menu-icon/dashboard.svg" alt="" />
               </div>
               <div>
-                <span>User Role</span>
+                <span>Request </span>
               </div>
             </a>
-            <ul className="d-flex flex-column ml-0">
+            <ul>
               <li>
-                <Link to="/AddUserRole">
-                  <span>
-                    {" "}
-                    <i class="fa-solid fa-circle"></i>Create New
-                  </span>
-                </Link>
-              </li>
-
-              <li>
-                <Link to="/ExistingRoles">
-                  <span>
-                    <i class="fa-solid fa-circle"></i>View Existing
-                  </span>
-                </Link>
+                <Link to="/agentDelete">Agent Delete</Link>
               </li>
             </ul>
           </li>
-        )}
-         </>
-      }
+        )}</>}
 
         
+        {
+          [
+            "superAdmin",
+            "WhiteLabel",
+            "HyperAgent",
+            "SuperAgent",
+            "MasterAgent",
+          ].includes(auth.user.roles[0].role) &&
+          <>
+            {userRole ? (
+
+              <li className="" onClick={handleUserRoleToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div className="nav_icon_small">
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div className="nav_title">
+                    <span>User Role</span>
+                  </div>
+                </a>
+              </li>
+            ) : (
+              <li className="" onClick={handleUserRoleToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div>
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div>
+                    <span>User Role</span>
+                  </div>
+                </a>
+                <ul className="d-flex flex-column ml-0">
+                  <li>
+                    <Link to="/AddUserRole">
+                      <span>
+                        {" "}
+                        <i class="fa-solid fa-circle"></i>Create New
+                      </span>
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link to="/ExistingRoles">
+                      <span>
+                        <i class="fa-solid fa-circle"></i>View Existing
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )}
+          </>
+        }
+
+
       </ul>
     </nav>
   );

@@ -23,14 +23,30 @@ const MainTransaction = () => {
 
   useEffect(() => {
     if (auth.user) {
-      TransactionServices.viewBalance(auth.user.id, auth.user)
-        .then((res) => {
-          setBalance(res.data.amount.balance);
-          setIsLoading(true);
-        })
-        .catch((err) => setBalance([]));
+      
 
       {
+        [
+          "superAdmin",
+          "WhiteLabel",
+          "HyperAgent",
+          "SuperAgent",
+          "MasterAgent",
+        ].includes(auth.user.roles[0].role) &&
+          AccountServices.getAllCreates(
+            auth.user.id,
+            currentPage,
+            name,
+            totalEntries,
+            auth.user
+          )
+            .then((res) => {
+              setUserList(res.data.user);
+              setTotalPages(res.data.totalPages);
+              setTotalData(res.data.totalItems);
+            })
+            .catch((err) => setUserList([]));
+     
         [
           "superAdmin",
           "WhiteLabel",
@@ -78,6 +94,44 @@ const MainTransaction = () => {
     }
   }, [auth.user, currentPage, totalEntries, name]);
 
+
+   useEffect(() => {
+    if (auth.user) {
+  
+      {
+        [
+          "superAdmin",
+          "WhiteLabel",
+          "HyperAgent",
+          "SuperAgent",
+          "MasterAgent",
+        ].includes(auth.user.roles[0].role) &&
+          TransactionServices.viewBalance(auth.user.id, auth.user)
+            .then((res) => {
+              setBalance(res.data.amount.balance);
+              setIsLoading(true);
+            })
+            .catch((err) => setBalance([]));
+      }
+      {
+        [
+          "SubAdmin",
+          "SubWhiteLabel",
+          "SubHyperAgent",
+          "SubSuperAgent",
+          "SubMasterAgent",
+        ].includes(auth.user.roles[0].role) &&
+          TransactionServices.viewBalance(auth.user.createBy, auth.user)
+            .then((res) => {
+              setBalance(res.data.amount.balance);
+              setIsLoading(true);
+            })
+            .catch((err) => setBalance([]));
+      }
+     
+      
+    }
+  }, []);
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
   let endIndex = Math.min(currentPage * totalEntries, totalData);
 
