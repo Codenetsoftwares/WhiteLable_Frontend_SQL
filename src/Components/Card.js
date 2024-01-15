@@ -324,7 +324,7 @@ const Card = ({
             <button
               className={`btn border border-2 rounded ${
                 auth.user.roles[0].permission.some(
-                  (role) => role === "Partnership-Edit"
+                  (role) => role === "Profile-View"
                 )
                   ? ""
                   : [
