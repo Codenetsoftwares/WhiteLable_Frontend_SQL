@@ -44,30 +44,11 @@ const MainTransaction = () => {
               setUserList(res.data.user);
               setTotalPages(res.data.totalPages);
               setTotalData(res.data.totalItems);
-            })
-            .catch((err) => setUserList([]));
-
-        [
-          "superAdmin",
-          "WhiteLabel",
-          "HyperAgent",
-          "SuperAgent",
-          "MasterAgent",
-        ].includes(auth.user.roles[0].role) &&
-          AccountServices.getAllCreates(
-            auth.user.id,
-            currentPage,
-            name,
-            totalEntries,
-            auth.user
-          )
-            .then((res) => {
-              setUserList(res.data.user);
-              setTotalPages(res.data.totalPages);
-              setTotalData(res.data.totalItems);
               setIsLoading(true)
             })
             .catch((err) => setUserList([]));
+
+        
       }
       {
         [
@@ -77,7 +58,7 @@ const MainTransaction = () => {
           "SubSuperAgent",
           "SubMasterAgent",
         ].includes(auth.user.roles[0].role) &&
-          AccountServices.ViewUserRole(
+          AccountServices.getAllCreates(
             auth.user.createBy,
             currentPage,
             name,
