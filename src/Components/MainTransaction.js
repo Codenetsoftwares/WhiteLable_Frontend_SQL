@@ -238,7 +238,7 @@ const MainTransaction = () => {
                           scope="col"
                           className="text-bolder fs-6 text-center"
                         >
-                          Exposeure
+                          Exposure
                         </th>
                         <th
                           scope="col"

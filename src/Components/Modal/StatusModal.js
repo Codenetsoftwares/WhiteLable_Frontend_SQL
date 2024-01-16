@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../Utils/Auth";
+import { toast } from "react-toastify";
 import AccountServices from "../../Services/AccountServices";
 
 const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
@@ -12,6 +13,7 @@ const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
   const [lock, setLock] = useState(true);
   const [statusSubmitted, setStatusSubmitted] = useState(false);
   const [activeStatus, setActiveStatus] = useState({});
+  const [isClicked, setIsClicked] = useState(false);
   const [previousState, setPreviousState] = useState({});
   const [password, setPassword] = useState("");
 
@@ -23,6 +25,7 @@ const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
 
   const handleActiveChange = () => {
     setActive(true);
+    setIsClicked(true);
     setBtncolor1(true);
     setBtncolor2(false);
     setBtncolor3(false);
@@ -32,6 +35,7 @@ const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
 
   const handleInactiveChange = () => {
     setActive(false);
+    setIsClicked(true);
     setBtncolor2(true);
     setBtncolor1(false);
     setBtncolor3(false);
@@ -41,6 +45,7 @@ const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
 
   const handleLockChange = () => {
     setLock(false);
+    setIsClicked(true);
     setData(3);
     setActive(false);
     setBtncolor3(true);
@@ -51,13 +56,13 @@ const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setStatusSubmitted(true);
-
+    // setStatusSubmitted(true);
+if(isClicked){
     const data = {
       isActive: active,
       locked: lock,
       password: password,
-      previousState: previousState,
+      // previousState: previousState,
     };
 
     AccountServices.ActiveInactive(
@@ -74,9 +79,14 @@ const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
       .catch((err) => {
         // console.error(err);
 
-        alert(err.response.data.message);
+     toast.error(err.response.data.message);
         return;
       });
+    }
+    else{
+      toast.error("Please Select any Status to continue");
+      return;
+    }
   };
 
   let status = "";
