@@ -15,21 +15,55 @@ const AdminAccountStatement = () => {
   console.log("Auth from AdminAccountStatement  =>>>>> ", auth);
 
   useEffect(() => {
-    TransactionServices.GetAdminAccStatement(
-      auth.user.id,
-      auth.user,
-      currentPage,
-      totalEntries
-    )
-      .then((res) => {
-        console.log("ress", res.data);
-        setstatementView(res.data.data);
-        setTotalPages(res.data.totalPages);
-        setTotalData(res.data.totalCount);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    
+      [
+        "superAdmin",
+        "WhiteLabel",
+        "HyperAgent",
+        "SuperAgent",
+        "MasterAgent",
+      ].includes(auth.user.roles[0].role) &&
+        TransactionServices.GetAdminAccStatement(
+          auth.user.id,
+          auth.user,
+          currentPage,
+          totalEntries
+        )
+          .then((res) => {
+            console.log("ress", res.data);
+            setstatementView(res.data.data);
+            setTotalPages(res.data.totalPages);
+            setTotalData(res.data.totalCount);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      [
+        "SubAdmin",
+        "SubWhiteLabel",
+        "SubHyperAgent",
+        "SubSuperAgent",
+        "SubMasterAgent",
+      ].includes(auth.user.roles[0].role) &&
+        TransactionServices.GetAdminAccStatement(
+          auth.user.createBy,
+          auth.user,
+          currentPage,
+          totalEntries
+        )
+          .then((res) => {
+            console.log("ress", res.data);
+            setstatementView(res.data.data);
+            setTotalPages(res.data.totalPages);
+            setTotalData(res.data.totalCount);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    
+
+   
   }, [auth.user.id, auth.user, page]);
 
   console.log("Statement from AdminAccountStatement  =>>>>>", statementView);
