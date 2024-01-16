@@ -58,22 +58,22 @@ const Navside = () => {
                 <span>User Management </span>
               </div>
             </a>
-              <ul>
-                {[
-                  "superAdmin",
-                  "WhiteLabel",
-                  "HyperAgent",
-                  "SuperAgent",
-                  "MasterAgent",
-                ].includes(auth.user.roles[0].role) && <li>
-                    <Link to="/Create">Create</Link>
-                  </li>}
-
-
-                {auth.user.roles[0].permission.includes("Create-Admin") && <li>
+            <ul>
+              {[
+                "superAdmin",
+                "WhiteLabel",
+                "HyperAgent",
+                "SuperAgent",
+                "MasterAgent",
+              ].includes(auth.user.roles[0].role) && <li>
                   <Link to="/Create">Create</Link>
                 </li>}
-              
+
+
+              {auth.user.roles[0].permission.includes("Create-Admin") && <li>
+                <Link to="/Create">Create</Link>
+              </li>}
+
 
               <li>
                 <Link to="/maintransaction">wallet</Link>
@@ -85,41 +85,21 @@ const Navside = () => {
           </li>
         )}
 
-        
-        {[
-          "superAdmin",
-          "WhiteLabel",
-          "HyperAgent",
-          "SuperAgent",
-          "MasterAgent",
-        ].includes(auth.user.roles[0].role) && <li className="" onClick={takeMeToAdminAccount}>
-            <a className="" href="#" aria-expanded="false">
-              <div>
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div>
 
-                <span>Account Statement</span>
+        <li className="" onClick={takeMeToAdminAccount}>
+          <a className="" href="#" aria-expanded="false">
+            <div>
+              <img src="../img/menu-icon/dashboard.svg" alt="" />
+            </div>
+            <div>
 
-              </div>
-            </a>
-          </li>}
-        
+              <span>Account Statement</span>
 
-        {auth.user.roles[0].permission.includes("AccountStatement") && <li className="" onClick={takeMeToAdminAccount}>
-            <a className="" href="#" aria-expanded="false">
-              <div>
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div>
+            </div>
+          </a>
+        </li>
 
-                <span>Account Statement</span>
 
-              </div>
-            </a>
-          </li>}
-
-        
         {[
           "superAdmin",
           "WhiteLabel",
@@ -155,7 +135,7 @@ const Navside = () => {
           </li>
         )}</>}
 
-        
+
         {auth.user.roles[0].permission.includes("Delete-Admin") && <>{isRequest ? (
           <li className="" onClick={handleRequestToggle}>
             <a className="has-arrow" href="#" aria-expanded="false">
@@ -185,7 +165,7 @@ const Navside = () => {
           </li>
         )}</>}
 
-        
+
         {
           [
             "superAdmin",
