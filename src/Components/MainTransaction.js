@@ -23,7 +23,7 @@ const MainTransaction = () => {
 
   useEffect(() => {
     if (auth.user) {
-      
+
 
       {
         [
@@ -46,7 +46,7 @@ const MainTransaction = () => {
               setTotalData(res.data.totalItems);
             })
             .catch((err) => setUserList([]));
-     
+
         [
           "superAdmin",
           "WhiteLabel",
@@ -65,6 +65,7 @@ const MainTransaction = () => {
               setUserList(res.data.user);
               setTotalPages(res.data.totalPages);
               setTotalData(res.data.totalItems);
+              setIsLoading(true)
             })
             .catch((err) => setUserList([]));
       }
@@ -95,9 +96,9 @@ const MainTransaction = () => {
   }, [auth.user, currentPage, totalEntries, name]);
 
 
-   useEffect(() => {
+  useEffect(() => {
     if (auth.user) {
-  
+
       {
         [
           "superAdmin",
@@ -128,8 +129,8 @@ const MainTransaction = () => {
             })
             .catch((err) => setBalance([]));
       }
-     
-      
+
+
     }
   }, []);
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
