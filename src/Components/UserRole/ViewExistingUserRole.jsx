@@ -41,7 +41,7 @@ const ViewExistingUserRole = ({ Status }) => {
     }
   }, [props.userId, auth.user]);
 
-  const handleCloseModalCreditRef = () => {
+  const FunCloseModalActiveInactive = () => {
     setShowModalActiveInactive(false);
   };
 
@@ -287,7 +287,7 @@ const ViewExistingUserRole = ({ Status }) => {
 
         <Modal
           show={showModalActiveInactive}
-          onHide={handleCloseModalCreditRef}
+          onHide={FunCloseModalActiveInactive}
           centered
         >
           <Modal.Header closeButton>
