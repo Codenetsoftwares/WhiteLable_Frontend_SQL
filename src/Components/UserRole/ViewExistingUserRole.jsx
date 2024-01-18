@@ -19,6 +19,7 @@ const ViewExistingUserRole = ({ Status }) => {
     userId: "",
     userName: "",
     userRole: "",
+    status:"",
   });
   const [showModalActiveInactive, setShowModalActiveInactive] = useState(false);
   const [active, setActive] = useState(true);
@@ -32,7 +33,7 @@ const ViewExistingUserRole = ({ Status }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [previousState, setPreviousState] = useState({});
   const [password, setPassword] = useState("");
-
+  console.log("first", props.userId)
   useEffect(() => {
     if (!props.userId === "") {
       AccountServices.getActiveStatus(props.userId, auth.user).then((res) => {
@@ -48,9 +49,10 @@ const ViewExistingUserRole = ({ Status }) => {
   const handleprops = (user) => {
     setShowModalActiveInactive(true);
     setProps({
-      userId: user._id,
+      userId: user.id,
       userName: user.userName,
       userRole: user.roles[0].role,
+      status: user.Status
     });
   };
   console.log("propstesting=>>", props.userRole);
@@ -234,21 +236,20 @@ const ViewExistingUserRole = ({ Status }) => {
                               <td>
                                 <span className="mx-1">
                                   <button
-                                    className={`btn border border-2 rounded ${
-                                      auth.user.roles[0].permission.some(
-                                        (role) => role === "Status"
-                                      )
-                                        ? ""
-                                        : [
-                                            "superAdmin",
-                                            "WhiteLabel",
-                                            "HyperAgent",
-                                            "SuperAgent",
-                                            "MasterAgent",
-                                          ].includes(auth.user.roles[0].role)
+                                    className={`btn border border-2 rounded ${auth.user.roles[0].permission.some(
+                                      (role) => role === "Status"
+                                    )
+                                      ? ""
+                                      : [
+                                        "superAdmin",
+                                        "WhiteLabel",
+                                        "HyperAgent",
+                                        "SuperAgent",
+                                        "MasterAgent",
+                                      ].includes(auth.user.roles[0].role)
                                         ? ""
                                         : "disabled"
-                                    }`}
+                                      }`}
                                     title="Setting"
                                     type="button"
                                     onClick={() => {
@@ -300,14 +301,13 @@ const ViewExistingUserRole = ({ Status }) => {
                 <br />
                 <span>{props.userName}</span>
               </div>
-              {/* <span style={{ fontWeight: "bold" }}>{status}</span> */}
+              <span style={{ fontWeight: "bold" }}>{props.status}</span> 
             </div>
             <div className="modal-body d-flex justify-content-between">
               <button
-                className={`btn ${
-                  btncolor1 ? "btn-success" : "btn btn-outline-success"
-                }`}
-                disabled={activeStatus.Status === "Active"}
+                className={`btn ${btncolor1 ? "btn-success" : "btn btn-outline-success"
+                  }`}
+                disabled={props.status === "Active"}
                 onClick={handleActiveChange}
                 style={{ width: "33.33%", marginRight: "2%" }}
               >
@@ -315,22 +315,20 @@ const ViewExistingUserRole = ({ Status }) => {
                 <span>Active</span>
               </button>
               <button
-                className={`btn ${
-                  btncolor2 ? "btn-danger" : "btn-outline-danger"
-                }`}
+                className={`btn ${btncolor2 ? "btn-danger" : "btn-outline-danger"
+                  }`}
                 onClick={handleInactiveChange}
-                disabled={activeStatus.Status === "Suspended"}
+                disabled={props.status === "Suspended"}
                 style={{ width: "calc(33.33% - 6px)" }}
               >
                 <i class="fas fa-ban mb-1" /> <br />
                 <span>Suspended</span>
               </button>
               <button
-                className={`btn ${
-                  btncolor3 ? "btn-secondary" : "btn btn-outline-secondary mx-2"
-                }`}
+                className={`btn ${btncolor3 ? "btn-secondary" : "btn btn-outline-secondary mx-2"
+                  }`}
                 onClick={handleLockChange}
-                disabled={activeStatus.Status === "Locked"}
+                disabled={props.status === "Locked"}
                 style={{ width: "calc(33.33% - 8px)" }}
               >
                 <i class="fas fa-lock mb-1" /> <br />
