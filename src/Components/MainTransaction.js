@@ -23,8 +23,6 @@ const MainTransaction = () => {
 
   useEffect(() => {
     if (auth.user) {
-
-
       {
         [
           "superAdmin",
@@ -44,11 +42,9 @@ const MainTransaction = () => {
               setUserList(res.data.user);
               setTotalPages(res.data.totalPages);
               setTotalData(res.data.totalItems);
-              setIsLoading(true)
+              setIsLoading(true);
             })
             .catch((err) => setUserList([]));
-
-        
       }
       {
         [
@@ -76,10 +72,8 @@ const MainTransaction = () => {
     }
   }, [auth.user, currentPage, totalEntries, name]);
 
-
   useEffect(() => {
     if (auth.user) {
-
       {
         [
           "superAdmin",
@@ -110,8 +104,6 @@ const MainTransaction = () => {
             })
             .catch((err) => setBalance([]));
       }
-
-
     }
   }, []);
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
@@ -126,10 +118,13 @@ const MainTransaction = () => {
   console.log("option meanu", totalEntries);
 
   return (
-    <div className="mt-3 mb-3">
-      <div className="text-center ">
-        <p>Total Balance</p>
-        <h4>₹{balance}</h4>
+    <div  >
+      <div className="row ">
+        <h2 className="text-center font-weight-bold mb-4" style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: '4px' }}>USER LIST</h2>
+      </div>
+      <div className="text-center mt-10">
+        <p style={{ fontWeight: 'bold' }}>Total Balance</p>
+        <h4 className="mb-1">₹{balance}</h4>
         {auth.user.roles &&
           auth.user.roles.length > 0 &&
           auth.user.roles[0].role === "superAdmin" && (
@@ -145,12 +140,10 @@ const MainTransaction = () => {
       </div>
       <div className="white_card_body m-3">
         <div className="QA_section">
-          <div class="white_box_tittle list_header">
-            <h4>User List </h4>
-
-            <div class="box_right d-flex lms_block gap-5">
+          <div className="white_box_tittle list_header">
+            <div className="col-2 text-center">
               <select
-                class="form-select form-select-sm w-25"
+                className="form-select form-select-sm"
                 aria-label=".form-select-sm example"
                 onChange={(e) => setTotalEntries(e.target.value)}
               >
@@ -163,25 +156,29 @@ const MainTransaction = () => {
                 <option value="50">50 entries</option>
                 <option value="75">75 entries</option>
               </select>
-              <div class="serach_field_2">
-                <div class="search_inner">
-                  <form Active="#">
-                    <div class="search_field">
-                      <input
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                        }}
-                        type="text"
-                        placeholder="Search content here..."
-                      />
-                    </div>
-                    <button type="submit">
-                      {" "}
-                      <i class="ti-search"></i>{" "}
-                    </button>
-                  </form>
-                </div>
+            </div>
+
+            <div
+              className="serach_field_2 ms-auto"
+              style={{ marginLeft: "-10px" }}
+            >
+              <div className="search_inner">
+                <form Active="#">
+                  <div className="search_field">
+                    <input
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                      type="text"
+                      placeholder="Search content here..."
+                    />
+                  </div>
+                  <button type="submit">
+                    {" "}
+                    <i className="ti-search"></i>{" "}
+                  </button>
+                </form>
               </div>
             </div>
           </div>
@@ -190,58 +187,75 @@ const MainTransaction = () => {
               userList.length > 0 ? (
                 <>
                   <table className="table lms_table_active3 table-bordered table-sm">
-                    <thead>
+                    <thead
+                      style={{
+                        height: "10px",
+                        backgroundColor: "#006699",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
                       <tr>
-                        <th scope="col" className="text-bolder fs-6 ">
+                        <th
+                          scope="col"
+                          className="text-bolder fs-6 "
+                          style={{ fontWeight: "bold", color: "white" }}
+                        >
                           Username
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ width: "150px" }}
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           Credit Ref.
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ width: "150px" }}
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           Partnership
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           Balance
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           Exposure
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           Avail. Bal.
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           Ref. P/L
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           Status
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
+                          style={{ fontWeight: "bold", color: "white" }}
                         >
                           Actions
                         </th>
@@ -282,8 +296,8 @@ const MainTransaction = () => {
                   </div>
                 </>
               ) : (
-                <div class="alert text-dark bg-light" role="alert">
-                  <div class="alert-text d-flex justify-content-center">
+                <div className="alert text-dark bg-light" role="alert">
+                  <div className="alert-text d-flex justify-content-center">
                     <b> &#128680; No Data Found !! </b>
                   </div>
                 </div>

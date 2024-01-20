@@ -44,7 +44,7 @@ const Navside = () => {
                 <img src="../img/menu-icon/dashboard.svg" alt="" />
               </div>
               <div className="nav_title">
-                <span>User Management </span>
+                <span>User Management  </span>
               </div>
             </a>
           </li>
@@ -65,22 +65,39 @@ const Navside = () => {
                 "HyperAgent",
                 "SuperAgent",
                 "MasterAgent",
-              ].includes(auth.user.roles[0].role) && <li>
-                  <Link to="/Create">Create</Link>
+              ].includes(auth.user.roles[0].role) && <li >
+                  <Link to="/Create" >
+                    
+
+                  <span>
+                        <i class="fa-solid fa-circle"></i>Create Admin
+                      </span>
+                  </Link>
                 </li>}
 
 
               {auth.user.roles[0].permission.includes("Create-Admin") && <li>
-                <Link to="/Create">Create</Link>
+                <Link to="/Create">
+                <span>
+                        <i class="fa-solid fa-circle"></i>Create Admin
+                      </span>
+      
+                </Link>
               </li>}
 
 
               <li>
-                <Link to="/maintransaction">wallet</Link>
+                <Link to="/maintransaction">
+
+
+                <span>
+                        <i class="fa-solid fa-circle"></i>Wallet
+                      </span>
+                </Link>
               </li>
-              <li>
+              {/* <li>
                 <a href="#">Light Sidebar</a>
-              </li>
+              </li> */}
             </ul>
           </li>
         )}
@@ -113,7 +130,7 @@ const Navside = () => {
                 <img src="../img/menu-icon/dashboard.svg" alt="" />
               </div>
               <div className="nav_title">
-                <span>Request </span>
+                <span>Request</span>
               </div>
             </a>
           </li>
@@ -124,12 +141,18 @@ const Navside = () => {
                 <img src="../img/menu-icon/dashboard.svg" alt="" />
               </div>
               <div>
-                <span>Request </span>
+                <span>Request</span>
               </div>
             </a>
             <ul>
               <li>
-                <Link to="/agentDelete">Agent Delete</Link>
+                <Link to="/agentDelete">
+
+                <span>
+                        {" "}
+                        <i class="fa-solid fa-circle"></i>Approve deletion
+                      </span>
+                </Link>
               </li>
             </ul>
           </li>

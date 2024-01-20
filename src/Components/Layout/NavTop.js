@@ -33,7 +33,7 @@ const NavTop = () => {
               <div className="line_icon open_miniSide d-none d-lg-block">
                 <img src="../img/line_img.png" alt="" />
               </div>
-              <div className="serach_field-area d-flex align-items-center">
+              {/* <div className="serach_field-area d-flex align-items-center">
                 <div className="search_inner">
                   <form action="#">
                     <div className="search_field">
@@ -45,7 +45,7 @@ const NavTop = () => {
                     </button>
                   </form>
                 </div>
-              </div>
+              </div> */}
               <div className="header_right d-flex justify-content-between align-items-center">
                 <div className="profile_info">
                   <img src="../img/client_img.png" alt="#" />
@@ -55,8 +55,8 @@ const NavTop = () => {
                       <h5>{auth.user.userName}</h5>
                     </div>
                     <div className="profile_info_details">
-                      <a href="#">My Profile </a>
-                      <a href="#">Settings</a>
+                      {/* <a href="#">My Profile </a> */}
+                      {/* <a href="#">Settings</a> */}
                       <a style={{ cursor: "pointer" }} onClick={handleLogout}>
                         <b className="text-danger">Logout</b>
                       </a>
