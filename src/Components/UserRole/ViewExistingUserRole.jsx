@@ -19,7 +19,7 @@ const ViewExistingUserRole = ({ Status }) => {
     userId: "",
     userName: "",
     userRole: "",
-    status:"",
+    status: "",
   });
   const [showModalActiveInactive, setShowModalActiveInactive] = useState(false);
   const [active, setActive] = useState(true);
@@ -33,7 +33,7 @@ const ViewExistingUserRole = ({ Status }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [previousState, setPreviousState] = useState({});
   const [password, setPassword] = useState("");
-  console.log("first", props.userId)
+  console.log("first", props.userId);
   useEffect(() => {
     if (!props.userId === "") {
       AccountServices.getActiveStatus(props.userId, auth.user).then((res) => {
@@ -52,7 +52,7 @@ const ViewExistingUserRole = ({ Status }) => {
       userId: user.id,
       userName: user.userName,
       userRole: user.roles[0].role,
-      status: user.Status
+      status: user.Status,
     });
   };
   console.log("propstesting=>>", props.userRole);
@@ -232,24 +232,32 @@ const ViewExistingUserRole = ({ Status }) => {
                                   </button>
                                 </Link>
                               </td>
-                              <td></td>
+                              <td>
+                                <button
+                                  className="border border-1 w-75 text-center bg-success rounded-pill "
+                                  style={{ cursor: "auto" }}
+                                >
+                                  {user.Status}
+                                </button>
+                              </td>
                               <td>
                                 <span className="mx-1">
                                   <button
-                                    className={`btn border border-2 rounded ${auth.user.roles[0].permission.some(
-                                      (role) => role === "Status"
-                                    )
-                                      ? ""
-                                      : [
-                                        "superAdmin",
-                                        "WhiteLabel",
-                                        "HyperAgent",
-                                        "SuperAgent",
-                                        "MasterAgent",
-                                      ].includes(auth.user.roles[0].role)
+                                    className={`btn border border-2 rounded ${
+                                      auth.user.roles[0].permission.some(
+                                        (role) => role === "Status"
+                                      )
+                                        ? ""
+                                        : [
+                                            "superAdmin",
+                                            "WhiteLabel",
+                                            "HyperAgent",
+                                            "SuperAgent",
+                                            "MasterAgent",
+                                          ].includes(auth.user.roles[0].role)
                                         ? ""
                                         : "disabled"
-                                      }`}
+                                    }`}
                                     title="Setting"
                                     type="button"
                                     onClick={() => {
@@ -291,8 +299,13 @@ const ViewExistingUserRole = ({ Status }) => {
           onHide={FunCloseModalActiveInactive}
           centered
         >
-          <Modal.Header closeButton>
-            {/* <Modal.Title>Modal 1 Title</Modal.Title> */}
+          <Modal.Header closeButton  style={{
+              height: "10px",
+              backgroundColor: "#006699",
+              color: "white",
+              fontWeight: "bold",
+            }}>
+            <Modal.Title  style={{ fontWeight: "bold", color: "white" }}>CHANGE STATUS</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="d-flex justify-content-between mb-3">
@@ -301,12 +314,13 @@ const ViewExistingUserRole = ({ Status }) => {
                 <br />
                 <span>{props.userName}</span>
               </div>
-              <span style={{ fontWeight: "bold" }}>{props.status}</span> 
+              <span style={{ fontWeight: "bold" }}>{props.status}</span>
             </div>
             <div className="modal-body d-flex justify-content-between">
               <button
-                className={`btn ${btncolor1 ? "btn-success" : "btn btn-outline-success"
-                  }`}
+                className={`btn ${
+                  btncolor1 ? "btn-success" : "btn btn-outline-success"
+                }`}
                 disabled={props.status === "Active"}
                 onClick={handleActiveChange}
                 style={{ width: "33.33%", marginRight: "2%" }}
@@ -315,8 +329,9 @@ const ViewExistingUserRole = ({ Status }) => {
                 <span>Active</span>
               </button>
               <button
-                className={`btn ${btncolor2 ? "btn-danger" : "btn-outline-danger"
-                  }`}
+                className={`btn ${
+                  btncolor2 ? "btn-danger" : "btn-outline-danger"
+                }`}
                 onClick={handleInactiveChange}
                 disabled={props.status === "Suspended"}
                 style={{ width: "calc(33.33% - 6px)" }}
@@ -325,8 +340,9 @@ const ViewExistingUserRole = ({ Status }) => {
                 <span>Suspended</span>
               </button>
               <button
-                className={`btn ${btncolor3 ? "btn-secondary" : "btn btn-outline-secondary mx-2"
-                  }`}
+                className={`btn ${
+                  btncolor3 ? "btn-secondary" : "btn btn-outline-secondary mx-2"
+                }`}
                 onClick={handleLockChange}
                 disabled={props.status === "Locked"}
                 style={{ width: "calc(33.33% - 8px)" }}
