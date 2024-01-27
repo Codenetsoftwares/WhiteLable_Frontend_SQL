@@ -34,7 +34,7 @@ const AgentDelete = () => {
     };
     AccountServices.IsAgentDeleteApprove(id, auth.user)
       .then((response) => {
-        alert("Agent Deleted From Trash Successfully!")
+        alert("Agent Deleted From Trash Successfully!");
         window.location.reload();
         console.log(response.data);
       })
@@ -43,16 +43,15 @@ const AgentDelete = () => {
       });
   };
 
-
   const handleRestore = (e, id) => {
     e.preventDefault();
     console.log("=============....>>>>>", id);
     const data = {
-      userId: id
+      userId: id,
     };
     AccountServices.restoreAgent(data, auth.user)
       .then((response) => {
-        alert("Agent Restore From Trash Successfully!")
+        alert("Agent Restore From Trash Successfully!");
         window.location.reload();
         console.log(response.data);
       })
@@ -68,10 +67,22 @@ const AgentDelete = () => {
           <div className=" p-2">
             <div>
               <table className="table  m-2">
-                <thead>
+                <thead
+                  style={{
+                    height: "10px",
+                    backgroundColor: "#006699",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Agent Name</th>
+                    <th scope="col">SL. NO.</th>
+                    <th
+                      scope="col"
+                      style={{ fontWeight: "bold", color: "white" }}
+                    >
+                      AGENT NAME
+                    </th>
                     <th></th>
                     <th></th>
                   </tr>
@@ -82,7 +93,7 @@ const AgentDelete = () => {
                     <td>{data.userName}</td>
                     <td>
                       <button
-                        className="btn btn-secondary text-dark rounded"
+                        className="btn  btn-danger text-dark rounded"
                         onClick={(e) => handleDelete(e, data._id)}
                       >
                         Delete
@@ -90,7 +101,7 @@ const AgentDelete = () => {
                     </td>
                     <td>
                       <button
-                        className="btn btn-secondary text-dark rounded"
+                        className="btn btn-info text-dark rounded"
                         onClick={(e) => handleRestore(e, data._id)}
                       >
                         Restore
