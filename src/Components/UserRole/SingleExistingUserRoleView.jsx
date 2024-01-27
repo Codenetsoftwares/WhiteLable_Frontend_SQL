@@ -293,7 +293,7 @@ const SingleExistingUserRoleView = () => {
                       checked={checkedItems.includes("AccountStatement")}
                       onChange={handleCheckboxChange}
                     />
-                    <span>IAccountStatement</span>
+                    <span>AccountStatement</span>
                   </label>
                 </div>
                 <div>
