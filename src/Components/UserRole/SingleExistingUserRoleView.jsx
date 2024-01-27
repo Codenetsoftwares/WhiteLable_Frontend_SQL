@@ -82,7 +82,7 @@ const SingleExistingUserRoleView = () => {
             <div className="row justify-content-center">
               <div className="col-lg-12">
                 <div className="white_card card_height_100 mb_30">
-                  <div className="white_card_header">
+                  <div className="white_card_header" >
                     <div className="box_header m-0">
                       <div className="main-title">
                         <h3 className="m-0">PERMISSION DETAILS</h3>
@@ -149,15 +149,15 @@ const SingleExistingUserRoleView = () => {
             <div className="card" style={{ backgroundColor: "" }}>
               <div
                 className="card-header d-flex justify-content-between align-items-center"
-                // style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}
+                style={{ display: "flex", flexDirection: "column", alignItems: "center" ,  backgroundColor: "#26416e", width: "100%" ,  display: "flex", justifyContent: "space-between"  }}
               >
                 <h1
                   className="h4 card-title mb-0"
-                  style={{ fontWeight: "bold", margin: "auto" }}
+                  style={{ fontWeight: "bold", margin: "auto" ,color: "white"  }}
                 >
                   Renew The Permissions
                 </h1>
-                <div className="white_box_tittle list_header text-end" style={{ display: "flex", flexDirection: "column" }}>
+                <div className="white_box_tittle list_header text-end" style={{ display: "flex", flexDirection: "column" , fontWeight: "bold", color: "white"   }}>
                   <span>Username: {singleHierarchydata?.userName}</span>
                   {/* <br /> */}
                   <span>Role:{singleHierarchydata?.roles[0].role}</span>
@@ -197,7 +197,7 @@ const SingleExistingUserRoleView = () => {
                     <span>CreditRef-Edit</span>
                   </label>
                 </div>
-                <div>
+                {/* <div>
                   <label>
                     <input
                       type="checkbox"
@@ -207,7 +207,7 @@ const SingleExistingUserRoleView = () => {
                     />
                     <span>Bank View</span>
                   </label>
-                </div>
+                </div> */}
                 <div>
                   <label>
                     <input
@@ -263,7 +263,7 @@ const SingleExistingUserRoleView = () => {
                     <span>Profile-View</span>
                   </label>
                 </div>
-                <div>
+                {/* <div>
                   <label>
                     <input
                       type="checkbox"
@@ -273,7 +273,7 @@ const SingleExistingUserRoleView = () => {
                     />
                     <span>View-Admin-Data</span>
                   </label>
-                </div>
+                </div> */}
                 <div>
                   <label>
                     <input
@@ -289,17 +289,6 @@ const SingleExistingUserRoleView = () => {
                   <label>
                     <input
                       type="checkbox"
-                      value="AccountStatement"
-                      checked={checkedItems.includes("AccountStatement")}
-                      onChange={handleCheckboxChange}
-                    />
-                    <span>AccountStatement</span>
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
                       value="Create-User"
                       checked={checkedItems.includes("Create-User")}
                       onChange={handleCheckboxChange}
@@ -307,6 +296,18 @@ const SingleExistingUserRoleView = () => {
                     <span>Create User</span>
                   </label>
                 </div>
+                <div>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value="AccountStatement"
+                      checked={checkedItems.includes("AccountStatement")}
+                      onChange={handleCheckboxChange}
+                    />
+                    <span>AccountStatement</span>
+                  </label>
+                </div>
+               
                 <div>
                   <label>
                     <input
@@ -363,7 +364,7 @@ const SingleExistingUserRoleView = () => {
                   </label>
                 </div>
               </div>
-              <div className="card-footer">
+              <div className="card-footer text-center">
                 <div className="col-12 text-end">
                   <button
                     onClick={handleSubmit}
