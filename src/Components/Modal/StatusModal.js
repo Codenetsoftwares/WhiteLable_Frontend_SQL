@@ -3,7 +3,7 @@ import { useAuth } from "../../Utils/Auth";
 import { toast } from "react-toastify";
 import AccountServices from "../../Services/AccountServices";
 
-const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
+const StatusModal = ({ statusId, username, userRole, onStatusChange, setUser }) => {
   const auth = useAuth();
   const [active, setActive] = useState(true);
   const [btncolor1, setBtncolor1] = useState(false);
@@ -14,7 +14,7 @@ const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
   const [statusSubmitted, setStatusSubmitted] = useState(false);
   const [activeStatus, setActiveStatus] = useState({});
   const [isClicked, setIsClicked] = useState(false);
-  const [previousState, setPreviousState] = useState({});
+  // const [previousState, setPreviousState] = useState({});
   const [password, setPassword] = useState("");
 
   useEffect(() => {
@@ -51,6 +51,20 @@ const StatusModal = ({ statusId, username, userRole, onStatusChange }) => {
     setBtncolor3(true);
     setBtncolor1(false);
     setBtncolor2(false);
+
+    if (!activeStatus.isActive && !activeStatus.locked) {
+      const specificRoles = ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"];
+      if (specificRoles.includes(userRole) && userRole !== "superAdmin" && auth.user.isSuperAdmin) {
+        // Logout logic here
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('role');
+        setUser(null);
+        // Additional cleanup logic (if any) can be added here
+
+        // Redirect to the login page or any other desired location after logout
+        // Example: window.location.href = "/login";
+      }
+    }
   };
 
   const handleSubmit = (e) => {

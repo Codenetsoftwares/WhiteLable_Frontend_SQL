@@ -209,15 +209,15 @@ const AccountStatement = ({
                 </ul>
               </nav>
             </div> */}
-            
-              <Pagination
+            {props.length>0 &&  <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 handlePageChange={handlePageChange}
                 startIndex={startIndex}
                 endIndex={endIndex}
                 totalData={totalData}
-              />
+              /> }
+             
          
 
             {/* Pagiantion */}

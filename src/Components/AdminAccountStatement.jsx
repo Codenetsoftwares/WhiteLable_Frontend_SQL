@@ -64,7 +64,7 @@ const AdminAccountStatement = () => {
     
 
    
-  }, [auth.user.id, auth.user, page]);
+  }, [auth.user.id, currentPage, auth.user]);
 
   console.log("Statement from AdminAccountStatement  =>>>>>", statementView);
   function formatDate(dateString) {
