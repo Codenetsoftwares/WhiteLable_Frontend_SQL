@@ -19,7 +19,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange, startIndex, end
       pageNumbers.push(
         <li
           key={i}
-          className={`page-item ${currentPage === i ? "active" : ""}`}
+          className={`page-item ${currentPage === i ? "disabled" : ""}`}
         >
           <button
             className="page-link"
