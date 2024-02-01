@@ -11,8 +11,10 @@ const NavTop = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let logoutPerformed = false;
     const handleUnauthorized = (error) => {
-      if (error.response && error.response.status === 423 ) {       
+      if (!logoutPerformed && error.response && error.response.status === 423 ) {   
+        logoutPerformed = true;          
         auth.logout();
         toast.error("User Account Is Locked");
         navigate("/");
