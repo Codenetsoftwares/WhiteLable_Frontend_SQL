@@ -1,4 +1,5 @@
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios"; 
 import { useNavigate } from "react-router-dom";
 import Layout from "./Layout";
 import { useAuth } from "../../Utils/Auth";
@@ -8,7 +9,31 @@ import "react-toastify/dist/ReactToastify.css";
 const NavTop = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-  const [forcestoreauth, setForceStoreauth] = useState(null);
+
+  useEffect(() => {
+    const handleUnauthorized = (error) => {
+      if (error.response && error.response.status === 423 ) {       
+        auth.logout();
+        toast.error("Session expired. Please log in again.");
+        navigate("/");
+      }
+    };
+
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        handleUnauthorized(error);
+        return Promise.reject(error);
+      }
+    );
+
+  
+    
+    return () => {
+     
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, [auth, navigate]); 
 
   const handleLogout = () => {
     const confirmed = window.confirm(
@@ -16,7 +41,7 @@ const NavTop = () => {
     );
     if (confirmed) {
       auth.logout();
-      toast.success("Logout successfully");
+      toast.success("Logout successful");
       navigate("/");
     }
   };
@@ -33,19 +58,6 @@ const NavTop = () => {
               <div className="line_icon open_miniSide d-none d-lg-block">
                 <img src="../img/line_img.png" alt="" />
               </div>
-              {/* <div className="serach_field-area d-flex align-items-center">
-                <div className="search_inner">
-                  <form action="#">
-                    <div className="search_field">
-                      <input type="text" placeholder="Search" />
-                    </div>
-                    <button type="submit">
-                      {" "}
-                      <img src="../img/icon/icon_search.svg" alt="" />{" "}
-                    </button>
-                  </form>
-                </div>
-              </div> */}
               <div className="header_right d-flex justify-content-between align-items-center">
                 <div className="profile_info">
                   <img src="../img/client_img.png" alt="#" />
@@ -55,8 +67,6 @@ const NavTop = () => {
                       <h5>{auth.user.userName}</h5>
                     </div>
                     <div className="profile_info_details">
-                      {/* <a href="#">My Profile </a> */}
-                      {/* <a href="#">Settings</a> */}
                       <a style={{ cursor: "pointer" }} onClick={handleLogout}>
                         <b className="text-danger">Logout</b>
                       </a>
