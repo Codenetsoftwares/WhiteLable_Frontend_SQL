@@ -14,7 +14,7 @@ const NavTop = () => {
     const handleUnauthorized = (error) => {
       if (error.response && error.response.status === 423 ) {       
         auth.logout();
-        toast.error("Session expired. Please log in again.");
+        toast.error("User Account Is Locked");
         navigate("/");
       }
     };
