@@ -132,21 +132,21 @@ const Card = ({
           )}
           <span className="">
             <button
-              className={`border border-0 bg-white btn ${
-                auth.user.roles[0].permission.some(
-                  (role) => role === "CreditRef-Edit"
-                )
-                  ? ""
-                  : [
+              className={`border border-0 bg-white btn ${["Suspended"].includes(auth.user.Status)
+                  ? "disabled" : auth.user.roles[0].permission.some(
+                    (role) => role === "CreditRef-Edit"
+                  )
+                    ? ""
+                    : [
                       "superAdmin",
                       "WhiteLabel",
                       "HyperAgent",
                       "SuperAgent",
                       "MasterAgent",
                     ].includes(auth.user.roles[0].role)
-                  ? ""
-                  : "disabled"
-              }`}
+                      ? ""
+                      : "disabled"
+                }`}
               data-bs-toggle="modal"
               data-bs-target={`#EditCreditRefBalance-${userId}`}
               aria-label="Close"
@@ -156,21 +156,20 @@ const Card = ({
           </span>
           <span>
             <button
-              className={`border border-0 bg-white btn ${
-                auth.user.roles[0].permission.some(
-                  (role) => role === "CreditRef-View"
-                )
+              className={`border border-0 bg-white btn ${auth.user.roles[0].permission.some(
+                (role) => role === "CreditRef-View"
+              )
                   ? ""
                   : [
-                      "superAdmin",
-                      "WhiteLabel",
-                      "HyperAgent",
-                      "SuperAgent",
-                      "MasterAgent",
-                    ].includes(auth.user.roles[0].role)
-                  ? ""
-                  : "disabled"
-              }`}
+                    "superAdmin",
+                    "WhiteLabel",
+                    "HyperAgent",
+                    "SuperAgent",
+                    "MasterAgent",
+                  ].includes(auth.user.roles[0].role)
+                    ? ""
+                    : "disabled"
+                }`}
             >
               <i
                 class="fa-regular fa-eye"
@@ -202,21 +201,21 @@ const Card = ({
           )}
           <span className="">
             <button
-              className={`border border-0 bg-white btn ${
-                auth.user.roles[0].permission.some(
-                  (role) => role === "Partnership-Edit"
-                )
-                  ? ""
-                  : [
+              className={`border border-0 bg-white btn ${["Suspended"].includes(auth.user.Status)
+                  ? "disabled" : auth.user.roles[0].permission.some(
+                    (role) => role === "Partnership-Edit"
+                  )
+                    ? ""
+                    : [
                       "superAdmin",
                       "WhiteLabel",
                       "HyperAgent",
                       "SuperAgent",
                       "MasterAgent",
                     ].includes(auth.user.roles[0].role)
-                  ? ""
-                  : "disabled"
-              }`}
+                      ? ""
+                      : "disabled"
+                }`}
             >
               <i
                 className="fa-solid fa-pen-to-square"
@@ -228,21 +227,20 @@ const Card = ({
           </span>
           <span>
             <button
-              className={`border border-0 bg-white btn ${
-                auth.user.roles[0].permission.some(
-                  (role) => role === "Partnership-View"
-                )
+              className={`border border-0 bg-white btn ${auth.user.roles[0].permission.some(
+                (role) => role === "Partnership-View"
+              )
                   ? ""
                   : [
-                      "superAdmin",
-                      "WhiteLabel",
-                      "HyperAgent",
-                      "SuperAgent",
-                      "MasterAgent",
-                    ].includes(auth.user.roles[0].role)
-                  ? ""
-                  : "disabled"
-              }`}
+                    "superAdmin",
+                    "WhiteLabel",
+                    "HyperAgent",
+                    "SuperAgent",
+                    "MasterAgent",
+                  ].includes(auth.user.roles[0].role)
+                    ? ""
+                    : "disabled"
+                }`}
             >
               <i
                 className="fa-regular fa-eye"
@@ -264,7 +262,7 @@ const Card = ({
           {balance}
         </td>
         <td scope="row" className="fs-6 text-center text-danger">
-        {isNaN(loadBalance - creditRef) ? 0 : (loadBalance - creditRef)}
+          {isNaN(loadBalance - creditRef) ? 0 : (loadBalance - creditRef)}
         </td>
         <td scope="row" className="fs-6 text-center">
           <p className="border border-1 w-75 text-center bg-success rounded-pill">
@@ -276,21 +274,21 @@ const Card = ({
             <button
               data-bs-toggle="modal"
               data-bs-target={`#transferbalance-${userId}`}
-              className={`btn border border-2 rounded ${
-                auth.user.roles[0].permission.some(
-                  (role) => role === "TransferBalance"
-                )
-                  ? ""
-                  : [
+              className={`btn border border-2 rounded ${["Suspended"].includes(auth.user.Status)
+                  ? "disabled" : auth.user.roles[0].permission.some(
+                    (role) => role === "TransferBalance"
+                  )
+                    ? ""
+                    : [
                       "superAdmin",
                       "WhiteLabel",
                       "HyperAgent",
                       "SuperAgent",
                       "MasterAgent",
                     ].includes(auth.user.roles[0].role)
-                  ? ""
-                  : "disabled"
-              }`}
+                      ? ""
+                      : "disabled"
+                }`}
               title="Addmoney"
             >
               <i class="fa-solid fa-circle-dollar-to-slot"></i>
@@ -298,45 +296,44 @@ const Card = ({
           </span>
           <span className="mx-1">
             <button
-              className={`btn border border-2 rounded ${
-                auth.user.roles[0].permission.some((role) => role === "Status")
-                  ? ""
-                  : [
+              className={`btn border border-2 rounded ${["Suspended"].includes(auth.user.Status)
+                  ? "disabled" : auth.user.roles[0].permission.some((role) => role === "Status")
+                    ? ""
+                    : [
                       "superAdmin",
                       "WhiteLabel",
                       "HyperAgent",
                       "SuperAgent",
                       "MasterAgent",
                     ].includes(auth.user.roles[0].role)
-                  ? ""
-                  : "disabled"
-              }`}
+                      ? ""
+                      : "disabled"
+                }`}
               title="Setting"
               type="button"
               data-bs-toggle="modal"
               data-bs-target={`#activeInactive-${userId}`}
-              // onClick={handlestatus}
+            // onClick={handlestatus}
             >
               <i className="fa-thin fas fa-gear"></i>
             </button>
           </span>
           <span className="mx-1">
             <button
-              className={`btn border border-2 rounded ${
-                auth.user.roles[0].permission.some(
-                  (role) => role === "Profile-View"
-                )
+              className={`btn border border-2 rounded ${auth.user.roles[0].permission.some(
+                (role) => role === "Profile-View"
+              )
                   ? ""
                   : [
-                      "superAdmin",
-                      "WhiteLabel",
-                      "HyperAgent",
-                      "SuperAgent",
-                      "MasterAgent",
-                    ].includes(auth.user.roles[0].role)
-                  ? ""
-                  : "disabled"
-              }`}
+                    "superAdmin",
+                    "WhiteLabel",
+                    "HyperAgent",
+                    "SuperAgent",
+                    "MasterAgent",
+                  ].includes(auth.user.roles[0].role)
+                    ? ""
+                    : "disabled"
+                }`}
               title="Profile"
               onClick={() => {
                 takeMeToAccount(userName);
@@ -347,21 +344,21 @@ const Card = ({
           </span>
           <span className="mx-1">
             <button
-              className={`btn border border-2 rounded ${
-                auth.user.roles[0].permission.some(
-                  (role) => role === "Delete-Admin"
-                )
-                  ? ""
-                  : [
+              className={`btn border border-2 rounded ${["Suspended"].includes(auth.user.Status)
+                  ? "disabled" : auth.user.roles[0].permission.some(
+                    (role) => role === "Delete-Admin"
+                  )
+                    ? ""
+                    : [
                       "superAdmin",
                       "WhiteLabel",
                       "HyperAgent",
                       "SuperAgent",
                       "MasterAgent",
                     ].includes(auth.user.roles[0].role)
-                  ? ""
-                  : "disabled"
-              }`}
+                      ? ""
+                      : "disabled"
+                }`}
               title="Delete"
               onClick={(e) => {
                 handeldelete(userId);
@@ -401,21 +398,21 @@ const Card = ({
       {auth.user.roles[0].permission.some(
         (role) => role === "CreditRef-View"
       ) && (
-        <CreditRefBalanceLog
-          userId={userId}
-          key={`CreditRefBalanceLog -${userId}`}
-          username={userName}
-        />
-      )}
+          <CreditRefBalanceLog
+            userId={userId}
+            key={`CreditRefBalanceLog -${userId}`}
+            username={userName}
+          />
+        )}
       {auth.user.roles[0].permission.some(
         (role) => role === "Partnership-View"
       ) && (
-        <PartnerShipLog
-          userId={userId}
-          key={`PartnerShipLog -${userId}`}
-          username={userName}
-        />
-      )}
+          <PartnerShipLog
+            userId={userId}
+            key={`PartnerShipLog -${userId}`}
+            username={userName}
+          />
+        )}
       {auth.user.roles[0].permission.some((role) => role === "Status") && (
         <StatusModal
           statusId={userId}
@@ -432,26 +429,26 @@ const Card = ({
         "SuperAgent",
         "MasterAgent",
       ].includes(auth.user.roles[0].role) && (
-        <>
-          <CreditRefBalanceLog
-            userId={userId}
-            key={`CreditRefBalanceLog -${userId}`}
-            username={userName}
-          />
-          <PartnerShipLog
-            userId={userId}
-            key={`PartnerShipLog -${userId}`}
-            username={userName}
-          />
-          <StatusModal
-            statusId={userId}
-            username={userName}
-            userRole={role}
-            onStatusChange={handleStatusChange} // Pass the function to receive status
-            key={`activeInactive-${userId}`}
-          />
-        </>
-      )}
+          <>
+            <CreditRefBalanceLog
+              userId={userId}
+              key={`CreditRefBalanceLog -${userId}`}
+              username={userName}
+            />
+            <PartnerShipLog
+              userId={userId}
+              key={`PartnerShipLog -${userId}`}
+              username={userName}
+            />
+            <StatusModal
+              statusId={userId}
+              username={userName}
+              userRole={role}
+              onStatusChange={handleStatusChange} // Pass the function to receive status
+              key={`activeInactive-${userId}`}
+            />
+          </>
+        )}
     </tbody>
   );
 };
