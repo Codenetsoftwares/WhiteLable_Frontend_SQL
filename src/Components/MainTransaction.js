@@ -19,7 +19,7 @@ const MainTransaction = () => {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(currentPage);
+  console.log(auth);
 
   useEffect(() => {
     if (auth.user) {
@@ -32,16 +32,17 @@ const MainTransaction = () => {
           "MasterAgent",
         ].includes(auth.user.roles[0].role) &&
           AccountServices.getAllCreates(
-            auth.user.id,
+            auth.user.adminId,
             currentPage,
             name,
             totalEntries,
             auth.user
           )
             .then((res) => {
-              setUserList(res.data.user);
-              setTotalPages(res.data.totalPages);
-              setTotalData(res.data.totalItems);
+              console.log(res)
+              setUserList(res.data.data.users);
+              setTotalPages(res.data.data.totalPages);
+              setTotalData(res.data.data.totalRecords);
               setIsLoading(true);
             })
             .catch((err) => setUserList([]));
@@ -55,16 +56,16 @@ const MainTransaction = () => {
           "SubMasterAgent",
         ].includes(auth.user.roles[0].role) &&
           AccountServices.getAllCreates(
-            auth.user.createBy,
+            auth.user.adminId,
             currentPage,
             name,
             totalEntries,
             auth.user
           )
             .then((res) => {
-              setUserList(res.data.user);
-              setTotalPages(res.data.totalPages);
-              setTotalData(res.data.totalItems);
+              setUserList(res.data.data.users);
+              setTotalPages(res.data.data.totalPages);
+              setTotalData(res.data.data.totalRecords);
               setIsLoading(true);
             })
             .catch((err) => setUserList([]));
@@ -82,9 +83,10 @@ const MainTransaction = () => {
           "SuperAgent",
           "MasterAgent",
         ].includes(auth.user.roles[0].role) &&
-          TransactionServices.viewBalance(auth.user.id, auth.user)
+          TransactionServices.viewBalance(auth.user.adminId, auth.user)
             .then((res) => {
-              setBalance(res.data.amount.balance);
+              console.log(res)
+              setBalance(res.data.data.balance);
               setIsLoading(true);
             })
             .catch((err) => setBalance([]));
@@ -97,15 +99,17 @@ const MainTransaction = () => {
           "SubSuperAgent",
           "SubMasterAgent",
         ].includes(auth.user.roles[0].role) &&
-          TransactionServices.viewBalance(auth.user.createBy, auth.user)
+          TransactionServices.viewBalance(auth.user.adminId, auth.user)
             .then((res) => {
-              setBalance(res.data.amount.balance);
+              setBalance(res.data.data.balance);
               setIsLoading(true);
             })
             .catch((err) => setBalance([]));
       }
     }
   }, []);
+
+  console.log("length", userList)
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
   let endIndex = Math.min(currentPage * totalEntries, totalData);
 
@@ -262,24 +266,24 @@ const MainTransaction = () => {
                       </tr>
                     </thead>
                     {userList.map((data, i) => {
-                      const creditRefLength = data.creditRef.length;
-                      const partnershipLength = data.partnership.length;
+                      // const creditRefLength = data.creditRef.length ?? 0;
+                      // const partnershipLength = data.partnership.Partnerships.length ?? 0;
                       return (
                         <Card
                           userName={data.userName}
                           role={data.roles[0].role}
                           key={data.id}
-                          creditRef={data.creditRef[creditRefLength - 1]?.value}
+                          // creditRef={data.creditRef[creditRefLength - 1]?.value}
                           balance={data.balance}
                           loadBalance={data.loadBalance}
                           refProfitLoss={data.refProfitLoss}
                           userId={data.id}
-                          partnership={
-                            data.partnership[partnershipLength - 1]?.value
-                          }
+                          // partnership={
+                          //   data.partnership[partnershipLength - 1]?.value
+                          // }
                           Status={data.Status}
-                          creditRefLength={creditRefLength}
-                          partnershipLength={partnershipLength}
+                          // creditRefLength={creditRefLength}
+                          // partnershipLength={partnershipLength}
                         />
                       );
                     })}

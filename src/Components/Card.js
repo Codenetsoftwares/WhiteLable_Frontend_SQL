@@ -133,7 +133,7 @@ const Card = ({
           <span className="">
             <button
               className={`border border-0 bg-white btn ${["Suspended"].includes(auth.user.Status)
-                  ? "disabled" : auth.user.roles[0].permission.some(
+                ? "disabled" : auth.user.roles[0].permission.some(
                     (role) => role === "CreditRef-Edit"
                   )
                     ? ""
