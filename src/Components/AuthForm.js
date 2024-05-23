@@ -88,8 +88,8 @@ const Authform = ({ purpose, authFormApin, userApi }) => {
         .then((res) => {
           console.log(res);
           if (purpose === "login") {
-            sessionStorage.setItem("user", res.data.token.accessToken);
-            sessionStorage.setItem("role", res.data.token.role);
+            sessionStorage.setItem("user", res.data.data.Token);
+            sessionStorage.setItem("role", res.data.data.AdminData.roles[0].role);
             toast.success("Login Successful.");
             auth.login();
             navigate("/welcome");
