@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const DepositBalance = () => {
   const auth = useAuth();
   const [Amount, SetAmount] = useState(0);
-  const id = auth.user.id;
+  const id = auth.user.adminId;
   const handelamtchange = (e) => {
     SetAmount(e.target.value);
   };
@@ -24,7 +24,7 @@ const DepositBalance = () => {
       return;
     }
     const data = {
-      depositeAmount: Number(Amount),
+      amount: Number(Amount),
     };
 
     console.log("data", data);
