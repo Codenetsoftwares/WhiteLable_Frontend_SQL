@@ -15,11 +15,13 @@ const SingleExistingUserRoleView = () => {
   const Navigate = useNavigate();
   const auth = useAuth();
   const { id } = useParams();
+  console.log( '=======>>>> singlreuserroleview',id )
   const [showModalPartnership, setShowModalPartnership] = useState(false);
 
   useEffect(() => {
     AccountServices.getSingleViewSubUserRole(id, auth.user).then((res) => {
-      setSinglehierarchyData(res.data);
+      console.log('=========>>>> response at line 23',res)
+      setSinglehierarchyData(res.data.roles[0].role);
       setPermission(res.data.roles[0].permission);
     });
   }, [id, auth]);

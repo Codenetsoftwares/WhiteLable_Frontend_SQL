@@ -6,8 +6,12 @@ import Pagination from "../Pagination";
 import { Modal, Button } from "react-bootstrap";
 
 const ViewExistingUserRole = ({ Status }) => {
+  // console.log('===========>>>> status of user',Status)
+  // console.log('============>>>>>>>> id from view user ',userId)
   const auth = useAuth();
-  const [viewUser, setViewUser] = useState([]);
+  console.log("========>>>>>> auth", auth);
+  const [viewUser, setViewUser] = useState("");
+  console.log("=========> view User line 14", viewUser);
   //pagination usestate
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
@@ -37,6 +41,7 @@ const ViewExistingUserRole = ({ Status }) => {
   useEffect(() => {
     if (!props.userId === "") {
       AccountServices.getActiveStatus(props.userId, auth.user).then((res) => {
+        console.log("=======>>> responsefor active status", res);
         setActiveStatus(res.data);
       });
     }
@@ -58,20 +63,15 @@ const ViewExistingUserRole = ({ Status }) => {
   console.log("propstesting=>>", props.userRole);
 
   useEffect(() => {
-    AccountServices.getViewSubUserRole(
-      auth.user.id,
-      currentPage,
-      name,
-      totalEntries,
-      auth.user
-    ).then((res) => {
-      console.log("============> data sending ", res.data);
-      setViewUser(res.data);
-      setTotalPages(res.data.totalPages);
-      setTotalData(res.data.totalCount);
-    });
-  }, [totalEntries, currentPage, auth, name]);
-  console.log("=========> view User", viewUser);
+    AccountServices.getViewSubUserRole(auth.user.adminId, auth.user).then(
+      (res) => {
+        console.log("============> data sending", res);
+        setViewUser(res.data.data.users);
+        // setTotalPages(res.data.totalPages);
+        // setTotalData(res.data.totalCount);
+      }
+    );
+  }, [auth.user.adminId, auth.user]);
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
   let endIndex = Math.min(currentPage * totalEntries, totalData);
 
@@ -161,7 +161,7 @@ const ViewExistingUserRole = ({ Status }) => {
               <div className="white_card_header">
                 <div className="box_header m-0">
                   <div className="main-title">
-                    <h3 className="m-0" >List of User Roles</h3>
+                    <h3 className="m-0">List of User Roles</h3>
                   </div>
                 </div>
               </div>
@@ -208,30 +208,59 @@ const ViewExistingUserRole = ({ Status }) => {
                   </div>
                   <div className="QA_table mb_30" style={{ overflow: "auto" }}>
                     {/* table-responsive */}
-                    <table className="table lms_table_active3 " >
-                      <thead  style={{
-                        height: "10px",
-                        backgroundColor: "#006699",
-                        color: "white",
-                        fontWeight: "bold",
-                      }}>
+                    <table className="table lms_table_active3 ">
+                      <thead
+                        style={{
+                          height: "10px",
+                          backgroundColor: "#006699",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                      >
                         <tr>
-                          <th scope="col" style={{ fontWeight: "bold", color: "white" }}>Serial Number</th>
-                          <th scope="col" style={{ fontWeight: "bold", color: "white" }}>Name</th>
-                          <th scope="col" style={{ fontWeight: "bold", color: "white" }}>Detail</th>
-                          <th scope="col" style={{ fontWeight: "bold", color: "white" }}>Status</th>
-                          <th scope="col" style={{ fontWeight: "bold", color: "white" }}>Change Status</th>
+                          <th
+                            scope="col"
+                            style={{ fontWeight: "bold", color: "white" }}
+                          >
+                            Serial Number
+                          </th>
+                          <th
+                            scope="col"
+                            style={{ fontWeight: "bold", color: "white" }}
+                          >
+                            Name
+                          </th>
+                          <th
+                            scope="col"
+                            style={{ fontWeight: "bold", color: "white" }}
+                          >
+                            Detail
+                          </th>
+                          <th
+                            scope="col"
+                            style={{ fontWeight: "bold", color: "white" }}
+                          >
+                            Status
+                          </th>
+                          <th
+                            scope="col"
+                            style={{ fontWeight: "bold", color: "white" }}
+                          >
+                            Change Status
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {viewUser.data &&
-                          viewUser.data.map((user, index) => (
-                            <tr key={user._id}>
+                        {viewUser &&
+                          viewUser.map((user, index) => (
+                            <tr>
                               <th scope="row">{index + 1}</th>
                               <td>{user.userName}</td>
 
                               <td>
-                                <Link to={`/SingleExistingRoles/${user.id}`}>
+                                <Link
+                                  to={`/SingleExistingRoles/${user.id}`}
+                                >
                                   <button className="btn btn-sm btn-success">
                                     Go To
                                   </button>
@@ -304,13 +333,18 @@ const ViewExistingUserRole = ({ Status }) => {
           onHide={FunCloseModalActiveInactive}
           centered
         >
-          <Modal.Header closeButton  style={{
+          <Modal.Header
+            closeButton
+            style={{
               height: "10px",
               backgroundColor: "#006699",
               color: "white",
               fontWeight: "bold",
-            }}>
-            <Modal.Title  style={{ fontWeight: "bold", color: "white" }}>CHANGE STATUS</Modal.Title>
+            }}
+          >
+            <Modal.Title style={{ fontWeight: "bold", color: "white" }}>
+              CHANGE STATUS
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="d-flex justify-content-between mb-3">

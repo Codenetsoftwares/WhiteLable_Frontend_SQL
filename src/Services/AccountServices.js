@@ -98,6 +98,7 @@ class AccountService {
   }
 
   getActiveStatus(_id, user) {
+    console.log("==========>>>>   user view id",_id)
     return axios({
       method: "GET",
       url: `${API_HOST}/api/admin/active-status/${_id}`,
@@ -120,6 +121,8 @@ class AccountService {
   }
 
   getPartnershipData(id, user) {
+  console.log('========>>> partnership id',id)
+  
     return axios({
       method: "GET",
       url: `${API_HOST}/api/partnershipView/${id}`,
@@ -130,6 +133,7 @@ class AccountService {
   }
 
   getCreditRefBalance(id, user) {
+    console.log('========>>> admin id',id)
     return axios({
       method: "GET",
       url: `${API_HOST}/api/creditRefView/${id}`,
@@ -140,11 +144,11 @@ class AccountService {
   }
 
   
-  getViewSubUserRole(id, page, name, totalEntries, user) {
-    console.log(name)
+  getViewSubUserRole(id, user) {
+    console.log('==========>>>>> view user id',id)
     return axios({
       method: "GET",
-      url: `${API_HOST}/api/admin/view-sub-admins/${id}?page=${page}&searchName=${name}&pageSize=${totalEntries}`,
+      url: `${API_HOST}/api/view-all-subAdmin-creates/${id}`,
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
@@ -152,6 +156,7 @@ class AccountService {
   }
 
   getSingleViewSubUserRole(id, user) {
+    console.log('=========>>>> view id',id)
     return axios({
       method: "POST",
       url: `${API_HOST}/api/admin/single-sub-admin/${id}`,

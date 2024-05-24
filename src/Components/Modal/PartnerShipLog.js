@@ -7,12 +7,14 @@ const PartnerShipLog = ({ userId, username }) => {
     const auth = useAuth();
     console.log("first", username)
     const [partnershipData, setPartnershipData] = useState([]);
+    console.log('=======>>> data',partnershipData)
     useEffect(() => {
         if (auth.user) {
 
             AccountServices.getPartnershipData(userId, auth.user)
                 .then((res) => {
-                    setPartnershipData(res.data.partnership);
+                    console.log('=======>>>> response for partnership',res.data.data.Partnerships)
+                    setPartnershipData(res.data.data.Partnerships);
                 })
                 .catch((err) => setPartnershipData([]));
         }
