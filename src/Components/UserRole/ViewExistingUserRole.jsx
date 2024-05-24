@@ -59,7 +59,7 @@ const ViewExistingUserRole = ({ Status }) => {
 
   useEffect(() => {
     AccountServices.getViewSubUserRole(
-      auth.user.id,
+      auth.user.adminId,
       currentPage,
       name,
       totalEntries,
