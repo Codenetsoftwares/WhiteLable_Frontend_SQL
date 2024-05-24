@@ -63,6 +63,7 @@ const ViewExistingUserRole = ({ Status }) => {
   console.log("propstesting=>>", props.userRole);
 
   useEffect(() => {
+
     AccountServices.getViewSubUserRole(auth.user.adminId, auth.user).then(
       (res) => {
         console.log("============> data sending", res);
@@ -72,6 +73,7 @@ const ViewExistingUserRole = ({ Status }) => {
       }
     );
   }, [auth.user.adminId, auth.user]);
+
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
   let endIndex = Math.min(currentPage * totalEntries, totalData);
 
