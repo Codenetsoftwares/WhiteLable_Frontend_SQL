@@ -109,6 +109,7 @@ class AccountService {
 
   getHierarchy(userName, action, user, data, totalEntries) {
     console.log(user);
+    console.log("Pagesize from getHierarchy", totalEntries);
     return axios({
       method: "post",
       url: `${API_HOST}/api/Root-Path/${userName}/${action}?pageSize=${totalEntries}`,

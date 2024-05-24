@@ -15,56 +15,51 @@ const AdminAccountStatement = () => {
   console.log("Auth from AdminAccountStatement  =>>>>> ", auth);
 
   useEffect(() => {
-
-    
-      [
-        "superAdmin",
-        "WhiteLabel",
-        "HyperAgent",
-        "SuperAgent",
-        "MasterAgent",
-      ].includes(auth.user.roles[0].role) &&
-        TransactionServices.GetAdminAccStatement(
-          auth.user.id,
-          auth.user,
-          currentPage,
-          totalEntries
-        )
-          .then((res) => {
-            console.log("ress", res.data);
-            setstatementView(res.data.data);
-            setTotalPages(res.data.totalPages);
-            setTotalData(res.data.totalCount);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      [
-        "SubAdmin",
-        "SubWhiteLabel",
-        "SubHyperAgent",
-        "SubSuperAgent",
-        "SubMasterAgent",
-      ].includes(auth.user.roles[0].role) &&
-        TransactionServices.GetAdminAccStatement(
-          auth.user.createBy,
-          auth.user,
-          currentPage,
-          totalEntries
-        )
-          .then((res) => {
-            console.log("ress", res.data);
-            setstatementView(res.data.data);
-            setTotalPages(res.data.totalPages);
-            setTotalData(res.data.totalCount);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-    
-
-   
-  }, [auth.user.id, currentPage, auth.user]);
+    [
+      "superAdmin",
+      "WhiteLabel",
+      "HyperAgent",
+      "SuperAgent",
+      "MasterAgent",
+    ].includes(auth.user.roles[0].role) &&
+      TransactionServices.GetAdminAccStatement(
+        auth.user.adminId,
+        auth.user,
+        currentPage,
+        totalEntries
+      )
+        .then((res) => {
+          console.log("ress", res.data);
+          setstatementView(res.data.data);
+          setTotalPages(res.data.totalPages);
+          setTotalData(res.data.totalCount);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    [
+      "SubAdmin",
+      "SubWhiteLabel",
+      "SubHyperAgent",
+      "SubSuperAgent",
+      "SubMasterAgent",
+    ].includes(auth.user.roles[0].role) &&
+      TransactionServices.GetAdminAccStatement(
+        auth.user.createBy,
+        auth.user,
+        currentPage,
+        totalEntries
+      )
+        .then((res) => {
+          console.log("ress", res.data);
+          setstatementView(res.data.data);
+          setTotalPages(res.data.totalPages);
+          setTotalData(res.data.totalCount);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, [auth.user.adminId, currentPage, auth.user]);
 
   console.log("Statement from AdminAccountStatement  =>>>>>", statementView);
   function formatDate(dateString) {
@@ -138,7 +133,7 @@ const AdminAccountStatement = () => {
                       </tr>
                     </thead>
 
-                    {statementView.map((transaction) => (
+                    {statementView?.data?.map((transaction) => (
                       <tr key={transaction._id}>
                         <th scope="row">
                           <a href="#" className="question_content">
@@ -165,7 +160,7 @@ const AdminAccountStatement = () => {
                             : transaction.balance}
                         </td> */}
                         <td>{transaction.remarks}</td>
-                        <td>{`${transaction.From} / ${transaction.To}`}</td>
+                        <td>{`${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`}</td>
                       </tr>
                     ))}
                   </table>

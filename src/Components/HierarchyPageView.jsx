@@ -19,9 +19,8 @@ const HierarchyPageView = () => {
   const [showModalPartnership, setShowModalPartnership] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
-   const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-
   const [totalData, setTotalData] = useState(0);
   const [totalEntries, setTotalEntries] = useState(5);
   console.log("line 22", auth);
@@ -78,19 +77,18 @@ const HierarchyPageView = () => {
           userId,
           action,
           auth.user,
-
           data,
           totalEntries
 
         );
         console.log("Response=>> HIERECHY", res.data);
-        sethierarchyData(res.data.userDetails.createdUsers);
-        setPathData(res.data.path);
-        setTotalPages(res.data.totalPages);
+        sethierarchyData(res.data.data.userDetails.createdUsers);
+        setPathData(res.data.data.path);
+        setTotalPages(res.data.data.totalPages);
 
         setIsLoading(true)
 
-        setTotalData(res.data.totalItems);
+        setTotalData(res.data.data.totalItems);
 
       } catch (error) {
         console.error("Error fetching hierarchy data:", error);
@@ -123,6 +121,7 @@ const HierarchyPageView = () => {
     setIsLoading(false)
 
   };
+  console.log("Path Data=>>>>", pathdata);
   return (
     <div class="main_content_iner overly_inner ">
       <div class="container-fluid p-0 ">

@@ -74,8 +74,9 @@ const AccountStatement = ({
             />
           </div>
           <div className="form-group mb-0 px-2">
-            <button className="btn btn-primary" 
-            // onClick={handleGetStatement}
+            <button
+              className="btn btn-primary"
+              // onClick={handleGetStatement}
             >
               Get Statement
             </button>
@@ -125,7 +126,9 @@ const AccountStatement = ({
                         </th>
                       </tr>
                     </thead>
-                    {props.map((transaction) => (
+                    {/* Need To uncomment */}
+
+                    {/* {props.map((transaction) => (
                       <tr key={transaction._id}>
                         <th scope="row">
                           <a href="#" className="question_content">
@@ -154,24 +157,25 @@ const AccountStatement = ({
                         <td>{transaction.remarks}</td>
                         <td>{`${transaction.From} / ${transaction.To}`}</td>
                       </tr>
-                    ))}
+                    ))} */}
                   </table>
                 </div>
                 {/* Table */}
               </div>
-              
-        {/* No Data Found */}
-        {props.length === 0 && (
+              {/* Need To uncomment */}
+              {/* No Data Found */}
+              {/* {props.length === 0 && (
           <div className="alert text-dark bg-light mt-3" role="alert">
             <div className="alert-text d-flex justify-content-center">
               <b> &#128680; No Data Found !! </b>
             </div>
           </div>
-        )}
-        {/* End of No Data Found */}
+        )} */}
+              {/* End of No Data Found */}
             </div>
           </li>
           <li class="list-group-item">
+            {/* Need To uncomment */}
             {/* Pagiantion */}
             {/* <div class="col-lg-12">
               <nav aria-label="Page navigation example">
@@ -209,16 +213,15 @@ const AccountStatement = ({
                 </ul>
               </nav>
             </div> */}
-            {props.length>0 &&  <Pagination
+            {/* Need To uncomment */}
+            {/* {props.length>0 &&  <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 handlePageChange={handlePageChange}
                 startIndex={startIndex}
                 endIndex={endIndex}
                 totalData={totalData}
-              /> }
-             
-         
+              /> } */}
 
             {/* Pagiantion */}
           </li>
