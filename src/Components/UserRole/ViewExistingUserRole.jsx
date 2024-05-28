@@ -14,7 +14,7 @@ const ViewExistingUserRole = ({ Status }) => {
   console.log("=========> view User line 14", viewUser);
   //pagination usestate
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState();
+  const [totalPages, setTotalPages] = useState(1);
   const [totalEntries, setTotalEntries] = useState(5);
   const [totalData, setTotalData] = useState(0);
   const [name, setName] = useState("");
@@ -64,15 +64,15 @@ const ViewExistingUserRole = ({ Status }) => {
 
   useEffect(() => {
 
-    AccountServices.getViewSubUserRole(auth.user.adminId, auth.user).then(
+    AccountServices.getViewSubUserRole(auth.user.adminId, auth.user, currentPage, name, totalEntries,).then(
       (res) => {
         console.log("============> data sending", res);
         setViewUser(res.data.data.users);
-        // setTotalPages(res.data.totalPages);
-        // setTotalData(res.data.totalCount);
+        setTotalPages(res.data.data.totalPages);
+        setTotalData(res.data.data.totalRecords);
       }
     );
-  }, [auth.user.adminId, auth.user]);
+  }, [currentPage, totalEntries, name]);
 
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
   let endIndex = Math.min(currentPage * totalEntries, totalData);

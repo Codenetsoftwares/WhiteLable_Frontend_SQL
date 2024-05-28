@@ -11,20 +11,21 @@ const SingleExistingUserRoleView = () => {
   const [permission, setPermission] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
   const [displayEdit, setDisplayEdit] = useState(true);
-
+console.log('roles for hiererchy',singleHierarchydata , 'permissions provided', permission)
   const Navigate = useNavigate();
   const auth = useAuth();
+  console.log('=========>>>>>>> auth id',auth)
   const { id } = useParams();
   console.log( '=======>>>> singlreuserroleview',id )
   const [showModalPartnership, setShowModalPartnership] = useState(false);
 
   useEffect(() => {
-    AccountServices.getSingleViewSubUserRole(id, auth.user).then((res) => {
+    AccountServices.getSingleViewSubUserRole(auth.user.adminId, auth.user).then((res) => {
       console.log('=========>>>> response at line 23',res)
-      setSinglehierarchyData(res.data.roles[0].role);
-      setPermission(res.data.roles[0].permission);
+      setSinglehierarchyData(res.data.data.roles[0].role);
+      setPermission(res.data.data.roles[0].permission);
     });
-  }, [id, auth]);
+  }, [auth.user.adminId, auth]);
 
   const setData = () => {
     setCheckedItems(permission);

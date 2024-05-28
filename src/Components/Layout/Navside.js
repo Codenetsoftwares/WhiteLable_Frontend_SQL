@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Navside = () => {
   const auth = useAuth();
+  console.log('=======> authentication',auth)
   const [isUser, setIsUser] = useState(true);
   const [isRequest, setIsRequest] = useState(true);
   const [userRole, setUserRole] = useState(true);
