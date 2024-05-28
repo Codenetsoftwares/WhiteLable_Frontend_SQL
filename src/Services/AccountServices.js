@@ -145,11 +145,11 @@ class AccountService {
   }
 
   
-  getViewSubUserRole(id, user) {
+  getViewSubUserRole(id,user,page, name, totalEntries) {
     console.log('==========>>>>> view user id',id)
     return axios({
       method: "GET",
-      url: `${API_HOST}/api/view-all-subAdmin-creates/${id}`,
+      url: `${API_HOST}/api/view-all-subAdmin-creates/${id}?page=${page}&searchName=${name}&pageSize=${totalEntries}`,
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
@@ -191,16 +191,16 @@ class AccountService {
     });
   }
 
-  ViewUserRole(id, page, name, totalEntries, user) {
-    console.log(name)
-    return axios({
-      method: "GET",
-      url: `${API_HOST}/api/view-all-subAdmin-creates/${id}?page=${page}&searchName=${name}&pageSize=${totalEntries}`,
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-  }
+  // ViewUserRole(id, page, name, totalEntries, user) {
+  //   console.log(name)
+  //   return axios({
+  //     method: "GET",
+  //     url: `${API_HOST}/api/view-all-subAdmin-creates/${id}?page=${page}&searchName=${name}&pageSize=${totalEntries}`,
+  //     headers: {
+  //       Authorization: `Bearer ${user.token}`,
+  //     },
+  //   });
+  // }
 
 }
 
