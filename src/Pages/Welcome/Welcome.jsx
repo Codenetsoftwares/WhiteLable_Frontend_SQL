@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuth } from '../../Utils/Auth'
 const Welcome = () => {
     const auth = useAuth()
-    console.log("first", auth)
+    console.log("first",auth)
     return (
         <div>
             <div class="main_content_iner overly_inner">

@@ -67,12 +67,12 @@ const CreateSub = () => {
     const data = {
       userName: username,
       password: password,
-      permission: checkedItems,
+      roles: checkedItems,
     };
-    console.log(data);
+    console.log('========>>> data ',data);
     AccountServices.SubCreate(data, auth.user)
       .then((response) => {
-        console.log("============>>>>RES", response.data);
+        console.log("============>>>> response line 75", response);
 
         toast.success("User Role created successfully");
 

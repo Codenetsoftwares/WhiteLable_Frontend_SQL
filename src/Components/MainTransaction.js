@@ -10,6 +10,7 @@ import ShimmerEffect from "./ShimmerEffect";
 
 const MainTransaction = () => {
   const auth = useAuth();
+  console.log('========>>>> authentication',auth)
   const [balance, setBalance] = useState(0);
   const [userList, setUserList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -277,7 +278,8 @@ const MainTransaction = () => {
                           balance={data.balance}
                           loadBalance={data.loadBalance}
                           refProfitLoss={data.refProfitLoss}
-                          userId={data.id}
+                          userId={data.adminId}
+                           
                           // partnership={
                           //   data.partnership[partnershipLength - 1]?.value
                           // }

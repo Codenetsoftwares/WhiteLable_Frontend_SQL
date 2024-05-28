@@ -4,19 +4,25 @@ import { toast } from 'react-toastify';
 import AccountServices from '../../Services/AccountServices';
 
 const CreditRefBalanceLog = ({ userId, username }) => {
+    console.log('=====>>> Admin id',userId)
+
     const auth = useAuth();
+    console.log('========>>>>> authentication',auth)
     const [CreditRefBalanceData, setCreditRefBalanceData] = useState([]);
+    console.log('=========>>>>>>> line 11',CreditRefBalanceData);
 
     useEffect(() => {
         if (auth.user) {
 
-            AccountServices.getCreditRefBalance(userId, auth.user)
+            AccountServices.getCreditRefBalance(userId,auth.user)
                 .then((res) => {
-                    setCreditRefBalanceData(res.data.creditRef);
+                    console.log('========->>>>>> response line 17',res)
+                   
+                    setCreditRefBalanceData(res.data.data.CreditRefs);
                 })
                 .catch((err) => setCreditRefBalanceData([]));
         }
-    }, []);
+    }, [auth.user, userId]);
 
 
     return (

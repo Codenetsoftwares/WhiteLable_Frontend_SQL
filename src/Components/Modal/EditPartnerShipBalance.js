@@ -4,12 +4,14 @@ import TransactionServices from "../../Services/TransactionServices";
 import { toast } from "react-toastify";
 
 const EditPartnerShipBalance = ({ userId, username, userRole }) => {
+    console.log('========>>> admin id',userId)
     const auth = useAuth();
   
     const [Amount, SetAmount] = useState(0);
     const [password, setPassword] = useState("");
 
     const id = auth.user.id;
+   
 
     const handelamtchange = (e) => {
         SetAmount(e.target.value);
@@ -40,9 +42,10 @@ const EditPartnerShipBalance = ({ userId, username, userRole }) => {
 
         TransactionServices.EditPartnership(data, userId, auth.user)
             .then((res) => {
+                console.log('=======>>>> edit partnership response',res)
                 if (res.status === 200) {
                     alert("Partnership Udated Succesfully");
-                    window.location.reload();
+                    // window.location.reload();
                 }
             })
             .catch((error) => {

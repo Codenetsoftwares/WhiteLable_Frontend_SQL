@@ -4,6 +4,7 @@ import TransactionServices from "../../Services/TransactionServices";
 import { toast } from "react-toastify";
 
 const EditCreditRefBalance = ({ userId, username, userRole }) => {
+  console.log('=======> line 7',userId)
   const auth = useAuth();
 
   const [Amount, SetAmount] = useState(0);

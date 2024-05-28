@@ -24,7 +24,12 @@ const Card = ({
   Status,
   creditRefLength,
   partnershipLength,
-}) => {
+}) => 
+
+
+{
+
+  console.log('===========>>>>> credit ref',creditRef)
   const auth = useAuth();
   const [Istatus, setIStatus] = useState("");
   const [userid, setUserId] = useState("");
