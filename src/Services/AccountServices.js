@@ -89,7 +89,7 @@ class AccountService {
   restoreAgent(data, user) {
     return axios({
       method: "post",
-      url: `${API_HOST}/api/admin/restore-to-wallet-user`,
+      url: `${API_HOST}/api/admin/restore-to-wallet-use`,
       data: data,
       headers: {
         Authorization: `Bearer ${user.token}`,

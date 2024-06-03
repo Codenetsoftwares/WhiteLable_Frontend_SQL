@@ -38,7 +38,8 @@ const TransferBalance = ({ userId, username, userRole }) => {
       let data;
       if (type === "deposit") {
         data = {
-          trnsfAmnt: Number(Amount),
+          trnsferAmount: Number(Amount),
+          withdrawlAmt: "",
           receiveUserId: userId,
           remarks: Remarks,
           password: password,
@@ -46,15 +47,16 @@ const TransferBalance = ({ userId, username, userRole }) => {
       } else {
         data = {
           withdrawlAmt: Number(Amount),
+          trnsferAmount: "",
           receiveUserId: userId,
           remarks: Remarks,
           password: password,
         };
       }
 
-      TransactionServices.transferBalance(auth.user.id, data, auth.user)
+      TransactionServices.transferBalance(auth.user.adminId, data, auth.user)
         .then((res) => {
-          if (res.status === 200) {
+          if (res) {
             alert(res.data.message);
             window.location.reload();
           }
