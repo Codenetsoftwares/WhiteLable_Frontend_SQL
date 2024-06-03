@@ -65,7 +65,7 @@ const AccountProfile = ({ props, UserName }) => {
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item p-3">
-            <b style={{ color: "#1c3763" }}>Name : </b> <b>{props.userName}</b>
+            <b style={{ color: "#1c3763" }}>Name : </b> <b>{props.data.userName}</b>
           </li>
           <li class="list-group-item p-3">
             <b style={{ color: "#1c3763" }}>Currency : </b>{" "}

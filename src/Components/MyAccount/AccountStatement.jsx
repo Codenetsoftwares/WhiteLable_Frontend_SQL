@@ -9,7 +9,7 @@ const AccountStatement = ({
   handlePageChange,
   currentPage,
   totalPages,
-  // handleGetStatement,    
+  // handleGetStatement,
   startDate,
   endDate,
   setEndDate,
@@ -35,6 +35,8 @@ const AccountStatement = ({
     );
     return formattedDate;
   }
+
+  console.log("Props from Account Statement", props);
 
   return (
     <div className="col-sm-8 mt-3">
@@ -128,7 +130,7 @@ const AccountStatement = ({
                     </thead>
                     {/* Need To uncomment */}
 
-                    {/* {props.map((transaction) => (
+                    {props?.data?.map((transaction) => (
                       <tr key={transaction._id}>
                         <th scope="row">
                           <a href="#" className="question_content">
@@ -155,22 +157,23 @@ const AccountStatement = ({
                             : transaction.balance}
                         </td>
                         <td>{transaction.remarks}</td>
-                        <td>{`${transaction.From} / ${transaction.To}`}</td>
+                        <td>{`${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`}</td>
                       </tr>
-                    ))} */}
+                    ))}
+
                   </table>
                 </div>
                 {/* Table */}
               </div>
               {/* Need To uncomment */}
               {/* No Data Found */}
-              {/* {props.length === 0 && (
-          <div className="alert text-dark bg-light mt-3" role="alert">
-            <div className="alert-text d-flex justify-content-center">
-              <b> &#128680; No Data Found !! </b>
-            </div>
-          </div>
-        )} */}
+              {props?.data?.length === 0 && (
+                <div className="alert text-dark bg-light mt-3" role="alert">
+                  <div className="alert-text d-flex justify-content-center">
+                    <b> &#128680; No Data Found !! </b>
+                  </div>
+                </div>
+              )}
               {/* End of No Data Found */}
             </div>
           </li>
@@ -214,14 +217,14 @@ const AccountStatement = ({
               </nav>
             </div> */}
             {/* Need To uncomment */}
-            {/* {props.length>0 &&  <Pagination
+            {props?.data?.length>0 &&  <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 handlePageChange={handlePageChange}
                 startIndex={startIndex}
                 endIndex={endIndex}
                 totalData={totalData}
-              /> } */}
+              /> }
 
             {/* Pagiantion */}
           </li>

@@ -24,12 +24,8 @@ const Card = ({
   Status,
   creditRefLength,
   partnershipLength,
-}) => 
-
-
-{
-
-  console.log('===========>>>>> credit ref',creditRef)
+}) => {
+  console.log("===========>>>>> credit ref", creditRef);
   const auth = useAuth();
   const [Istatus, setIStatus] = useState("");
   const [userid, setUserId] = useState("");
@@ -83,7 +79,7 @@ const Card = ({
     const action = "clearAll";
     AccountServices.getHierarchy(auth.user.userName, action, auth.user)
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           navigate(`/hierarchypageview/${userName}`);
         }
       })
