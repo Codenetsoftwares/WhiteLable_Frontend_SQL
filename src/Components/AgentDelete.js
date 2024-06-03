@@ -12,7 +12,7 @@ const AgentDelete = () => {
   useEffect(() => {
     if (auth.user) {
       AccountServices.ViewAgentDelete(auth.user).then(
-        (res) => (console.log(res), setViewAgentDelete(res.data))
+        (res) => (console.log(res), setViewAgentDelete(res.data.data))
       );
     }
   }, [auth]);
@@ -47,7 +47,7 @@ const AgentDelete = () => {
     e.preventDefault();
     console.log("=============....>>>>>", id);
     const data = {
-      userId: id,
+      adminId: id,
     };
     AccountServices.restoreAgent(data, auth.user)
       .then((response) => {
@@ -94,7 +94,7 @@ const AgentDelete = () => {
                     <td>
                       <button
                         className="btn  btn-danger text-dark rounded"
-                        onClick={(e) => handleDelete(e, data._id)}
+                        onClick={(e) => handleDelete(e, data.trashId)}
                       >
                         Delete
                       </button>
@@ -102,7 +102,7 @@ const AgentDelete = () => {
                     <td>
                       <button
                         className="btn btn-info text-dark rounded"
-                        onClick={(e) => handleRestore(e, data._id)}
+                        onClick={(e) => handleRestore(e, data.adminId)}
                       >
                         Restore
                       </button>
