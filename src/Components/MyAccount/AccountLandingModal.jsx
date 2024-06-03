@@ -29,6 +29,7 @@ const AccountLandingModal = () => {
   defaultStartDate.setDate(defaultStartDate.getDate() - 7);
 
   const [startDate, setStartDate] = useState(defaultStartDate);
+
   useEffect(() => {
     MyAccountServices.getAccountStatement(
       userId,
@@ -38,13 +39,14 @@ const AccountLandingModal = () => {
       auth.user
     )
       .then((res) => {
-        setstatementView(res.data.allData);
+        setstatementView(res.data);
         setTotalPages(res.data.totalPages);
         setTotalData(res.data.totalItems);
       })
       .catch((err) => {});
   }, [userId, currentPage, startDate, endDate, auth]);
   console.log("Line number 42=======>", startDate, endDate);
+
   useEffect(() => {
     MyAccountServices.getActivityLog(userId, auth.user)
       .then((res) => setActivityView(res.data))
@@ -85,6 +87,8 @@ const AccountLandingModal = () => {
     settoggle(3);
     setActiveItem("profile");
   };
+
+  console.log("statementView", statementView);
 
   if (toggle === 1) {
     componentToRender = (
