@@ -11,22 +11,22 @@ const CreateSub = () => {
   const [password, setPassword] = useState("");
   const [checkedItems, setCheckedItems] = useState([]);
   const roles = [
-    "TransferBalance",
+    "transferBalance",
     "Status",
-    "CreditRef-Edit",
-    "Partnership-Edit",
-    "CreditRef-View",
-    "Partnership-View",
-    "User-Profile-View",
-    "Profile-View",
-    "Create-Admin",
-    "Create-User",
-    "AccountStatement",
-    "ActivityLog",
-    "Delete-Admin",
-    "Restore-Admin",
-    "Move-To-Trash",
-    "Trash-View",
+    "creditRef-Edit",
+    "partnership-Edit",
+    "creditRef-View",
+    "partnership-view",
+    "user-profile-view",
+    "profile-view",
+    "create-Admin",
+    "create-user",
+    "accountStatement",
+    "activityLog",
+    "delete-admin",
+    "restore-admin",
+    "move-to-trash",
+    "trash-view",
   ];
   const [permissions, setPermissions] = useState(
     roles.reduce((acc, role) => {
@@ -78,7 +78,7 @@ const CreateSub = () => {
 
         // Delay the reload by a few seconds
         setTimeout(() => {
-          window.location.reload();
+          // window.location.reload();
         }, 3000);
       })
       .catch((error) => {
