@@ -67,7 +67,9 @@ const CreateSub = () => {
     const data = {
       userName: username,
       password: password,
-      roles: checkedItems,
+      roles:[{
+        permission: checkedItems
+      }] ,
     };
     console.log('========>>> data ',data);
     AccountServices.SubCreate(data, auth.user)
