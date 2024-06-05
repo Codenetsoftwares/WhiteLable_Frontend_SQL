@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Card from "./Card";
-import DepositBalance from "./Modal/DepositBalance";
-import TransactionServices from "../Services/TransactionServices";
-import { useAuth } from "../Utils/Auth";
-import AccountServices from "../Services/AccountServices";
-import Pagination from "./Pagination";
-import ShimmerEffect from "./ShimmerEffect";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Card from './Card';
+import DepositBalance from './Modal/DepositBalance';
+import TransactionServices from '../Services/TransactionServices';
+import { useAuth } from '../Utils/Auth';
+import AccountServices from '../Services/AccountServices';
+import Pagination from './Pagination';
+import ShimmerEffect from './ShimmerEffect';
+import { permissionObj } from '../Utils/permission';
 
 const MainTransaction = () => {
   const auth = useAuth();
-  console.log('========>>>> authentication',auth)
+  console.log('========>>>> authentication', auth);
   const [balance, setBalance] = useState(0);
   const [userList, setUserList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
   const [totalEntries, setTotalEntries] = useState(5);
   const [totalData, setTotalData] = useState(0);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   console.log(auth);
@@ -25,22 +26,10 @@ const MainTransaction = () => {
   useEffect(() => {
     if (auth.user) {
       {
-        [
-          "superAdmin",
-          "WhiteLabel",
-          "HyperAgent",
-          "SuperAgent",
-          "MasterAgent",
-        ].includes(auth.user.roles[0].role) &&
-          AccountServices.getAllCreates(
-            auth.user.adminId,
-            currentPage,
-            name,
-            totalEntries,
-            auth.user
-          )
+        permissionObj.allAdmin.includes(auth.user.roles[0].role) &&
+          AccountServices.getAllCreates(auth.user.adminId, currentPage, name, totalEntries, auth.user)
             .then((res) => {
-              console.log(res)
+              console.log(res);
               setUserList(res.data.data.users);
               setTotalPages(res.data.data.totalPages);
               setTotalData(res.data.data.totalRecords);
@@ -48,21 +37,10 @@ const MainTransaction = () => {
             })
             .catch((err) => setUserList([]));
       }
+
       {
-        [
-          "SubAdmin",
-          "SubWhiteLabel",
-          "SubHyperAgent",
-          "SubSuperAgent",
-          "SubMasterAgent",
-        ].includes(auth.user.roles[0].role) &&
-          AccountServices.getAllCreates(
-            auth.user.adminId,
-            currentPage,
-            name,
-            totalEntries,
-            auth.user
-          )
+        permissionObj.allSubAdmin.includes(auth.user.roles[0].role) &&
+          AccountServices.getAllCreates(auth.user.adminId, currentPage, name, totalEntries, auth.user)
             .then((res) => {
               setUserList(res.data.data.users);
               setTotalPages(res.data.data.totalPages);
@@ -77,29 +55,17 @@ const MainTransaction = () => {
   useEffect(() => {
     if (auth.user) {
       {
-        [
-          "superAdmin",
-          "WhiteLabel",
-          "HyperAgent",
-          "SuperAgent",
-          "MasterAgent",
-        ].includes(auth.user.roles[0].role) &&
+        permissionObj.allAdmin.includes(auth.user.roles[0].role) &&
           TransactionServices.viewBalance(auth.user.adminId, auth.user)
             .then((res) => {
-              console.log(res)
+              console.log(res);
               setBalance(res.data.data.balance);
               setIsLoading(true);
             })
             .catch((err) => setBalance([]));
       }
       {
-        [
-          "SubAdmin",
-          "SubWhiteLabel",
-          "SubHyperAgent",
-          "SubSuperAgent",
-          "SubMasterAgent",
-        ].includes(auth.user.roles[0].role) &&
+        permissionObj.allSubAdmin.includes(auth.user.roles[0].role) &&
           TransactionServices.viewBalance(auth.user.adminId, auth.user)
             .then((res) => {
               setBalance(res.data.data.balance);
@@ -110,38 +76,36 @@ const MainTransaction = () => {
     }
   }, []);
 
-  console.log("length", userList)
+  console.log('length', userList);
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
   let endIndex = Math.min(currentPage * totalEntries, totalData);
 
   const handlePageChange = (page) => {
-    console.log("Changing to page:", page);
+    console.log('Changing to page:', page);
 
     setCurrentPage(page);
     setIsLoading(false);
   };
-  console.log("option meanu", totalEntries);
+  console.log('option meanu', totalEntries);
 
   return (
-    <div  >
+    <div>
       <div className="row ">
-        <h2 className="text-center font-weight-bold mb-4" style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: '4px' }}>USER LIST</h2>
+        <h2
+          className="text-center font-weight-bold mb-4"
+          style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: '4px' }}
+        >
+          USER LIST
+        </h2>
       </div>
       <div className="text-center mt-10">
         <p style={{ fontWeight: 'bold' }}>Total Balance</p>
         <h4 className="mb-1">₹{balance}</h4>
-        {auth.user.roles &&
-          auth.user.roles.length > 0 &&
-          auth.user.roles[0].role === "superAdmin" && (
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#depositBalance"
-              className="btn btn-danger"
-              aria-label="Close"
-            >
-              ADD CASH
-            </button>
-          )}
+        {auth.user.roles && auth.user.roles.length > 0 && auth.user.roles[0].role === 'superAdmin' && (
+          <button data-bs-toggle="modal" data-bs-target="#depositBalance" className="btn btn-danger" aria-label="Close">
+            ADD CASH
+          </button>
+        )}
       </div>
       <div className="white_card_body m-3">
         <div className="QA_section">
@@ -163,10 +127,7 @@ const MainTransaction = () => {
               </select>
             </div>
 
-            <div
-              className="serach_field_2 ms-auto"
-              style={{ marginLeft: "-10px" }}
-            >
+            <div className="serach_field_2 ms-auto" style={{ marginLeft: '-10px' }}>
               <div className="search_inner">
                 <form Active="#">
                   <div className="search_field">
@@ -180,87 +141,83 @@ const MainTransaction = () => {
                     />
                   </div>
                   <button type="submit">
-                    {" "}
-                    <i className="ti-search"></i>{" "}
+                    {' '}
+                    <i className="ti-search"></i>{' '}
                   </button>
                 </form>
               </div>
             </div>
           </div>
-          <div className="QA_table mb_30" style={{ overflow: "auto" }}>
+          <div className="QA_table mb_30" style={{ overflow: 'auto' }}>
             {isLoading ? (
               userList.length > 0 ? (
                 <>
                   <table className="table lms_table_active3 table-bordered table-sm">
                     <thead
                       style={{
-                        height: "10px",
-                        backgroundColor: "#006699",
-                        color: "white",
-                        fontWeight: "bold",
+                        height: '10px',
+                        backgroundColor: '#006699',
+                        color: 'white',
+                        fontWeight: 'bold',
                       }}
                     >
                       <tr>
-                        <th
-                          scope="col"
-                          className="text-bolder fs-6 "
-                          style={{ fontWeight: "bold", color: "white" }}
-                        >
+                        <th scope="col" className="text-bolder fs-6 " style={{ fontWeight: 'bold', color: 'white' }}>
                           Username
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ fontWeight: "bold", color: "white" }}
+                          style={{ fontWeight: 'bold', color: 'white' }}
                         >
                           Credit Ref.
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ fontWeight: "bold", color: "white" }}
+                          style={{ fontWeight: 'bold', color: 'white' }}
                         >
                           Partnership
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ fontWeight: "bold", color: "white" }}
+                          style={{ fontWeight: 'bold', color: 'white' }}
                         >
                           Balance
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ fontWeight: "bold", color: "white" }}
+                          style={{ fontWeight: 'bold', color: 'white' }}
                         >
                           Exposure
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ fontWeight: "bold", color: "white" }}
+                          style={{ fontWeight: 'bold', color: 'white' }}
                         >
                           Avail. Bal.
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ fontWeight: "bold", color: "white" }}
+                          style={{ fontWeight: 'bold', color: 'white' }}
                         >
                           Ref. P/L
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ fontWeight: "bold", color: "white" }}
+                          style={{ fontWeight: 'bold', color: 'white' }}
                         >
                           Status
                         </th>
                         <th
                           scope="col"
                           className="text-bolder fs-6 text-center"
-                          style={{ fontWeight: "bold", color: "white" }}
+                          style={{ fontWeight: 'bold', color: 'white' }}
                         >
                           Actions
                         </th>
@@ -279,7 +236,6 @@ const MainTransaction = () => {
                           loadBalance={data.loadBalance}
                           refProfitLoss={data.refProfitLoss}
                           userId={data.adminId}
-                           
                           // partnership={
                           //   data.partnership[partnershipLength - 1]?.value
                           // }

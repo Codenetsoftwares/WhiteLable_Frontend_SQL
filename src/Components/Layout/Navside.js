@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../Utils/Auth";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../Utils/Auth';
+import { useNavigate } from 'react-router-dom';
+import { permissionObj } from '../../Utils/permission';
+import string from '../../constants/string';
 
 const Navside = () => {
   const auth = useAuth();
-  console.log('=======> authentication',auth)
+  console.log('=======> authentication', auth);
   const [isUser, setIsUser] = useState(true);
   const [isRequest, setIsRequest] = useState(true);
   const [userRole, setUserRole] = useState(true);
@@ -22,8 +24,8 @@ const Navside = () => {
     setUserRole(!userRole);
   };
   const takeMeToAdminAccount = () => {
-    navigate("/adminaccountstatement");
-  }
+    navigate('/adminaccountstatement');
+  };
   return (
     <nav className="sidebar">
       <div className="logo d-flex justify-content-between">
@@ -45,7 +47,7 @@ const Navside = () => {
                 <img src="../img/menu-icon/dashboard.svg" alt="" />
               </div>
               <div className="nav_title">
-                <span>User Management  </span>
+                <span>User Management </span>
               </div>
             </a>
           </li>
@@ -60,40 +62,31 @@ const Navside = () => {
               </div>
             </a>
             <ul>
-              {[
-                "superAdmin",
-                "WhiteLabel",
-                "HyperAgent",
-                "SuperAgent",
-                "MasterAgent",
-              ].includes(auth.user.roles[0].role) && <li >
-                  <Link to="/Create" >
-                    
-
-                  <span>
-                        <i class="fa-solid fa-circle"></i>Create Admin
-                      </span>
+              {permissionObj.allAdmin.includes(auth.user.roles[0].role) && (
+                <li>
+                  <Link to="/Create">
+                    <span>
+                      <i class="fa-solid fa-circle"></i>Create Admin
+                    </span>
                   </Link>
-                </li>}
+                </li>
+              )}
 
-
-              {auth.user.roles[0].permission.includes("Create-Admin") && <li>
-                <Link to="/Create">
-                <span>
-                        <i class="fa-solid fa-circle"></i>Create Admin
-                      </span>
-      
-                </Link>
-              </li>}
-
+              {auth.user.roles[0].permission.includes(string.createAdmin) && (
+                <li>
+                  <Link to="/Create">
+                    <span>
+                      <i class="fa-solid fa-circle"></i>Create Admin
+                    </span>
+                  </Link>
+                </li>
+              )}
 
               <li>
                 <Link to="/maintransaction">
-
-
-                <span>
-                        <i class="fa-solid fa-circle"></i>Wallet
-                      </span>
+                  <span>
+                    <i class="fa-solid fa-circle"></i>Wallet
+                  </span>
                 </Link>
               </li>
               {/* <li>
@@ -103,104 +96,91 @@ const Navside = () => {
           </li>
         )}
 
-
         <li className="" onClick={takeMeToAdminAccount}>
           <a className="" href="#" aria-expanded="false">
             <div>
               <img src="../img/menu-icon/dashboard.svg" alt="" />
             </div>
             <div>
-
               <span>Account Statement</span>
-
             </div>
           </a>
         </li>
 
-
-        {[
-          "superAdmin",
-          "WhiteLabel",
-          "HyperAgent",
-          "SuperAgent",
-          "MasterAgent",
-        ].includes(auth.user.roles[0].role) && <>{isRequest ? (
-          <li className="" onClick={handleRequestToggle}>
-            <a className="has-arrow" href="#" aria-expanded="false">
-              <div className="nav_icon_small">
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div className="nav_title">
-                <span>Request</span>
-              </div>
-            </a>
-          </li>
-        ) : (
-          <li className="" onClick={handleRequestToggle}>
-            <a className="has-arrow" href="#" aria-expanded="false">
-              <div>
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div>
-                <span>Request</span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <Link to="/agentDelete">
-
-                <span>
-                        {" "}
+        {permissionObj.allAdmin.includes(auth.user.roles[0].role) && (
+          <>
+            {isRequest ? (
+              <li className="" onClick={handleRequestToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div className="nav_icon_small">
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div className="nav_title">
+                    <span>Request</span>
+                  </div>
+                </a>
+              </li>
+            ) : (
+              <li className="" onClick={handleRequestToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div>
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div>
+                    <span>Request</span>
+                  </div>
+                </a>
+                <ul>
+                  <li>
+                    <Link to="/agentDelete">
+                      <span>
+                        {' '}
                         <i class="fa-solid fa-circle"></i>Approve deletion
                       </span>
-                </Link>
+                    </Link>
+                  </li>
+                </ul>
               </li>
-            </ul>
-          </li>
-        )}</>}
+            )}
+          </>
+        )}
 
-
-        {auth.user.roles[0].permission.includes("Delete-Admin") && <>{isRequest ? (
-          <li className="" onClick={handleRequestToggle}>
-            <a className="has-arrow" href="#" aria-expanded="false">
-              <div className="nav_icon_small">
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div className="nav_title">
-                <span>Request </span>
-              </div>
-            </a>
-          </li>
-        ) : (
-          <li className="" onClick={handleRequestToggle}>
-            <a className="has-arrow" href="#" aria-expanded="false">
-              <div>
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div>
-                <span>Request </span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <Link to="/agentDelete">Agent Delete</Link>
+        {auth.user.roles[0].permission.includes(string.deleteAdmin) && (
+          <>
+            {isRequest ? (
+              <li className="" onClick={handleRequestToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div className="nav_icon_small">
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div className="nav_title">
+                    <span>Request </span>
+                  </div>
+                </a>
               </li>
-            </ul>
-          </li>
-        )}</>}
+            ) : (
+              <li className="" onClick={handleRequestToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div>
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div>
+                    <span>Request </span>
+                  </div>
+                </a>
+                <ul>
+                  <li>
+                    <Link to="/agentDelete">Agent Delete</Link>
+                  </li>
+                </ul>
+              </li>
+            )}
+          </>
+        )}
 
-
-        {
-          [
-            "superAdmin",
-            "WhiteLabel",
-            "HyperAgent",
-            "SuperAgent",
-            "MasterAgent",
-          ].includes(auth.user.roles[0].role) &&
+        {permissionObj.allAdmin.includes(auth.user.roles[0].role) && (
           <>
             {userRole ? (
-
               <li className="" onClick={handleUserRoleToggle}>
                 <a className="has-arrow" href="#" aria-expanded="false">
                   <div className="nav_icon_small">
@@ -225,7 +205,7 @@ const Navside = () => {
                   <li>
                     <Link to="/AddUserRole">
                       <span>
-                        {" "}
+                        {' '}
                         <i class="fa-solid fa-circle"></i>Create New
                       </span>
                     </Link>
@@ -242,9 +222,7 @@ const Navside = () => {
               </li>
             )}
           </>
-        }
-
-
+        )}
       </ul>
     </nav>
   );
