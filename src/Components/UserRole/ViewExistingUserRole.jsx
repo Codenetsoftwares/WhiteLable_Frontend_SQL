@@ -64,7 +64,7 @@ const ViewExistingUserRole = ({ Status }) => {
 
   useEffect(() => {
 
-    AccountServices.getViewSubUserRole(auth.user.adminId, auth.user, currentPage, name, totalEntries,).then(
+    AccountServices.getViewSubUserRole(auth.user.adminId, auth.user, currentPage, name, totalEntries).then(
       (res) => {
         console.log("============> data sending", res);
         setViewUser(res.data.data.users);
@@ -261,7 +261,7 @@ const ViewExistingUserRole = ({ Status }) => {
 
                               <td>
                                 <Link
-                                  to={`/SingleExistingRoles/${user.id}`}
+                                  to={`/SingleExistingRoles/${user.adminId}`}
                                 >
                                   <button className="btn btn-sm btn-success">
                                     Go To

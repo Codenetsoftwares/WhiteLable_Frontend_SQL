@@ -18,14 +18,14 @@ console.log('roles for hiererchy',singleHierarchydata , 'permissions provided', 
   const { id } = useParams();
   console.log( '=======>>>> singlreuserroleview',id )
   const [showModalPartnership, setShowModalPartnership] = useState(false);
-
+console.log('=======>>>>>>> permission for admin', permission)
   useEffect(() => {
-    AccountServices.getSingleViewSubUserRole(auth.user.adminId, auth.user).then((res) => {
+    AccountServices.getSingleViewSubUserRole(id , auth.user).then((res) => {
       console.log('=========>>>> response at line 23',res)
       setSinglehierarchyData(res.data.data.roles[0].role);
       setPermission(res.data.data.roles[0].permission);
     });
-  }, [auth.user.adminId, auth]);
+  }, [id , auth]);
 
   const setData = () => {
     setCheckedItems(permission);

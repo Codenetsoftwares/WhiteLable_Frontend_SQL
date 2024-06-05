@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../Pages/Accounts/Login/Login.css";
 const Authform = ({ purpose, authFormApin, userApi }) => {
   const auth = useAuth();
+  console.log('=========>>>> authentication',auth)
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,12 +21,12 @@ const Authform = ({ purpose, authFormApin, userApi }) => {
     setRole(value);
   };
   const roleOptions = {
-    superAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
-    SubAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
-    WhiteLabel: ["HyperAgent", "MasterAgent", "SuperAgent", "user"],
-    SuperAgent: ["HyperAgent", "MasterAgent", "user"],
-    HyperAgent: ["MasterAgent", "user"],
-    MasterAgent: ["user"],
+    superAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
+    SubAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
+    whiteLabel: ["hyperAgent", "masterAgent", "superAgent", "user"],
+    superAgent: ["hyperAgent", "masterAgent", "user"],
+    hyperAgent: ["masterAgent", "user"],
+    masterAgent: ["user"],
   };
   const renderRoleOptions = () => {
     if (purpose === "create") {
