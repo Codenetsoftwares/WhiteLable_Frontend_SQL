@@ -16,6 +16,7 @@ import AccountLandingModal from "./Components/MyAccount/AccountLandingModal";
 import HierarchyPageView from "./Components/HierarchyPageView";
 import PartnershipViewLog from "./Pages/PartnershipViewLog";
 import AppRoutes from "./Routes/AppRoutes";
+import { AppProvider } from "./contextApi/context";
 
 function App() {
   return (
@@ -32,9 +33,9 @@ function App() {
         pauseOnHover
         theme="dark"
       />
-      <AuthProvider>
+      <AppProvider>
         <AppRoutes />
-      </AuthProvider>
+      </AppProvider>
     </React.Fragment>
   );
 }

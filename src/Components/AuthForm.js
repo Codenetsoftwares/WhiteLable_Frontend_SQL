@@ -4,13 +4,17 @@ import { useAuth } from "../Utils/Auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Pages/Accounts/Login/Login.css";
+import { useAppContext } from "../contextApi/context";
+import strings from "../Utils/constant/stringConstant";
 const Authform = ({ purpose, authFormApin, userApi }) => {
   const auth = useAuth();
-  console.log('=========>>>> authentication',auth)
+  console.log("=========>>>> authentication", auth);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+
+  const { dispatch, store } = useAppContext();
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleAuthForm(e);
@@ -47,8 +51,8 @@ const Authform = ({ purpose, authFormApin, userApi }) => {
   const handleAuthForm = (e) => {
     e.preventDefault();
     let data;
-        
-    if (username === "" || password==="") {
+
+    if (username === "" || password === "") {
       if (username === "") {
         toast.error("username can not be empty");
         return;
@@ -73,7 +77,7 @@ const Authform = ({ purpose, authFormApin, userApi }) => {
         roles: [role],
       };
     }
-    console.log('============++++++> Data', data)
+    console.log("============++++++> Data", data);
     if (role === "user") {
       userApi(data, auth.user)
         .then((res) => {
@@ -83,16 +87,15 @@ const Authform = ({ purpose, authFormApin, userApi }) => {
         .catch((err) => {
           toast.error(err.response.data.message);
         });
-    }
-    else {
-      authFormApin(data, auth.user)
+    } else {
+      authFormApin(data, true)
         .then((res) => {
           console.log(res);
           if (purpose === "login") {
-            sessionStorage.setItem("user", res.data.data.Token);
-            sessionStorage.setItem("role", res.data.data.AdminData.roles[0].role);
-            toast.success("Login Successful.");
-            auth.login();
+            dispatch({
+              type: strings.LOG_IN,
+              payload: { isLogin: true, ...res.data },
+            });
             navigate("/welcome");
           } else if (purpose === "userLogin") {
             toast.success("User Login Successful.");
