@@ -9,3 +9,10 @@ export function getAdminInitialState(body = {}) {
     createdByUser: body?.createdByUser ?? null,
   };
 }
+
+
+export function getAuthForm(body = {}) {
+  return {
+    userName: "", password: "", role: ""
+  }
+}

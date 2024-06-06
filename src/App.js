@@ -1,6 +1,8 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import { AppProvider } from './contextApi/context';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -17,7 +19,14 @@ function App() {
         pauseOnHover
         theme="dark"
       />
-      <AppProvider></AppProvider>
+      <AppProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+
+          </Routes>
+        </BrowserRouter>
+      </AppProvider>
     </React.Fragment>
   );
 }
