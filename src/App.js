@@ -1,8 +1,10 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import { AppProvider } from './contextApi/context';
-import Login from './pages/Login';
+import { ToastContainer } from "react-toastify";
+import { AppProvider } from "./contextApi/context";
+import Login from "./pages/Login";
+import AdminLayout from "./Layout/AdminLayout";
+import Temp from "./screen/Temp";
 
 function App() {
   return (
@@ -22,8 +24,10 @@ function App() {
       <AppProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login />} />
-
+            <Route index element={<Login />} />
+            <Route path="/" element={<AdminLayout />}>
+            <Route path="welcome" element={<Temp/>}/>
+            </Route>
           </Routes>
         </BrowserRouter>
       </AppProvider>
