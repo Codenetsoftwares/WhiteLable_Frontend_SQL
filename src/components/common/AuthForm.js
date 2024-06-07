@@ -11,7 +11,7 @@ const Authform = ({ purpose, authFormApi }) => {
   const [authForm] = useState(getAuthForm);
   const { dispatch, store } = useAppContext();
   const navigate = useNavigate();
-
+  console.log(store)
   const roleOptions = {
     superAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
     SubAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
@@ -22,8 +22,8 @@ const Authform = ({ purpose, authFormApi }) => {
   };
   const renderRoleOptions = () => {
     if (purpose === "create") {
-      // const availableRoles = roleOptions[auth.user.roles[0].role] || [];
-      const availableRoles = [];
+      const availableRoles = roleOptions[store.admin.roles[0].role] || [];
+      // const availableRoles = [];
 
       return (
         <>
@@ -47,8 +47,12 @@ const Authform = ({ purpose, authFormApi }) => {
     handleChange,
     handleSubmit,
     resetForm,
+    setFieldValue,
   } = useFormik({
-    initialValues: authForm,
+    initialValues: {
+      ...authForm,
+      roles: authForm.roles || [], // Ensure role is an array
+    },
     validationSchema: LoginSchema,
     onSubmit: (values, action) => {
       console.log("values++===============>", values);
@@ -81,9 +85,21 @@ const Authform = ({ purpose, authFormApi }) => {
     });
   }
 
+  const handleRoleChange = (event) => {
+    const selectedRole = event.target.value;
+    const updatedRoles = [...values.roles];
+    if (updatedRoles.includes(selectedRole)) {
+      const index = updatedRoles.indexOf(selectedRole);
+      updatedRoles.splice(index, 1);
+    } else {
+      updatedRoles.push(selectedRole);
+    }
+    setFieldValue("roles", updatedRoles);
+  };
+
   return (
     <div className="main_content_iner ">
-      <div className="container-fluid mt-6">
+      <div className="container-fluid" style={{marginTop:"15rem"}}>
         <div className="col-lg-12">
           <div className="row justify-content-center">
             <div className="col-lg-6">
@@ -132,13 +148,14 @@ const Authform = ({ purpose, authFormApi }) => {
                       <div className="">
                         <select
                           className="form-select"
-                          style={{ border: "1px solid #F1F3F5" }}
-                          value={authForm.role || ""}
-                          autoComplete="off"
-                          onChange={handleChange}
+                          name="role"
+                          value={values.roles||""} 
+                          onChange={handleRoleChange}
+                          onBlur={handleBlur}
                         >
                           {renderRoleOptions()}
                         </select>
+                        
                       </div>
                     )}
                     <a

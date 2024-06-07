@@ -5,6 +5,7 @@ import { AppProvider } from "./contextApi/context";
 import Login from "./pages/Login";
 import AdminLayout from "./Layout/AdminLayout";
 import Temp from "./screen/Temp";
+import AllAdminCreate from "./pages/AllAdminCreate";
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
           <Routes>
             <Route index element={<Login />} />
             <Route path="/" element={<AdminLayout />}>
-            <Route path="welcome" element={<Temp/>}/>
+              <Route path="welcome" element={<Temp />} />
+              <Route path="allAdminCreate" element={<AllAdminCreate />} />
             </Route>
           </Routes>
         </BrowserRouter>

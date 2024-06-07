@@ -68,7 +68,7 @@ const Navside = () => {
                 "SuperAgent",
                 "MasterAgent",
               ].includes(store.admin.roles[0].role) && <li >
-                  <Link to="/Create" >
+                    <Link to="/allAdminCreate" >
                     
 
                   <span>
@@ -79,7 +79,7 @@ const Navside = () => {
 
 
               {store.admin.roles[0].permission.includes("Create-Admin") && <li>
-                <Link to="/Create">
+                  <Link to="/allAdminCreate">
                 <span>
                         <i class="fa-solid fa-circle"></i>Create Admin
                       </span>

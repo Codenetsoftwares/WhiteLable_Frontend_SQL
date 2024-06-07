@@ -33,7 +33,8 @@ export async function getHeaderObject(accessToken, contentType) {
 // getNoAuthCallParams private api call
 export const getAuthCallParams = async (methodType, body) => {
   const store = JSON.parse(localStorage.getItem(strings.LOCAL_STORAGE_KEY));
-  const accessToken = store.user?.accessToken;
+  const accessToken = store.admin?.accessToken;
+  console.log(accessToken)
   const params = {
     method: methodType,
     headers: await getHeaderObject(accessToken, strings.applicationJSON),

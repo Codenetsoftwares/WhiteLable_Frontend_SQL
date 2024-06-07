@@ -13,6 +13,6 @@ export function getAdminInitialState(body = {}) {
 
 export function getAuthForm(body = {}) {
   return {
-    userName: "", password: "", role: ""
+    userName: "", password: ""
   }
 }
