@@ -8,6 +8,7 @@ class UrlConstant {
   // Admin api
   admin = 'admin';
   login = `${this.url_dev}/${this.admin}-login`;
+  Create = `${this.url_dev}/${this.admin}-create`;
   createAdminHierarchy = `${this.url_dev}/${this.admin}-admin-create`;
   createUserRole = `${this.url_dev}/${this.admin}-create-subAdmin`;
 }
