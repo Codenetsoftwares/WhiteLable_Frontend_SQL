@@ -16,3 +16,7 @@ export function getAuthForm(body = {}) {
     userName: "", password: ""
   }
 }
+
+export function getAllCreateState(body = {}) {
+  return { userList: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "",  }
+}

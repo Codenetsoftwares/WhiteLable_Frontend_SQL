@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import "../Pages/Accounts/Login/Login.css";
 import { useFormik } from "formik";
 import { getAuthForm } from "../../Utils/service/initiateState";
 import { LoginSchema } from "../../Utils/schema";
@@ -10,8 +9,9 @@ import strings from "../../Utils/constant/stringConstant";
 const Authform = ({ purpose, authFormApi }) => {
   const [authForm] = useState(getAuthForm);
   const { dispatch, store } = useAppContext();
+  
   const navigate = useNavigate();
-  console.log(store)
+
   const roleOptions = {
     superAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
     SubAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
@@ -22,7 +22,7 @@ const Authform = ({ purpose, authFormApi }) => {
   };
   const renderRoleOptions = () => {
     if (purpose === "create") {
-      const availableRoles = roleOptions[store.admin.roles[0].role] || [];
+      const availableRoles = roleOptions[store?.admin?.roles[0]?.role] || [];
       // const availableRoles = [];
 
       return (
