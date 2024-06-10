@@ -13,12 +13,12 @@ const Authform = ({ purpose, authFormApi }) => {
   const navigate = useNavigate();
 
   const roleOptions = {
-    superAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
-    SubAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
-    WhiteLabel: ["HyperAgent", "MasterAgent", "SuperAgent", "user"],
-    SuperAgent: ["HyperAgent", "MasterAgent", "user"],
-    HyperAgent: ["MasterAgent", "user"],
-    MasterAgent: ["user"],
+    superAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
+    SubAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
+    whiteLabel: ["hyperAgent", "masterAgent", "superAgent", "user"],
+    superAgent: ["hyperAgent", "masterAgent", "user"],
+    hyperAgent: ["masterAgent", "user"],
+    masterAgent: ["user"],
   };
   const renderRoleOptions = () => {
     if (purpose === "create") {

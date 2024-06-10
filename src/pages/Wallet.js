@@ -3,15 +3,20 @@ import { getAllCreateState } from "../Utils/service/initiateState";
 import { permissionObj } from "../Utils/constant/permission";
 import { getAllCreate, viewBalance } from '../Utils/service/apiService'
 import { useAppContext } from "../contextApi/context";
-
-
-
+import Card from "../components/common/Card";
+import Pagination from "../components/common/Pagination";
 
 const Wallet = () => {
     const { dispatch, store } = useAppContext();
     const [balance, setBalance] = useState(0);
-    const [walletCard, setWalletCard] = useState(getAllCreateState)
-
+    const [walletCard, setWalletCard] = useState(getAllCreateState())
+  
+    const handleChange = (name, value) => {
+        setWalletCard((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
     useEffect(() => {
         if (store?.admin) {
@@ -24,7 +29,7 @@ const Wallet = () => {
                     getAll_Create()
             }
         }
-    }, [store?.admin, currentPage, totalEntries, name]);
+    }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries]);
 
     useEffect(() => {
         if (store?.admin) {
@@ -49,8 +54,9 @@ const Wallet = () => {
         });
 
         if (response) {
-            console.log(response)
-            setWalletCard({ userList: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "", totalEntries: 0 })
+            setWalletCard({
+                ...walletCard, userList: response.data, totalPages: response.pagination.totalPages, totalData: response.pagination.totalRecords
+            })
         }
     }
 
@@ -58,27 +64,24 @@ const Wallet = () => {
     async function view_Balance() {
         const response = await viewBalance({
             _id: store?.admin?.id,
-            pageNumber: walletCard.currentPage,
-            dataLimit: walletCard.totalEntries,
-            name: walletCard.name
         });
 
         if (response) {
-            setWalletCard({ userList: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "", totalEntries: 0 })
+            setBalance(response.data.balance)
         }
     }
 
 
-    let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
-    let endIndex = Math.min(currentPage * totalEntries, totalData);
+    let startIndex = Math.min((Number(walletCard.currentPage) - 1) * Number(walletCard.totalEntries) + 1);
+    console.log("startIndex", walletCard.currentPage)
+    let endIndex = Math.min(Number(walletCard.currentPage) * Number(walletCard.totalEntries), Number(walletCard.totalData));
+
 
     const handlePageChange = (page) => {
         console.log("Changing to page:", page);
-
-        setCurrentPage(page);
-        setIsLoading(false);
+        handleChange("currentPage", page);
     };
-    console.log("option meanu", totalEntries);
+
 
     return (
         <div  >
@@ -88,7 +91,7 @@ const Wallet = () => {
             <div className="text-center mt-10">
                 <p style={{ fontWeight: 'bold' }}>Total Balance</p>
                 <h4 className="mb-1">₹{balance}</h4>
-                {auth.user.roles &&
+                {store?.admin?.roles &&
                     store?.admin?.roles.length > 0 &&
                     store?.admin?.roles[0].role === "superAdmin" && (
                         <button
@@ -108,7 +111,7 @@ const Wallet = () => {
                             <select
                                 className="form-select form-select-sm"
                                 aria-label=".form-select-sm example"
-                                onChange={(e) => setTotalEntries(e.target.value)}
+                                onChange={(e) => handleChange("totalEntries", e.target.value)}
                             >
                                 <option selected value="5">
                                     Show 5 entries
@@ -129,9 +132,9 @@ const Wallet = () => {
                                 <form Active="#">
                                     <div className="search_field">
                                         <input
-                                            value={name}
+                                            value={walletCard.name}
                                             onChange={(e) => {
-                                                setName(e.target.value);
+                                                handleChange("name", e.target.value);
                                             }}
                                             type="text"
                                             placeholder="Search content here..."
@@ -146,129 +149,8 @@ const Wallet = () => {
                         </div>
                     </div>
                     <div className="QA_table mb_30" style={{ overflow: "auto" }}>
-                        {/* {isLoading ? (
-                            userList.length > 0 ? (
-                                <>
-                                    <table className="table lms_table_active3 table-bordered table-sm">
-                                        <thead
-                                            style={{
-                                                height: "10px",
-                                                backgroundColor: "#006699",
-                                                color: "white",
-                                                fontWeight: "bold",
-                                            }}
-                                        >
-                                            <tr>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 "
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Username
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 text-center"
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Credit Ref.
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 text-center"
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Partnership
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 text-center"
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Balance
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 text-center"
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Exposure
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 text-center"
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Avail. Bal.
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 text-center"
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Ref. P/L
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 text-center"
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Status
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="text-bolder fs-6 text-center"
-                                                    style={{ fontWeight: "bold", color: "white" }}
-                                                >
-                                                    Actions
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        {userList.map((data, i) => {
-                                            const creditRefLength = data.creditRef.length;
-                                            const partnershipLength = data.partnership.length;
-                                            return (
-                                                <Card
-                                                    userName={data.userName}
-                                                    role={data.roles[0].role}
-                                                    key={data.id}
-                                                    creditRef={data.creditRef[creditRefLength - 1]?.value}
-                                                    balance={data.balance}
-                                                    loadBalance={data.loadBalance}
-                                                    refProfitLoss={data.refProfitLoss}
-                                                    userId={data.id}
-                                                    partnership={
-                                                        data.partnership[partnershipLength - 1]?.value
-                                                    }
-                                                    Status={data.Status}
-                                                    creditRefLength={creditRefLength}
-                                                    partnershipLength={partnershipLength}
-                                                />
-                                            );
-                                        })}
-                                    </table>
-                                    <div>
-                                        <Pagination
-                                            currentPage={currentPage}
-                                            totalPages={totalPages}
-                                            handlePageChange={handlePageChange}
-                                            startIndex={startIndex}
-                                            endIndex={endIndex}
-                                            totalData={totalData}
-                                        />
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="alert text-dark bg-light" role="alert">
-                                    <div className="alert-text d-flex justify-content-center">
-                                        <b> &#128680; No Data Found !! </b>
-                                    </div>
-                                </div>
-                            )
-                        ) : (
-                            <></>
-                        )} */}
-                        {userList.length > 0 ? (
+
+                        {walletCard.userList.length > 0 ? (
                             <>
                                 <table className="table lms_table_active3 table-bordered table-sm">
                                     <thead
@@ -345,39 +227,40 @@ const Wallet = () => {
                                             </th>
                                         </tr>
                                     </thead>
-                                    {userList.map((data, i) => {
-                                        const creditRefLength = data.creditRef.length;
-                                        const partnershipLength = data.partnership.length;
+                                    {walletCard.userList.map((data, i) => {
+                                        // const creditRefLength = data.creditRef.length;
+                                        // const partnershipLength = data.partnership.length;
                                         return (
+
                                             <Card
                                                 userName={data.userName}
                                                 role={data.roles[0].role}
                                                 key={data.id}
-                                                creditRef={data.creditRef[creditRefLength - 1]?.value}
+                                                // creditRef={data.creditRef[creditRefLength - 1]?.value}
                                                 balance={data.balance}
                                                 loadBalance={data.loadBalance}
                                                 refProfitLoss={data.refProfitLoss}
                                                 userId={data.id}
-                                                partnership={
-                                                    data.partnership[partnershipLength - 1]?.value
-                                                }
+                                                // partnership={
+                                                //     data.partnership[partnershipLength - 1]?.value
+                                                // }
                                                 Status={data.Status}
-                                                creditRefLength={creditRefLength}
-                                                partnershipLength={partnershipLength}
+                                            // creditRefLength={creditRefLength}
+                                            // partnershipLength={partnershipLength}
                                             />
                                         );
                                     })}
                                 </table>
-                                {/* <div>
-                                        <Pagination
-                                            currentPage={currentPage}
-                                            totalPages={totalPages}
-                                            handlePageChange={handlePageChange}
-                                            startIndex={startIndex}
-                                            endIndex={endIndex}
-                                            totalData={totalData}
-                                        />
-                                    </div> */}
+                                <div>
+                                    <Pagination
+                                        currentPage={walletCard.currentPage}
+                                        totalPages={walletCard.totalPages}
+                                        handlePageChange={handlePageChange}
+                                        startIndex={startIndex}
+                                        endIndex={endIndex}
+                                        totalData={walletCard.totalData}
+                                    />
+                                </div>
                             </>
                         ) : (
                             <div className="alert text-dark bg-light" role="alert">
