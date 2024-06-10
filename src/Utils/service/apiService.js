@@ -22,3 +22,26 @@ export async function allAdminCreate(body = {}, isToast = false) {
     throw error;
   }
 }
+
+
+export async function viewCreatedUser_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(`${UrlConstant.ViewCreatedUser}/${body.id}`,callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+export async function viewBalance_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(`${UrlConstant.ViewBalance}/${body.id}`,callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
