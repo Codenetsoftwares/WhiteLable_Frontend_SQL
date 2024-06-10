@@ -16,3 +16,31 @@ export function getAuthForm(body = {}) {
     userName: "", password: ""
   }
 }
+
+
+export function viewCreatedUser(){
+return {
+  
+  
+    userName: "",
+    roles: [
+        {
+            role: "",
+            permission: [
+                ""
+            ]
+        }
+    ],
+    balance: 0,
+    loadBalance: 0 ,
+    creditRefs: [],
+    createdById: "",
+    partnerships: [],
+    status: ""
+}
+
+
+
+}
+
+

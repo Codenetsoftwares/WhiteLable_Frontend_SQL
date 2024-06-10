@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import AdminLayout from "./Layout/AdminLayout";
 import Temp from "./screen/Temp";
 import AllAdminCreate from "./pages/AllAdminCreate";
+import MainTransaction from "./components/common/MainTransaction";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route index element={<Login />} />
             <Route path="/" element={<AdminLayout />}>
               <Route path="welcome" element={<Temp />} />
+              <Route path="maintransaction" element={<MainTransaction />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
             </Route>
           </Routes>
