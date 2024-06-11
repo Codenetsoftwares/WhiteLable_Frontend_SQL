@@ -14,6 +14,9 @@ class UrlConstant {
   allCreate = `${this.url_dev}/${this.view}-all-creates`;
   createAdminHierarchy = `${this.url_dev}/${this.admin}-admin-create`;
   createUserRole = `${this.url_dev}/${this.admin}-create-subAdmin`;
+  AccountStatement= `${this.url_dev}/${this.admin}/account-statement`;
+  moveToTrash= `${this.url_dev}/${this.admin}/move-to-trash-user`;
+  viewTrash= `${this.url_dev}/${this.admin}/view-trash`;
 }
 
 const urls = new UrlConstant();

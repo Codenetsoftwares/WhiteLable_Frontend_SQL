@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../contextApi/context";
+import { moveToTrash_api } from "../../Utils/service/apiService";
 
 const Card = ({
     role,
@@ -16,14 +17,32 @@ const Card = ({
     creditRefLength,
     partnershipLength,
 }) => {
-
+console.log('========>>>>>>> line 19',userId)
     const { dispatch, store } = useAppContext();
     const [Istatus, setIStatus] = useState("");
     const [userid, setUserId] = useState("");
     const [userID, setUserID] = useState("");
     const [userhierarchy, setHierarchy] = useState("");
     const navigate = useNavigate();
+console.log('=====>>> line 26',store)
 
+    async function handleDelete() {
+        console.log('======>>>> onclick the id',userId)
+        const userConfirmed = window.confirm(
+            "Balance should be 0 to move the Admin User to trash"
+          );
+        const response = await moveToTrash_api({requestId:userId});
+        if (userConfirmed){
+            console.log("Im here in line 94");
+            if(response.status === 201){
+
+                alert("Agent Deleted approval sent!");
+                // window.location.reload();
+            }
+        }
+       
+
+    }
     return (
         <tbody>
             <tr>
@@ -296,7 +315,7 @@ const Card = ({
                                 }`}
                             title="Delete"
                             onClick={(e) => {
-                                // handeldelete(userId);
+                                handleDelete();
                             }}
                         >
                             <i class="fa-light fas fa-trash"></i>

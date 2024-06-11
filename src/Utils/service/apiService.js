@@ -42,3 +42,37 @@ export async function getAllCreate(body = {}, isToast = false) {
     throw error;
   }
 }
+
+
+export async function getAccountStatement_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(`${UrlConstant.AccountStatement}/${body._id}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function moveToTrash_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(UrlConstant.moveToTrash, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+export async function viewTrash_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(UrlConstant.viewTrash, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

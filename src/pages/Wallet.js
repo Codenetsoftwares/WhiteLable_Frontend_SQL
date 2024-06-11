@@ -10,7 +10,7 @@ const Wallet = () => {
     const { dispatch, store } = useAppContext();
     const [balance, setBalance] = useState(0);
     const [walletCard, setWalletCard] = useState(getAllCreateState())
-  
+  console.log('=======>>> wallet card',walletCard)
     const handleChange = (name, value) => {
         setWalletCard((prevData) => ({
             ...prevData,
@@ -47,11 +47,13 @@ const Wallet = () => {
     async function getAll_Create() {
 
         const response = await getAllCreate({
+
             _id: store?.admin?.id,
             pageNumber: walletCard.currentPage,
             dataLimit: walletCard.totalEntries,
             name: walletCard.name
         });
+        console.log('=====>>>> response',response)
 
         if (response) {
             setWalletCard({
@@ -240,7 +242,7 @@ const Wallet = () => {
                                                 balance={data.balance}
                                                 loadBalance={data.loadBalance}
                                                 refProfitLoss={data.refProfitLoss}
-                                                userId={data.id}
+                                                userId={data.adminId}
                                                 // partnership={
                                                 //     data.partnership[partnershipLength - 1]?.value
                                                 // }

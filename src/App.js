@@ -7,6 +7,8 @@ import AdminLayout from "./Layout/AdminLayout";
 import Temp from "./screen/Temp";
 import AllAdminCreate from "./pages/AllAdminCreate";
 import Wallet from "./pages/Wallet";
+import AdminAccountStatement from "./pages/AdminAccountStatement";
+import AgentDelete from "./pages/AgentDelete";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             <Route path="/" element={<AdminLayout />}>
               <Route path="welcome" element={<Temp />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
+              <Route path="/adminaccountstatement" element={<AdminAccountStatement/>} />
+              <Route path="/agentDelete" element={<AgentDelete/>} />
               <Route path="wallet" element={<Wallet/>} />
             </Route>
           </Routes>

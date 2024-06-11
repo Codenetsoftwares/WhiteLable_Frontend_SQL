@@ -20,3 +20,8 @@ export function getAuthForm(body = {}) {
 export function getAllCreateState(body = {}) {
   return { userList: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "",totalData:""  }
 }
+
+
+export function adminAccountStatement(body = {}) {
+  return { accountDetails: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "",totalData:""   }
+}
