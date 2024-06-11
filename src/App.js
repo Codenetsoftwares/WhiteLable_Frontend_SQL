@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { AppProvider } from "./contextApi/context";
 import Login from "./pages/Login";
-import AdminLayout from "./Layout/AdminLayout";
+import AdminLayout from "./layout/AdminLayout";
 import Temp from "./screen/Temp";
 import AllAdminCreate from "./pages/AllAdminCreate";
 import Wallet from "./pages/Wallet";
