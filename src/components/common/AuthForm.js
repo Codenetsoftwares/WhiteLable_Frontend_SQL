@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import "../Pages/Accounts/Login/Login.css";
 import { useFormik } from "formik";
 import { getAuthForm } from "../../Utils/service/initiateState";
 import { LoginSchema } from "../../Utils/schema";
@@ -10,19 +9,20 @@ import strings from "../../Utils/constant/stringConstant";
 const Authform = ({ purpose, authFormApi }) => {
   const [authForm] = useState(getAuthForm);
   const { dispatch, store } = useAppContext();
+  
   const navigate = useNavigate();
-  console.log(store)
+
   const roleOptions = {
-    superAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
-    SubAdmin: ["WhiteLabel", "HyperAgent", "SuperAgent", "MasterAgent"],
-    WhiteLabel: ["HyperAgent", "MasterAgent", "SuperAgent", "user"],
-    SuperAgent: ["HyperAgent", "MasterAgent", "user"],
-    HyperAgent: ["MasterAgent", "user"],
-    MasterAgent: ["user"],
+    superAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
+    SubAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
+    whiteLabel: ["hyperAgent", "masterAgent", "superAgent", "user"],
+    superAgent: ["hyperAgent", "masterAgent", "user"],
+    hyperAgent: ["masterAgent", "user"],
+    masterAgent: ["user"],
   };
   const renderRoleOptions = () => {
     if (purpose === "create") {
-      const availableRoles = roleOptions[store.admin.roles[0].role] || [];
+      const availableRoles = roleOptions[store?.admin?.roles[0]?.role] || [];
       // const availableRoles = [];
 
       return (

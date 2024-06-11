@@ -68,33 +68,33 @@ const Navside = () => {
                 "SuperAgent",
                 "MasterAgent",
               ].includes(store.admin.roles[0].role) && <li >
-                    <Link to="/allAdminCreate" >
-                    
+                  <Link to="/allAdminCreate" >
 
-                  <span>
-                        <i class="fa-solid fa-circle"></i>Create Admin
-                      </span>
+
+                    <span>
+                      <i class="fa-solid fa-circle"></i>Create Admin
+                    </span>
                   </Link>
                 </li>}
 
 
               {store.admin.roles[0].permission.includes("Create-Admin") && <li>
-                  <Link to="/allAdminCreate">
-                <span>
-                        <i class="fa-solid fa-circle"></i>Create Admin
-                      </span>
-      
+                <Link to="/allAdminCreate">
+                  <span>
+                    <i class="fa-solid fa-circle"></i>Create Admin
+                  </span>
+
                 </Link>
               </li>}
 
 
               <li>
-                <Link to="/maintransaction">
+                <Link to="/wallet">
 
 
-                <span>
-                        <i class="fa-solid fa-circle"></i>Wallet
-                      </span>
+                  <span>
+                    <i class="fa-solid fa-circle"></i>Wallet
+                  </span>
                 </Link>
               </li>
               {/* <li>
@@ -150,10 +150,10 @@ const Navside = () => {
               <li>
                 <Link to="/agentDelete">
 
-                <span>
-                        {" "}
-                        <i class="fa-solid fa-circle"></i>Approve deletion
-                      </span>
+                  <span>
+                    {" "}
+                    <i class="fa-solid fa-circle"></i>Approve deletion
+                  </span>
                 </Link>
               </li>
             </ul>
@@ -248,8 +248,8 @@ const Navside = () => {
 
       </ul>
     </nav>
-    
-    
+
+
   );
 };
 

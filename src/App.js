@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import AdminLayout from "./Layout/AdminLayout";
 import Temp from "./screen/Temp";
 import AllAdminCreate from "./pages/AllAdminCreate";
+import Wallet from "./pages/Wallet";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<AdminLayout />}>
               <Route path="welcome" element={<Temp />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
+              <Route path="wallet" element={<Wallet/>} />
             </Route>
           </Routes>
         </BrowserRouter>
