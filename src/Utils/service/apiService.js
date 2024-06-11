@@ -42,3 +42,17 @@ export async function getAllCreate(body = {}, isToast = false) {
     throw error;
   }
 }
+
+export async function updateCreditRef(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.PUT, body.data, isToast);
+    const response = await makeCall(
+      `${UrlConstant.updateCreditRef}/${body.id}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
