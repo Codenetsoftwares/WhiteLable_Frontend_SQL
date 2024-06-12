@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { updateCreditRef } from "../Utils/service/apiService";
-
+import Alert from "react-bootstrap/Alert";
+import {
+  addCash,
+  transferAmount,
+  updateCreditRef,
+  updatePartnership,
+} from "../Utils/service/apiService";
+import { useAppContext } from "../contextApi/context";
 const CustomTransactionModal = (props) => {
-  const [formData, setformData] = useState({
+  const [formData, setFormData] = useState({
     amount: 0,
     password: "",
+    remarks: "",
   });
+  const { store } = useAppContext();
+  console.log("store from modal", store);
+
   console.log("from modal=>>>>", props?.differentiate);
   console.log("from modal adminId=>>>>", props?.adminId);
   console.log("from modal adminName=>>>>", props?.adminName);
   console.log("from modal adminName=>>>>", props?.role);
+
   // Setting Modal Title
   let modalTitle = "";
   if (props.differentiate === "creditRefProvider") {
@@ -24,19 +35,104 @@ const CustomTransactionModal = (props) => {
     modalTitle = "Add Cash";
   }
 
+  // API Hitting for creditRef and Partnership
   async function handelSave() {
+    switch (props.differentiate) {
+      case "creditRefProvider":
+        const creditRefData = {
+          creditRef: formData.amount,
+          password: formData.password,
+        };
+        const creditRefResponse = await updateCreditRef(
+          {
+            id: props?.adminId,
+            data: creditRefData,
+          },
+          true
+        );
+        if (creditRefResponse) {
+          props.onHide();
+          console.log(creditRefResponse);
+        }
+        break;
+
+      case "partnershipProvider":
+        const partnershipData = {
+          partnership: formData.amount,
+          password: formData.password,
+        };
+        const partnershipResponse = await updatePartnership(
+          {
+            id: props?.adminId,
+            data: partnershipData,
+          },
+          true
+        );
+        if (partnershipResponse) {
+          props.onHide();
+          console.log(partnershipResponse);
+        }
+        break;
+      case "addCashProvider":
+        const addCashData = {
+          amount: formData.amount,
+        };
+        const addCashResponse = await addCash(
+          {
+            adminId: store.admin.id,
+            data: addCashData,
+          },
+          true
+        );
+        if (addCashResponse) {
+          props.onHide();
+          console.log(addCashResponse);
+        }
+        break;
+
+      default:
+    }
+
     console.log("formData", formData);
-    const data = {
-      creditRef: formData.amount,
-      password: formData.password,
-    };
-    const response = await updateCreditRef({
-      id: props?.adminId,
-      data: data,
-    },true);
-    if (response) {
-      props.onHide();
-      console.log(response);
+  }
+
+  async function handelDepositAndWithdraw(modeOfTransaction) {
+    if (modeOfTransaction === "Withdraw") {
+      const WithdrawData = {
+        withdrawalAmt: formData.amount,
+        password: formData.password,
+        remarks: formData.remarks,
+        receiveUserId: props?.adminId,
+      };
+      const creditRefResponse = await transferAmount(
+        {
+          adminId: store.admin.id,
+          data: WithdrawData,
+        },
+        true
+      );
+      if (creditRefResponse) {
+        props.onHide();
+        console.log(creditRefResponse);
+      }
+    } else {
+      const DepositData = {
+        transferAmount: formData.amount,
+        password: formData.password,
+        remarks: formData.remarks,
+        receiveUserId: props?.adminId,
+      };
+      const creditRefResponse = await transferAmount(
+        {
+          adminId: store.admin.id,
+          data: DepositData,
+        },
+        true
+      );
+      if (creditRefResponse) {
+        props.onHide();
+        console.log(creditRefResponse);
+      }
     }
   }
 
@@ -59,11 +155,21 @@ const CustomTransactionModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <div className="my-2">
-          <span style={{ fontWeight: "bold", color: "#6ae635" }}>
-            {props?.role}
-          </span>
-          <br />
-          <span>{props?.adminName}</span>
+          {props?.differentiate !== "addCashProvider" ? (
+            <React.Fragment>
+              <span style={{ fontWeight: "bold", color: "#6ae635" }}>
+                {props?.role}
+              </span>
+              <br />
+              <span>{props?.adminName}</span>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Alert variant="primary">
+                Transaction By — {store.admin.adminName}
+              </Alert>
+            </React.Fragment>
+          )}
         </div>
         <form>
           <div className="input-group mb-3">
@@ -75,31 +181,65 @@ const CustomTransactionModal = (props) => {
               className="form-control"
               placeholder="Amount *"
               onChange={(e) =>
-                setformData({
+                setFormData({
                   ...formData,
                   amount: Number(e.target.value),
                 })
               }
             />
           </div>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password *"
-            onChange={(e) =>
-              setformData({
-                ...formData,
-                password: e.target.value,
-              })
-            }
-          />
+          {props.differentiate === "walletAmountProvider" ? (
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Remarks"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  remarks: e.target.value,
+                })
+              }
+            />
+          ) : null}
+          {props?.differentiate !== "addCashProvider" ? (
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Password *"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  password: e.target.value,
+                })
+              }
+            />
+          ) : null}
         </form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props?.onHide} variant="secondary">
-          Close
-        </Button>
-        <Button onClick={handelSave}>Save</Button>
+        {props.differentiate !== "walletAmountProvider" ? (
+          <>
+            <Button onClick={props?.onHide} variant="secondary">
+              Close
+            </Button>
+            <Button onClick={handelSave}>Save</Button>
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={() => handelDepositAndWithdraw("Deposit")}
+              variant="success"
+            >
+              Deposit
+            </Button>
+            <Button
+              onClick={() => handelDepositAndWithdraw("Withdraw")}
+              variant="danger"
+            >
+              Withdraw
+            </Button>
+          </>
+        )}
       </Modal.Footer>
     </Modal>
   );

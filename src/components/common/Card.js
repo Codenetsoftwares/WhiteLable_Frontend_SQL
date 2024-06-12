@@ -207,7 +207,12 @@ const Card = ({
             </p>
           </td>
           <td scope="row" className="fs-6 text-center">
-            <span className="mx-1">
+            <span
+              className="mx-1"
+              onClick={() =>
+                handelOpenTransactionModal(true, "walletAmountProvider")
+              }
+            >
               <button
                 className={`btn border border-2 rounded ${
                   ["Suspended"].includes(store?.admin?.Status)
@@ -228,12 +233,7 @@ const Card = ({
                 }`}
                 title="Addmoney"
               >
-                <i
-                  class="fa-solid fa-circle-dollar-to-slot"
-                  onClick={() =>
-                    handelOpenTransactionModal(true, "walletAmountProvider")
-                  }
-                ></i>
+                <i class="fa-solid fa-circle-dollar-to-slot"></i>
               </button>
             </span>
             <span className="mx-1">

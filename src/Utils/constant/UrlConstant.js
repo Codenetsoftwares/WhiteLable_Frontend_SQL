@@ -15,6 +15,9 @@ class UrlConstant {
   createAdminHierarchy = `${this.url_dev}/${this.admin}-admin-create`;
   createUserRole = `${this.url_dev}/${this.admin}-create-subAdmin`;
   updateCreditRef = `${this.url_dev}/${this.admin}/update-credit-ref`;
+  updatePartnership = `${this.url_dev}/${this.admin}/update-partnership`;
+  transferAmount = `${this.url_dev}/transfer-amount`;
+  addCash = `${this.url_dev}/${this.admin}/deposit-amount`;
 }
 
 const urls = new UrlConstant();
