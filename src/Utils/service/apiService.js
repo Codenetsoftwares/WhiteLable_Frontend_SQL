@@ -42,3 +42,44 @@ export async function getAllCreate(body = {}, isToast = false) {
     throw error;
   }
 }
+
+export async function createSubAdmin(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(`${UrlConstant.createSubAdmin}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllSubAdminCreate(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(`${UrlConstant.allSubAdmin}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}&userName=${body.name}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function getviewSubAdminPermission(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(`${UrlConstant.viewSubAdminPermission}/${body._id}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getEditSubAdminPermission(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.PUT, body, isToast);
+    const response = await makeCall(`${UrlConstant.editSubAdminPermission}/${body._id}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

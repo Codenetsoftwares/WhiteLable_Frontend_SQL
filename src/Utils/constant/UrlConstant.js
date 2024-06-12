@@ -1,19 +1,22 @@
 // import strings from "./stringConstant";
 
 class UrlConstant {
-  constructor() {}
+  constructor() { }
 
   url_dev = 'http://localhost:8000/api';
 
   // Admin api
   admin = 'admin';
-  view='view'
+  view = 'view'
   login = `${this.url_dev}/${this.admin}-login`;
   Create = `${this.url_dev}/${this.admin}-create`;
   viewBalance = `${this.url_dev}/${this.view}-balance`;
   allCreate = `${this.url_dev}/${this.view}-all-creates`;
   createAdminHierarchy = `${this.url_dev}/${this.admin}-admin-create`;
-  createUserRole = `${this.url_dev}/${this.admin}-create-subAdmin`;
+  createSubAdmin = `${this.url_dev}/${this.admin}/create-subAdmin`;
+  allSubAdmin = `${this.url_dev}/${this.view}-all-subAdmin-creates`;
+  viewSubAdminPermission = `${this.url_dev}/${this.admin}/single-sub-admin`;
+  editSubAdminPermission = `${this.url_dev}/${this.admin}/edit-subadmin-permissions`;
 }
 
 const urls = new UrlConstant();
