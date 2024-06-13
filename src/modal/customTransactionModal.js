@@ -17,7 +17,6 @@ const CustomTransactionModal = (props) => {
   });
   const { store } = useAppContext();
   console.log("store from modal", store);
-
   console.log("from modal=>>>>", props?.differentiate);
   console.log("from modal adminId=>>>>", props?.adminId);
   console.log("from modal adminName=>>>>", props?.adminName);
@@ -35,7 +34,7 @@ const CustomTransactionModal = (props) => {
     modalTitle = "Add Cash";
   }
 
-  // API Hitting for creditRef and Partnership
+  // API Hitting for creditRef and Partnership provider
   async function handelSave() {
     switch (props.differentiate) {
       case "creditRefProvider":
@@ -95,7 +94,7 @@ const CustomTransactionModal = (props) => {
 
     console.log("formData", formData);
   }
-
+  // API Hitting for Wallet provider
   async function handelDepositAndWithdraw(modeOfTransaction) {
     if (modeOfTransaction === "Withdraw") {
       const WithdrawData = {

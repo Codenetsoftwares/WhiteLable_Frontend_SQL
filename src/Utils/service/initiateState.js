@@ -20,3 +20,15 @@ export function getAuthForm(body = {}) {
 export function getAllCreateState(body = {}) {
   return { userList: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "",totalData:""  }
 }
+
+
+export function getCreditRefAndPartnership(body = {}) {
+  return {
+    data: [
+      {
+        date: "",
+        value: 0
+      }
+    ]
+  };
+}

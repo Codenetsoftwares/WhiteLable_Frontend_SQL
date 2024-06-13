@@ -28,7 +28,7 @@ function App() {
           <Routes>
             <Route index element={<Login />} />
             <Route path="/" element={<AdminLayout />}>
-              <Route path="welcome" element={<Temp />} />
+              <Route path="welcome/:userName" element={<Temp />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
               <Route path="wallet" element={<Wallet/>} />
             </Route>

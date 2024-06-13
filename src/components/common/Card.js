@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../contextApi/context";
 import CustomTransactionModal from "../../modal/customTransactionModal";
+import ViewPartnershipAndCreditRefModal from "../../modal/viewPartnershipAndCreditRefModal";
+import {
+  getHierarchy,
+  getPartnershipLog,
+} from "../../Utils/service/apiService";
 
 const Card = ({
   role,
@@ -22,7 +27,8 @@ const Card = ({
   const [userid, setUserId] = useState("");
   //   const [adminId, setAdminId] = useState("");
   const [userhierarchy, setHierarchy] = useState("");
-  const [modalShow, setModalShow] = useState(false);
+  const [transactionModalShow, setTransactionModalShow] = useState(false);
+  const [viewModalShow, setViewModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState("");
   const navigate = useNavigate();
   console.log("userId", adminId);
@@ -30,14 +36,30 @@ const Card = ({
 
   console.log("store", store);
 
-  const handelOpenTransactionModal = (
-    boolParam,
-    differentiateParam,
-    adminIdParam
-  ) => {
-    setModalShow(boolParam);
+  const handelOpenTransactionModal = (boolParam, differentiateParam) => {
+    setTransactionModalShow(boolParam);
     setDifferentiate(differentiateParam);
   };
+
+  const handelOpenViewModal = (boolParam, differentiateParam) => {
+    setViewModalShow(boolParam);
+    setDifferentiate(differentiateParam);
+  };
+
+  async function takeMeToHierarchy(userName) {
+    const action = "clearAll";
+
+    const response = await getHierarchy(
+      {
+        adminName: userName,
+        action: action,
+      },
+    );
+    if (response.successCode) {
+      console.log(response);
+      navigate(`/welcome/${userName}`);
+    }
+  }
 
   return (
     <React.Fragment>
@@ -54,8 +76,8 @@ const Card = ({
             </button>
 
             <p
-              onClick={(e) => {
-                // takeMeTohierarchy(userName);
+              onClick={() => {
+                takeMeToHierarchy(userName);
               }}
               style={{ cursor: "pointer" }}
             >
@@ -66,10 +88,22 @@ const Card = ({
           <td scope="row" className="fs-6 text-center">
             {creditRefLength > 0 ? (
               //Need to hit Txn Modal
-              <span>{creditRef}</span>
+              <span
+                onClick={() =>
+                  handelOpenTransactionModal(true, "creditRefProvider")
+                }
+              >
+                {creditRef}
+              </span>
             ) : (
               //Need to hit Txn Modal
-              <span>0</span>
+              <span
+                onClick={() =>
+                  handelOpenTransactionModal(true, "creditRefProvider")
+                }
+              >
+                0
+              </span>
             )}
             <span className="">
               <button
@@ -91,13 +125,11 @@ const Card = ({
                     : "disabled"
                 }`}
                 aria-label="Close"
+                onClick={() =>
+                  handelOpenTransactionModal(true, "creditRefProvider")
+                }
               >
-                <i
-                  className="fa-solid fa-pen-to-square"
-                  onClick={() =>
-                    handelOpenTransactionModal(true, "creditRefProvider")
-                  }
-                ></i>
+                <i className="fa-solid fa-pen-to-square"></i>
               </button>
             </span>
             <span>
@@ -117,6 +149,7 @@ const Card = ({
                     ? ""
                     : "disabled"
                 }`}
+                onClick={() => handelOpenViewModal(true, "creditRefViewer")}
               >
                 <i class="fa-regular fa-eye" aria-label="Close"></i>
               </button>
@@ -183,8 +216,9 @@ const Card = ({
                     ? ""
                     : "disabled"
                 }`}
+                onClick={() => handelOpenViewModal(true, "partnershipViewer")}
               >
-                <i className="fa-regular fa-eye" data-bs-toggle="modal"></i>
+                <i className="fa-regular fa-eye"></i>
               </button>
             </span>
           </td>
@@ -324,8 +358,17 @@ const Card = ({
         </tr>
       </tbody>
       <CustomTransactionModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
+        show={transactionModalShow}
+        onHide={() => setTransactionModalShow(false)}
+        message="Hi this is msg"
+        differentiate={differentiate}
+        adminId={adminId}
+        adminName={userName}
+        role={role}
+      />
+      <ViewPartnershipAndCreditRefModal
+        show={viewModalShow}
+        onHide={() => setViewModalShow(false)}
         message="Hi this is msg"
         differentiate={differentiate}
         adminId={adminId}

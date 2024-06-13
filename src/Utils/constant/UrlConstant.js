@@ -18,6 +18,9 @@ class UrlConstant {
   updatePartnership = `${this.url_dev}/${this.admin}/update-partnership`;
   transferAmount = `${this.url_dev}/transfer-amount`;
   addCash = `${this.url_dev}/${this.admin}/deposit-amount`;
+  viewPartnership = `${this.url_dev}/partnershipView`;
+  viewCreditRefLog = `${this.url_dev}/creditRefView`;
+  getHierarchy = `${this.url_dev}/Root-Path`;
 }
 
 const urls = new UrlConstant();

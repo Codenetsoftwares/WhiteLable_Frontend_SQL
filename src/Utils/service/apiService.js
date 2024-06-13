@@ -80,7 +80,11 @@ export async function updatePartnership(body = {}, isToast = false) {
 
 export async function transferAmount(body = {}, isToast = false) {
   try {
-    const callParams = await getAuthCallParams(strings.POST, body.data, isToast);
+    const callParams = await getAuthCallParams(
+      strings.POST,
+      body.data,
+      isToast
+    );
     const response = await makeCall(
       `${UrlConstant.transferAmount}/${body.adminId}`,
       callParams,
@@ -101,6 +105,48 @@ export async function addCash(body = {}, isToast = false) {
     );
     const response = await makeCall(
       `${UrlConstant.addCash}/${body.adminId}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getPartnershipLog(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.viewPartnership}/${body.id}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getCreditRefLog(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.viewCreditRefLog}/${body.id}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getHierarchy(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.getHierarchy}/${body.adminName}/${body.action}?pageSize=${body.totalEntries}`,
       callParams,
       isToast
     );
