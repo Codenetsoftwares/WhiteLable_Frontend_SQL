@@ -20,3 +20,20 @@ export function getAuthForm(body = {}) {
 export function getAllCreateState(body = {}) {
   return { userList: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "",totalData:""  }
 }
+
+export function getCreateSubAdmin(body = {}) {
+  return {
+    userName: "", password: "", roles: [{
+      permission: []
+    }] }
+}
+
+export function getAllSubAdminCreateState(body = {}) {
+  return { userList: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "", totalData: "" }
+}
+
+export function getSubAdminPermissionData(body = {}) {
+  return {
+    userName: "", roles: []
+  }
+}

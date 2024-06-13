@@ -224,7 +224,7 @@ const Navside = () => {
                 </a>
                 <ul className="d-flex flex-column ml-0">
                   <li>
-                    <Link to="/AddUserRole">
+                      <Link to="/CreateSubAdmin">
                       <span>
                         {" "}
                         <i class="fa-solid fa-circle"></i>Create New
@@ -233,7 +233,7 @@ const Navside = () => {
                   </li>
 
                   <li>
-                    <Link to="/ExistingRoles">
+                      <Link to="/ViewAllSubAdmin">
                       <span>
                         <i class="fa-solid fa-circle"></i>View Existing
                       </span>

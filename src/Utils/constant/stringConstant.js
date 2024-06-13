@@ -49,6 +49,25 @@ export class StringConstants {
   moveToTrash = 'move-to-trash';
   trashView = 'trash-view';
 
+   roles = [
+    "TransferBalance",
+    "Status",
+    "CreditRef-Edit",
+    "Partnership-Edit",
+    "CreditRef-View",
+    "Partnership-View",
+    "User-Profile-View",
+    "Profile-View",
+    "Create-Admin",
+    "Create-User",
+    "AccountStatement",
+    "ActivityLog",
+    "Delete-Admin",
+    "Restore-Admin",
+    "Move-To-Trash",
+    "Trash-View",
+  ];
+
 }
 
 let strings = new StringConstants();

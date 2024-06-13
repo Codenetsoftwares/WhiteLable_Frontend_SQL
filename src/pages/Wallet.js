@@ -106,48 +106,48 @@ const Wallet = () => {
             </div>
             <div className="white_card_body m-3">
                 <div className="QA_section">
-                    <div className="white_box_tittle list_header">
-                        <div className="col-2 text-center">
-                            <select
-                                className="form-select form-select-sm"
-                                aria-label=".form-select-sm example"
-                                onChange={(e) => handleChange("totalEntries", e.target.value)}
-                            >
-                                <option selected value="5">
-                                    Show 5 entries
-                                </option>
-                                <option value="10">10 entries</option>
-                                <option value="15">15 entries</option>
-                                <option value="25">25 entries</option>
-                                <option value="50">50 entries</option>
-                                <option value="75">75 entries</option>
-                            </select>
-                        </div>
+                        <div className="white_box_tittle list_header">
+                            <div className="col-2 text-center">
+                                <select
+                                    className="form-select form-select-sm"
+                                    aria-label=".form-select-sm example"
+                                    onChange={(e) => handleChange("totalEntries", e.target.value)}
+                                >
+                                    <option selected value="5">
+                                        Show 5 entries
+                                    </option>
+                                    <option value="10">10 entries</option>
+                                    <option value="15">15 entries</option>
+                                    <option value="25">25 entries</option>
+                                    <option value="50">50 entries</option>
+                                    <option value="75">75 entries</option>
+                                </select>
+                            </div>
 
-                        <div
-                            className="serach_field_2 ms-auto"
-                            style={{ marginLeft: "-10px" }}
-                        >
-                            <div className="search_inner">
-                                <form Active="#">
-                                    <div className="search_field">
-                                        <input
-                                            value={walletCard.name}
-                                            onChange={(e) => {
-                                                handleChange("name", e.target.value);
-                                            }}
-                                            type="text"
-                                            placeholder="Search content here..."
-                                        />
-                                    </div>
-                                    <button type="submit">
-                                        {" "}
-                                        <i className="ti-search"></i>{" "}
-                                    </button>
-                                </form>
+                            <div
+                                className="serach_field_2 ms-auto"
+                                style={{ marginLeft: "-10px" }}
+                            >
+                                <div className="search_inner">
+                                    <form Active="#">
+                                        <div className="search_field">
+                                            <input
+                                                value={walletCard.name}
+                                                onChange={(e) => {
+                                                    handleChange("name", e.target.value);
+                                                }}
+                                                type="text"
+                                                placeholder="Search content here..."
+                                            />
+                                        </div>
+                                        <button type="submit">
+                                            {" "}
+                                            <i className="ti-search"></i>{" "}
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <div className="QA_table mb_30" style={{ overflow: "auto" }}>
 
                         {walletCard.userList.length > 0 ? (
