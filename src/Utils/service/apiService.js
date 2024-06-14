@@ -1,6 +1,6 @@
-import UrlConstant from '../constant/UrlConstant';
-import strings from '../constant/stringConstant';
-import { getAuthCallParams, getNoAuthCallParams, makeCall } from './service';
+import UrlConstant from "../constant/UrlConstant";
+import strings from "../constant/stringConstant";
+import { getAuthCallParams, getNoAuthCallParams, makeCall } from "./service";
 
 export async function login(body, isToast = false) {
   try {
@@ -11,7 +11,6 @@ export async function login(body, isToast = false) {
     throw error;
   }
 }
-
 
 export async function allAdminCreate(body = {}, isToast = false) {
   try {
@@ -26,7 +25,11 @@ export async function allAdminCreate(body = {}, isToast = false) {
 export async function viewBalance(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
-    const response = await makeCall(`${UrlConstant.viewBalance}/${body._id}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.viewBalance}/${body._id}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
@@ -36,7 +39,11 @@ export async function viewBalance(body = {}, isToast = false) {
 export async function getAllCreate(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
-    const response = await makeCall(`${UrlConstant.allCreate}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}&userName=${body.name}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.allCreate}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}&userName=${body.name}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
@@ -46,7 +53,11 @@ export async function getAllCreate(body = {}, isToast = false) {
 export async function createSubAdmin(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.POST, body, isToast);
-    const response = await makeCall(`${UrlConstant.createSubAdmin}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.createSubAdmin}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
@@ -56,18 +67,25 @@ export async function createSubAdmin(body = {}, isToast = false) {
 export async function getAllSubAdminCreate(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
-    const response = await makeCall(`${UrlConstant.allSubAdmin}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}&userName=${body.name}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.allSubAdmin}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}&userName=${body.name}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
   }
 }
 
-
 export async function getviewSubAdminPermission(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.POST, body, isToast);
-    const response = await makeCall(`${UrlConstant.viewSubAdminPermission}/${body._id}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.viewSubAdminPermission}/${body._id}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
@@ -77,9 +95,48 @@ export async function getviewSubAdminPermission(body = {}, isToast = false) {
 export async function getEditSubAdminPermission(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.PUT, body, isToast);
-    const response = await makeCall(`${UrlConstant.editSubAdminPermission}/${body._id}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.editSubAdminPermission}/${body._id}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
   }
 }
+
+export async function getUserProfileView(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+
+    const response = await makeCall(
+      `${UrlConstant.UserProfileView}/${body.userName}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllTransactionView(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(`${UrlConstant.allTransactionView}/${body.userName}?page=${body.pageNumber}&startDate=${body.fromDate}&endDate=${body.toDate}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// export async function getAllSubAdminCreate(body = {}, isToast = false) {
+//   try {
+//     const callParams = await getAuthCallParams(strings.GET, body, isToast);
+//     const response = await makeCall(`${UrlConstant.allSubAdmin}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}&userName=${body.name}`, callParams, isToast);
+//     return response;
+//   } catch (error) {
+//     throw error;
+//   }
+// }

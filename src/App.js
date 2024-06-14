@@ -3,13 +3,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { AppProvider } from "./contextApi/context";
 import Login from "./pages/Login";
-import AdminLayout from "./layout/AdminLayout";
+
 import Temp from "./screen/Temp";
 import AllAdminCreate from "./pages/AllAdminCreate";
 import Wallet from "./pages/Wallet";
 import CreateSubAdmin from "./pages/CreateSubAdmin";
 import SubAdminView from "./pages/SubAdminView";
 import ViewSubAdminPermission from "./pages/ViewSubAdminPermission";
+import AdminLayout from "./Layout/AdminLayout";
+import AccountLandingModal from "./profileAccount/AccountLandingModal";
 
 
 function App() {
@@ -31,9 +33,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index element={<Login />} />
-            <Route path="/" element={<AdminLayout />}>
+            <Route path="/" element={<AdminLayout/>}>
               <Route path="welcome" element={<Temp />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
+              <Route path="/account-landing/:userName" element={<AccountLandingModal />} />
               <Route path="wallet" element={<Wallet />} />
               <Route
                 path="CreateSubAdmin"

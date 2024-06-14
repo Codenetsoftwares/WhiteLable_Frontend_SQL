@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../contextApi/context";
+import StatusModal from "../../modal/StatusModal";
+
+
 
 const Card = ({
     role,
@@ -16,7 +19,7 @@ const Card = ({
     creditRefLength,
     partnershipLength,
 }) => {
-
+console.log('userrole ======>>>> ',role,userName)
     const { dispatch, store } = useAppContext();
     const [Istatus, setIStatus] = useState("");
     const [userid, setUserId] = useState("");
@@ -24,6 +27,25 @@ const Card = ({
     const [userhierarchy, setHierarchy] = useState("");
     const navigate = useNavigate();
 
+    const handlestatus = () => {
+        
+        // Any additional logic for handling status button click
+      };
+    
+  const isAdminOrPartnerView = store?.admin?.roles[0].permission.some(
+    (role) => role === "Partnership-View"
+  ) || [
+    "superAdmin",
+    "WhiteLabel",
+    "HyperAgent",
+    "SuperAgent",
+    "MasterAgent",
+  ].includes(store?.admin?.roles[0].role);
+
+
+  const takeMeToAccount = (userName) => {
+    navigate(`/account-landing/${userName}`);
+  };
     return (
         <tbody>
             <tr>
@@ -248,7 +270,7 @@ const Card = ({
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target={`#activeInactive-${userId}`}
-                        // onClick={handlestatus}
+                        onClick={handlestatus}
                         >
                             <i className="fa-thin fas fa-gear"></i>
                         </button>
@@ -271,7 +293,7 @@ const Card = ({
                                 }`}
                             title="Profile"
                             onClick={() => {
-                                // takeMeToAccount(userName);
+                                takeMeToAccount(userName);
                             }}
                         >
                             <i class="fa-solid fa-user"></i>
@@ -309,6 +331,15 @@ const Card = ({
                     </span>
                 </td>
             </tr>
+
+
+            <StatusModal
+        statusId={statusId}
+       name={userName}
+        userRole={role}
+        key={`activeInactive`}
+        
+      />
             
         </tbody>
     );

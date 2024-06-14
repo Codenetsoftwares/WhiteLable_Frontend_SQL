@@ -17,6 +17,8 @@ class UrlConstant {
   allSubAdmin = `${this.url_dev}/${this.view}-all-subAdmin-creates`;
   viewSubAdminPermission = `${this.url_dev}/${this.admin}/single-sub-admin`;
   editSubAdminPermission = `${this.url_dev}/${this.admin}/edit-subadmin-permissions`;
+  UserProfileView=`${this.url_dev}/User-Profile-view`;
+  allTransactionView=`${this.url_dev}/transaction-view`;
 }
 
 const urls = new UrlConstant();

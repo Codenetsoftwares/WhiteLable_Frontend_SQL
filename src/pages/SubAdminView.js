@@ -12,6 +12,7 @@ const SubAdminView = () => {
     const [subAdminData, setSubAdminData] = useState(getAllSubAdminCreateState())
 
     const { store, dispatch } = useAppContext()
+    console.log('(=====>> store line 15)',store)
 
     const handleChange = (name, value) => {
         setSubAdminData((prevData) => ({
