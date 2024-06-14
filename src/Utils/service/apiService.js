@@ -137,6 +137,12 @@ export async function getCreditRefLog(body = {}, isToast = false) {
       callParams,
       isToast
     );
+    return response;
+  }
+  catch (error) {
+    throw error;
+  }
+}
 
 export async function createSubAdmin(body = {}, isToast = false) {
   try {
@@ -168,6 +174,12 @@ export async function getHierarchy(body = {}, isToast = false) {
       callParams,
       isToast
     );
+     return response;
+  }
+  catch (error) {
+    throw error;
+  }
+}
 
 
 export async function getviewSubAdminPermission(body = {}, isToast = false) {

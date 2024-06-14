@@ -52,6 +52,10 @@ const ViewPartnershipAndCreditRefModal = (props) => {
     getPartnershipData();
   }, []);
 
+  const handelHi = () => {
+    console.log("viewCreditRefData", getCreditRefData());
+  };
+
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
@@ -143,6 +147,7 @@ const ViewPartnershipAndCreditRefModal = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={handelHi}>Hi</Button>
       </Modal.Footer>
     </Modal>
   );
