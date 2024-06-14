@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../Utils/Auth";
-import AccountServices from "../Services/AccountServices";
 import { useNavigate } from "react-router-dom";
 import { Prompt } from "react-router";
 import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import ShimmerEffect from "./ShimmerEffect";
+import { useAppContext } from "../contextApi/context";
 
 const HierarchyPageView = () => {
   const { userId } = useParams();
-  const auth = useAuth();
+  const {store} = useAppContext();
   const [hierarchydata, sethierarchyData] = useState([]);
-  const [modalPartnership, setModalPartnership] = useState([]);
-  const [modalcreditref, setModalcreditref] = useState([]);
   const [pathdata, setPathData] = useState([]);
-  const [showModalCreditRef, setShowModalCreditRef] = useState(false);
-  const [showModalPartnership, setShowModalPartnership] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,29 +26,9 @@ const HierarchyPageView = () => {
   const takeMeToAccount = (userName) => {
     navigate(`/account-landing/${userName}`);
   };
-  const handleCloseModalCreditRef = () => {
-    setShowModalCreditRef(false);
-  };
-  const handleCloseModalPartnership = () => setShowModalPartnership(false);
 
-  const handleShowModalCreditRef = (creditref) => {
-    setShowModalCreditRef(true);
-    setModalcreditref(creditref);
-  };
-  console.log("modalcreditref=>>", modalcreditref);
-
-  const handleShowModalPartnership = (partnership) => {
-    setShowModalPartnership(true);
-    setModalPartnership(partnership);
-  };
-  console.log("modalpartnership=>>", modalPartnership);
-
-  // const [pathname, setPathname] = useState([]);
   const navigate = useNavigate();
-  // const garbage = [];
   let action = "store";
-  // let currentPage = "store";
-
   let data = { page: currentPage, searchName: name };
 
   const ClearPath = () => {
@@ -471,117 +447,6 @@ const HierarchyPageView = () => {
           </div>
         </div>
       </div>
-      {/* Modal Partnership View */}
-      <Modal
-        show={showModalCreditRef}
-        onHide={handleCloseModalCreditRef}
-        centered
-      >
-        <Modal.Header closeButton>
-          {/* <Modal.Title>Modal 1 Title</Modal.Title> */}
-        </Modal.Header>
-        <Modal.Body>
-          {modalcreditref.length > 0 ? (
-            <table className="table lms_table_active3 table-bordered table-sm">
-              <thead>
-                <tr>
-                  <th>Sl. No.</th>
-                  <th>Date</th>
-                  <th>PartnerShip Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {modalcreditref.map((data, i) => {
-                  const originalDate = new Date(data?.date);
-                  const options = {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  };
-
-                  const formattedDate = originalDate.toLocaleDateString(
-                    "en-US",
-                    options
-                  );
-                  return (
-                    <tr key={data._id}>
-                      <td>{i + 1}</td>
-
-                      <td>{formattedDate}</td>
-                      <td>{data.value}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          ) : (
-            <h3 className="text-center">No Data Found</h3>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModalCreditRef}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleCloseModalCreditRef}>
-            Save changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Modal Credit Ref View */}
-      <Modal
-        show={showModalPartnership}
-        onHide={handleCloseModalPartnership}
-        centered
-      >
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>
-          {modalPartnership.length > 0 ? (
-            <table className="table lms_table_active3 table-bordered table-sm">
-              <thead>
-                <tr>
-                  <th>Sl. No.</th>
-                  <th>Date</th>
-                  <th>PartnerShip Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {modalPartnership.map((data, i) => {
-                  const originalDate = new Date(data?.date);
-                  const options = {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  };
-
-                  const formattedDate = originalDate.toLocaleDateString(
-                    "en-US",
-                    options
-                  );
-                  return (
-                    <tr key={data._id}>
-                      <td>{i + 1}</td>
-
-                      <td>{formattedDate}</td>
-                      <td>{data.value}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          ) : (
-            <h3 className="text-center">No Data Found</h3>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModalPartnership}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleCloseModalPartnership}>
-            Save changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };
