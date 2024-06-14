@@ -21,6 +21,16 @@ export function getAllCreateState(body = {}) {
   return { userList: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "",totalData:""  }
 }
 
+export function getCreditRefAndPartnership(body = {}) {
+  return {
+    data: [
+      {
+        date: "",
+        value: 0
+      }
+    ]
+  };
+
 export function getCreateSubAdmin(body = {}) {
   return {
     userName: "", password: "", roles: [{
@@ -36,4 +46,5 @@ export function getSubAdminPermissionData(body = {}) {
   return {
     userName: "", roles: []
   }
+
 }
