@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useAuth } from "../Utils/Auth";
+
 import { useNavigate } from "react-router-dom";
 import { Prompt } from "react-router";
 import { Modal, Button } from "react-bootstrap";
-import Pagination from "./Pagination";
-import ShimmerEffect from "./ShimmerEffect";
+
 import { useAppContext } from "../contextApi/context";
 import { getHierarchy } from "../Utils/service/apiService";
+import Card from "./common/Card";
 
 const HierarchyPageView = () => {
   const { userName } = useParams();
-  const {store} = useAppContext();
+  const { store } = useAppContext();
   const [hierarchydata, sethierarchyData] = useState([]);
   const [pathdata, setPathData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +22,6 @@ const HierarchyPageView = () => {
   const [totalData, setTotalData] = useState(0);
   const [totalEntries, setTotalEntries] = useState(5);
 
-
   // console.log('========>Hierechy',totalPages)
   const takeMeToAccount = (userName) => {
     navigate(`/account-landing/${userName}`);
@@ -32,39 +31,39 @@ const HierarchyPageView = () => {
   let action = "store";
   let data = { page: currentPage, searchName: name };
 
-   async function ClearPath() {
+  async function ClearPath() {
     const action = "clearAll";
+    const data = {
+      adminName: userName,
+      action: action,
+    };
 
-    const response = await getHierarchy(
-      {
-        adminName: userName,
-        action: action,
-      },
-    );
+    const response = await getHierarchy(data);
     if (response.successCode) {
       console.log(response);
-      navigate(`/welcome/${userName}`);
+      navigate(`/wallet`);
+    }
+  }
+
+  const fetchData = async () => {
+    const res = await getHierarchy({
+      adminName: userName,
+      action: action,
+    });
+    if (res) {
+      console.log("Response=>> HIERECHY", res.data);
+      sethierarchyData(res.data.userDetails.createdUsers);
+      setPathData(res.data.path);
+      setTotalPages(res.data.totalPages);
+      setIsLoading(true);
+      setTotalData(res.data.totalItems);
     }
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     console.log(auth);
-  //     try {
-  //       const res = await AccountServices.getHierarchy();
-  //       console.log("Response=>> HIERECHY", res.data);
-  //       sethierarchyData(res.data.userDetails.createdUsers);
-  //       setPathData(res.data.path);
-  //       setTotalPages(res.data.totalPages);
-  //       setIsLoading(true)
-  //       setTotalData(res.data.totalItems);
-  //     } catch (error) {
-  //       console.error("Error fetching hierarchy data:", error);
-  //       // Need to add additional error handling logic here, such as setting an error state.
-  //     }
-  //   };
-  //   fetchData();
-  // }, [userId, action, currentPage, name, auth.user, totalEntries]);
+  useEffect(() => {
+    fetchData();
+  }, [userName, action, currentPage, name, totalEntries]);
+
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
   let endIndex = Math.min(currentPage * totalEntries, totalData);
 
@@ -80,17 +79,15 @@ const HierarchyPageView = () => {
   // }, [userId, auth]);
 
   console.log("hierarchy data=>>>", hierarchydata);
-  // console.log("Path data=>>>", pathdata);
+  console.log("Path data=>>>", pathdata);
 
   const handlePageChange = (page) => {
     console.log("Changing to page:", page);
 
     setCurrentPage(page);
-    setIsLoading(false)
-
+    setIsLoading(false);
   };
 
-  
   return (
     <div class="main_content_iner overly_inner ">
       <div class="container-fluid p-0 ">
@@ -104,7 +101,7 @@ const HierarchyPageView = () => {
                 <ol class="breadcrumb page_bradcam mb-0">
                   <li class="breadcrumb-item">
                     <a href="#" onClick={ClearPath}>
-                      {auth.user.userName}
+                      {store.admin.adminName}
                     </a>
                   </li>
                   <li class="active">
@@ -112,7 +109,7 @@ const HierarchyPageView = () => {
                     {pathdata.map((data) => (
                       <Link
                         to={{
-                          pathname: `/hierarchypageview/${data}`,
+                          pathname: `/hierarchyView/${data}`,
                         }}
                       >
                         <a style={{ cursor: "pointer" }}>&nbsp;/&nbsp;{data}</a>
@@ -202,242 +199,32 @@ const HierarchyPageView = () => {
                           {/* <th scope="col">Action</th> */}
                         </tr>
                       </thead>
-                      <tbody>
-                        {isLoading ? (hierarchydata && hierarchydata.length > 0 ? (
-                          hierarchydata.map((user, index) => (
-                            <tr key={index} className="text-center">
-                              <th scope="row" className="">
-                                <Link
-                                  to={{
-                                    pathname: `/hierarchypageview/${user.userName}`,
-                                  }}
-                                >
-                                  <button
-                                    className="border border-1 w-75 text-center bg-success rounded-pill "
-                                    // data-bs-toggle="modal"
-                                    // data-bs-target={`#hierarchyview-${userId}`}
-                                    style={{ cursor: "auto" }}
-                                  >
-                                    {user.roles[0].role}
-                                  </button>
-
-                                  <p
-                                  // onClick={() => {
-                                  //   savePathName(user.userName);
-                                  // }}
-                                  >
-                                    <b title="Click to show next hierarchy">
-                                      {user.userName}
-                                    </b>
-                                  </p>
-                                </Link>
-                              </th>
-
-                              <td>
-                                <span className="align-middle">
-                                  {user.creditRef.length > 0 ? (
-                                    <span
-                                      onClick={() =>
-                                        handleShowModalCreditRef(user.creditRef)
-                                      }
-                                    >
-                                      {
-                                        user.creditRef[
-                                          user.creditRef.length - 1
-                                        ].value
-                                      }
-                                    </span>
-                                  ) : (
-                                    <span
-                                      onClick={() =>
-                                        handleShowModalCreditRef(user.creditRef)
-                                      }
-                                    >
-                                      0
-                                    </span>
-                                  )}
-                                  &nbsp;{" "}
-                                  <i
-                                    class="fa-regular fa-eye"
-                                    onClick={() =>
-                                      handleShowModalCreditRef(user.creditRef)
-                                    }
-                                  ></i>
-                                </span>
-                              </td>
-                              <td>
-                                <span className="align-middle">
-                                  {" "}
-                                  {user.partnership.length > 0 ? (
-                                    <span
-                                      onClick={() =>
-                                        handleShowModalPartnership(
-                                          user.partnership
-                                        )
-                                      }
-                                    >
-                                      {
-                                        user.partnership[
-                                          user.partnership.length - 1
-                                        ].value
-                                      }
-                                    </span>
-                                  ) : (
-                                    <span
-                                      onClick={() =>
-                                        handleShowModalPartnership(
-                                          user.partnership
-                                        )
-                                      }
-                                    >
-                                      0
-                                    </span>
-                                  )}
-                                  &nbsp;{" "}
-                                  <i
-                                    class="fa-regular fa-eye"
-                                    onClick={() =>
-                                      handleShowModalPartnership(
-                                        user.partnership
-                                      )
-                                    }
-                                  ></i>
-                                </span>
-                              </td>
-                              <td>{user.loadBalance}</td>
-                              <td>0</td>
-                              <td>{user.balance}</td>
-                              <td>{user.loadBalance - user.creditRef}</td>
-                              <td className="text-danger">
-                                <p className="border border-1 w-75 text-center bg-success rounded-pill">
-                                  {user.status}
-                                </p>
-                              </td>
-                              <td>
-                                <span className="mx-1">
-                                  <button
-                                    className={`btn border border-2 rounded ${auth.user.roles[0].permission.some(
-                                      (role) => role === "Partnership-Edit"
-                                    )
-                                      ? ""
-                                      : [
-                                        "superAdmin",
-                                        "WhiteLabel",
-                                        "HyperAgent",
-                                        "SuperAgent",
-                                        "MasterAgent",
-                                      ].includes(auth.user.roles[0].role)
-                                        ? ""
-                                        : "disabled"
-                                      }`}
-                                    title="Profile"
-                                    onClick={() => {
-                                      takeMeToAccount(user.userName);
-                                    }}
-                                  >
-                                    <i class="fa-solid fa-user"></i>
-                                  </button>
-                                </span>
-                                <span className="mx-1">
-                                  <button
-                                    className="btn border border-2 rounded"
-                                    title="Wallet"
-                                  >
-                                    <i class="fa-regular fas fa-wallet"></i>
-                                  </button>
-                                </span>
-                              </td>
-
-                              {/* Uncomment the following lines for action buttons */}
-                              {/* <td>
-                <div className="action_btns d-flex">
-                  <a href="#" className="action_btn mr_10">
-                    <i className="far fa-edit"></i>
-                  </a>
-                  <a href="#" className="action_btn">
-                    <i className="fas fa-trash"></i>
-                  </a>
-                </div>
-              </td> */}
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="9">
-                              <div
-                                class="alert text-dark bg-light"
-                                role="alert"
-                              >
-                                <div class="alert-text d-flex justify-content-center">
-                                  <b> &#128680; No Data Found !! </b>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        )) : (<ShimmerEffect />)}
-                        {/* <td>
-                            <div class="action_btns d-flex">
-                              <a href="#" class="action_btn mr_10">
-                                {" "}
-                                <i class="far fa-edit"></i>{" "}
-                              </a>
-                              <a href="#" class="action_btn">
-                                {" "}
-                                <i class="fas fa-trash"></i>{" "}
-                              </a>
-                            </div>
-                          </td> */}
-                      </tbody>
+                      {hierarchydata.map((data, i) => {
+                        // const creditRefLength = data.creditRef.length;
+                        // const partnershipLength = data.partnership.length;
+                        console.log("data", data);
+                        return (
+                          <Card
+                            userName={data.userName}
+                            role={data.roles[0].role}
+                            key={data.id}
+                            // creditRef={data.creditRef[creditRefLength - 1]?.value}
+                            balance={data.balance}
+                            loadBalance={data.loadBalance}
+                            refProfitLoss={data.refProfitLoss}
+                            adminId={data.adminId}
+                            // partnership={
+                            //     data.partnership[partnershipLength - 1]?.value
+                            // }
+                            Status={data.Status}
+                            // creditRefLength={creditRefLength}
+                            // partnershipLength={partnershipLength}
+                            callingParent="HierarchyPageView"
+                          />
+                        );
+                      })}
                     </table>
                   </div>
-                  {/* Pagination Start*/}
-                  {/* <div class="col-lg-12">
-                    <div class="white_box mb_30">
-                      <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-                          <li class="page-item disabled">
-                            <a
-                              class="page-link"
-                              href="#"
-                              tabindex="-1"
-                              aria-disabled="true"
-                            >
-                              Previous
-                            </a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">
-                              1
-                            </a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">
-                              2
-                            </a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">
-                              3
-                            </a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">
-                              Next
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
-                  </div> */}
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    handlePageChange={handlePageChange}
-
-                    startIndex={startIndex}
-                    endIndex={endIndex}
-                    totalData={totalData}
-                  />
                 </div>
               </div>
             </div>

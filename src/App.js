@@ -8,7 +8,7 @@ import Temp from "./screen/Temp";
 import AllAdminCreate from "./pages/AllAdminCreate";
 import Wallet from "./pages/Wallet";
 
-// import HierarchyPageView from "./components/HierarchyPageView";
+import HierarchyPageView from "./components/HierarchyPageView";
 
 import CreateSubAdmin from "./pages/CreateSubAdmin";
 import SubAdminView from "./pages/SubAdminView";
@@ -38,7 +38,7 @@ function App() {
             <Route path="/" element={<AdminLayout />}>
               <Route path="welcome" element={<Temp />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
-              {/* <Route path="hierarchyView/:userName" element={<HierarchyPageView/>} /> */}
+              <Route path="hierarchyView/:userName" element={<HierarchyPageView/>} />
               <Route path="wallet" element={<Wallet />} />
               <Route
                 path="CreateSubAdmin"
