@@ -7,7 +7,14 @@ import AdminLayout from "./layout/AdminLayout";
 import Temp from "./screen/Temp";
 import AllAdminCreate from "./pages/AllAdminCreate";
 import Wallet from "./pages/Wallet";
+
 // import HierarchyPageView from "./components/HierarchyPageView";
+
+import CreateSubAdmin from "./pages/CreateSubAdmin";
+import SubAdminView from "./pages/SubAdminView";
+import ViewSubAdminPermission from "./pages/ViewSubAdminPermission";
+
+
 
 function App() {
   return (
@@ -31,9 +38,22 @@ function App() {
             <Route path="/" element={<AdminLayout />}>
               <Route path="welcome" element={<Temp />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
-              <Route path="wallet" element={<Wallet/>} />
               {/* <Route path="hierarchyView/:userName" element={<HierarchyPageView/>} /> */}
+              <Route path="wallet" element={<Wallet />} />
+              <Route
+                path="CreateSubAdmin"
+                element={<CreateSubAdmin />}
+              />
+              <Route
+                path="ViewAllSubAdmin"
+                element={<SubAdminView />}
+              />
+              <Route
+                path="ViewSubAdminPermission/:id"
+                element={<ViewSubAdminPermission />}
+              />
             </Route>
+
           </Routes>
         </BrowserRouter>
       </AppProvider>
