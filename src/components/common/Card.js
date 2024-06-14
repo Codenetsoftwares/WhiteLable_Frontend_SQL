@@ -21,6 +21,7 @@ const Card = ({
   Status,
   creditRefLength,
   partnershipLength,
+  callingParent,
 }) => {
   const { dispatch, store } = useAppContext();
   const [Istatus, setIStatus] = useState("");
@@ -45,19 +46,21 @@ const Card = ({
     setViewModalShow(boolParam);
     setDifferentiate(differentiateParam);
   };
-
+  let action = "";
   async function takeMeToHierarchy(userName) {
-    const action = "clearAll";
+    if (callingParent === "HierarchyPageView") {
+      action = "store";
+    } else {
+      action = "clearAll";
+    }
 
-    const response = await getHierarchy(
-      {
-        adminName: userName,
-        action: action,
-      },
-    );
+    const response = await getHierarchy({
+      adminName: userName,
+      action: action,
+    });
     if (response.successCode) {
       console.log(response);
-      navigate(`/welcome/${userName}`);
+      navigate(`/hierarchyView/${userName}`);
     }
   }
 
@@ -68,8 +71,6 @@ const Card = ({
           <th scope="row" className="">
             <button
               className="border border-1 w-75 text-center bg-success rounded-pill "
-              // data-bs-toggle="modal"
-              // data-bs-target={`#hierarchyview-${userId}`}
               style={{ cursor: "auto" }}
             >
               {role}

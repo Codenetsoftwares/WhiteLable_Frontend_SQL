@@ -271,6 +271,7 @@ const Wallet = () => {
                         Status={data.Status}
                         // creditRefLength={creditRefLength}
                         // partnershipLength={partnershipLength}
+                        callingParent="Wallet"
                       />
                     );
                   })}
