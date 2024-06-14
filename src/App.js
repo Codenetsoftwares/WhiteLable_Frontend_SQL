@@ -7,7 +7,7 @@ import AdminLayout from "./layout/AdminLayout";
 import Temp from "./screen/Temp";
 import AllAdminCreate from "./pages/AllAdminCreate";
 import Wallet from "./pages/Wallet";
-import HierarchyPageView from "./components/HierarchyPageView";
+// import HierarchyPageView from "./components/HierarchyPageView";
 
 function App() {
   return (
@@ -29,10 +29,10 @@ function App() {
           <Routes>
             <Route index element={<Login />} />
             <Route path="/" element={<AdminLayout />}>
-              <Route path="welcome/:userName" element={<Temp />} />
+              <Route path="welcome" element={<Temp />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
               <Route path="wallet" element={<Wallet/>} />
-              <Route path="hierarchyView/:userName" element={<HierarchyPageView/>} />
+              {/* <Route path="hierarchyView/:userName" element={<HierarchyPageView/>} /> */}
             </Route>
           </Routes>
         </BrowserRouter>

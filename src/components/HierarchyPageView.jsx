@@ -7,9 +7,10 @@ import { Modal, Button } from "react-bootstrap";
 import Pagination from "./Pagination";
 import ShimmerEffect from "./ShimmerEffect";
 import { useAppContext } from "../contextApi/context";
+import { getHierarchy } from "../Utils/service/apiService";
 
 const HierarchyPageView = () => {
-  const { userId } = useParams();
+  const { userName } = useParams();
   const {store} = useAppContext();
   const [hierarchydata, sethierarchyData] = useState([]);
   const [pathdata, setPathData] = useState([]);
@@ -20,7 +21,7 @@ const HierarchyPageView = () => {
 
   const [totalData, setTotalData] = useState(0);
   const [totalEntries, setTotalEntries] = useState(5);
-  console.log("line 22", auth);
+
 
   // console.log('========>Hierechy',totalPages)
   const takeMeToAccount = (userName) => {
@@ -31,43 +32,39 @@ const HierarchyPageView = () => {
   let action = "store";
   let data = { page: currentPage, searchName: name };
 
-  const ClearPath = () => {
-    action = "clearAll";
-    AccountServices.getHierarchy(userId, action, auth.user, data )
-      .then((res) => {
-        if (res.status === 200) {
-          navigate(`/maintransaction`);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+   async function ClearPath() {
+    const action = "clearAll";
+
+    const response = await getHierarchy(
+      {
+        adminName: userName,
+        action: action,
+      },
+    );
+    if (response.successCode) {
+      console.log(response);
+      navigate(`/welcome/${userName}`);
+    }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log(auth);
-      try {
-        const res = await AccountServices.getHierarchy(
-          userId,
-          action,
-          auth.user,
-          data,
-          totalEntries
-        );
-        console.log("Response=>> HIERECHY", res.data);
-        sethierarchyData(res.data.userDetails.createdUsers);
-        setPathData(res.data.path);
-        setTotalPages(res.data.totalPages);
-        setIsLoading(true)
-        setTotalData(res.data.totalItems);
-      } catch (error) {
-        console.error("Error fetching hierarchy data:", error);
-        // Need to add additional error handling logic here, such as setting an error state.
-      }
-    };
-    fetchData();
-  }, [userId, action, currentPage, name, auth.user, totalEntries]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     console.log(auth);
+  //     try {
+  //       const res = await AccountServices.getHierarchy();
+  //       console.log("Response=>> HIERECHY", res.data);
+  //       sethierarchyData(res.data.userDetails.createdUsers);
+  //       setPathData(res.data.path);
+  //       setTotalPages(res.data.totalPages);
+  //       setIsLoading(true)
+  //       setTotalData(res.data.totalItems);
+  //     } catch (error) {
+  //       console.error("Error fetching hierarchy data:", error);
+  //       // Need to add additional error handling logic here, such as setting an error state.
+  //     }
+  //   };
+  //   fetchData();
+  // }, [userId, action, currentPage, name, auth.user, totalEntries]);
   let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
   let endIndex = Math.min(currentPage * totalEntries, totalData);
 
