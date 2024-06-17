@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 // import Pagination from "../Pagination";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Pagination from "../components/common/Pagination";
 // import ShimmerEffect from "../ShimmerEffect";
 
 const AccountStatement = ({
@@ -9,7 +10,7 @@ const AccountStatement = ({
   handlePageChange,
   currentPage,
   totalPages,
-  // handleGetStatement,    
+  handleGetStatement,    
   startDate,
   endDate,
   setEndDate,
@@ -127,13 +128,14 @@ const AccountStatement = ({
                       </tr>
                     </thead>
                     {props.map((transaction) => (
-                      <tr key={transaction._id}>
+                      <tr key={transaction.id}>
+                        
                         <th scope="row">
                           <a href="#" className="question_content">
                             {formatDate(transaction.date)}
                           </a>
                         </th>
-                        {transaction.transactionType === "Debit" ? (
+                        {transaction.transactionType === "debit" ? (
                           <>
                             <td></td>
                             <td className="text-danger">
@@ -148,12 +150,13 @@ const AccountStatement = ({
                         )}
 
                         <td>
-                          {transaction.transactionType === "Debit"
+                          {transaction.transactionType === "debit"
                             ? transaction.debitBalance
                             : transaction.balance}
                         </td>
                         <td>{transaction.remarks}</td>
-                        <td>{`${transaction.From} / ${transaction.To}`}</td>
+                        <td>{`${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount
+}`}</td>
                       </tr>
                     ))}
                   </table>
@@ -210,14 +213,14 @@ const AccountStatement = ({
                 </ul>
               </nav>
             </div> */}
-            {/* {props.length>0 &&  <Pagination
+            {props.length>0 &&  <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 handlePageChange={handlePageChange}
                 startIndex={startIndex}
                 endIndex={endIndex}
                 totalData={totalData}
-              /> } */}
+              /> }
              
          
 

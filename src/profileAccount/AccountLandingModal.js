@@ -8,7 +8,10 @@ import { useParams } from "react-router-dom";
 import AccountStatement from "./AccountStatement";
 import AccountProfile from "./AccountProfile";
 import { useAppContext } from "../contextApi/context";
-import { getAllTransactionView, getUserProfileView } from "../Utils/service/apiService";
+import {
+  getAllTransactionView,
+  getUserProfileView,
+} from "../Utils/service/apiService";
 
 const AccountLandingModal = () => {
   let componentToRender;
@@ -17,7 +20,7 @@ const AccountLandingModal = () => {
   const { store, dispatch } = useAppContext();
   console.log("====>>>> store line 17", store);
   const [statementView, setstatementView] = useState([]);
-  const [activityView, setActivityView] = useState([]);
+  const [activityView, setActivityView] = useState([]);// this api is yet to receive from backend
   const [profileView, setProfileView] = useState([]);
   const [toggle, settoggle] = useState(1);
   const [activeItem, setActiveItem] = useState("statement");
@@ -26,27 +29,11 @@ const AccountLandingModal = () => {
 
   const [endDate, setEndDate] = useState(new Date());
   const [totalData, setTotalData] = useState(0);
-  // const Id = userId.userId;
-// console.log(first)
+
   const defaultStartDate = new Date();
   defaultStartDate.setDate(defaultStartDate.getDate() - 7);
 
   const [startDate, setStartDate] = useState(defaultStartDate);
-  //   useEffect(() => {
-  //     MyAccountServices.getAccountStatement(
-  //       userId,
-  //       currentPage,
-  //       startDate,
-  //       endDate,
-  //       auth.user
-  //     )
-  //       .then((res) => {
-  //         setstatementView(res.data.allData);
-  //         setTotalPages(res.data.totalPages);
-  //         setTotalData(res.data.totalItems);
-  //       })
-  //       .catch((err) => {});
-  //   }, [userId, currentPage, startDate, endDate, auth]);
 
   useEffect(() => {
     getAll_userProfileStatement();
@@ -54,33 +41,28 @@ const AccountLandingModal = () => {
 
   async function getAll_userProfileStatement() {
     const response = await getUserProfileView({ userName: userName });
-    console.log('=======>>> response for user-profile-view',response)
-
+    console.log("=======>>> response for user-profile-view", response);
+    setProfileView(response.data);
   }
 
   useEffect(() => {
-    getAll_transactionView()
-  }, [userName]);
+    getAll_transactionView();
+  }, [userName, currentPage, startDate, endDate]);
 
-  async function getAll_transactionView(){
-const response = await getAllTransactionView({ userName: userName,pageNumber:currentPage ,fromDate:startDate,toDate:endDate  });
-console.log('response for transaction view line 67',response)
-
+  async function getAll_transactionView() {
+    const response = await getAllTransactionView({
+      userName: userName,
+      pageNumber: currentPage,
+      fromDate: startDate,
+      toDate: endDate,
+    });
+    console.log("response for transaction view line 67", response);
+    setstatementView(response.data);
+    setTotalPages(response.data.totalPages);
+    setTotalData(response.data.totalItems);
   }
   console.log("Line number 42=======>", startDate, endDate);
-  //   useEffect(() => {
-  //     MyAccountServices.getActivityLog(userId, auth.user)
-  //       .then((res) => setActivityView(res.data))
-  //       .catch((err) => {});
-  //   }, [userId, auth]);
 
-  //   useEffect(() => {
-  //     MyAccountServices.getProfile(userId, auth.user)
-  //       .then((res) => setProfileView(res.data))
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }, [userId, auth]);
   let startIndex = Math.min((currentPage - 1) * 5 + 1);
   let endIndex = Math.min(currentPage * 5, totalData);
   const handlePageChange = (page) => {
@@ -89,12 +71,12 @@ console.log('response for transaction view line 67',response)
     setCurrentPage(page);
   };
 
-  // const handleGetStatement = (startDate, endDate) => {
-  //   setStartDate(startDate);
-  //   console.log("From Date:", startDate);
-  //   setEndDate(endDate);
-  //   console.log("To Date:", endDate);
-  // };
+  const handleGetStatement = (startDate, endDate) => {
+    setStartDate(startDate);
+    console.log("From Date:", startDate);
+    setEndDate(endDate);
+    console.log("To Date:", endDate);
+  };
 
   const handelStatement = () => {
     settoggle(1);
@@ -113,7 +95,7 @@ console.log('response for transaction view line 67',response)
     componentToRender = (
       <AccountStatement
         props={statementView}
-        // handleGetStatement={handleGetStatement}
+        handleGetStatement={handleGetStatement}
         handlePageChange={handlePageChange}
         currentPage={currentPage}
         totalPages={totalPages}
