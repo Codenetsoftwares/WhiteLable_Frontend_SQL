@@ -76,3 +76,23 @@ export async function viewTrash_api(body = {}, isToast = false) {
     throw error;
   }
 }
+
+export async function deleteTrash_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.DELETE, body, isToast);
+    const response = await makeCall(`${UrlConstant.deleteTrash}/${body.trashId}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function restoreTrash_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(UrlConstant.restoreTrash, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

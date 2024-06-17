@@ -17,6 +17,8 @@ class UrlConstant {
   AccountStatement= `${this.url_dev}/${this.admin}/account-statement`;
   moveToTrash= `${this.url_dev}/${this.admin}/move-to-trash-user`;
   viewTrash= `${this.url_dev}/${this.admin}/view-trash`;
+  deleteTrash= `${this.url_dev}/delete/admin-user`;
+  restoreTrash=`${this.url_dev}/${this.admin}/restore-to-wallet-use`;
 }
 
 const urls = new UrlConstant();
