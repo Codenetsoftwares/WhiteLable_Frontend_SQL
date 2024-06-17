@@ -68,3 +68,13 @@ export function getSubAdminPermissionData(body = {}) {
     roles: [],
   };
 }
+
+export function getHierarchyState(body = {}) {
+  return {
+    path: [],
+    userDetails: {},
+    currentPage: 0,
+    totalPages: 0,
+    totalEntries: 5,
+  };
+}

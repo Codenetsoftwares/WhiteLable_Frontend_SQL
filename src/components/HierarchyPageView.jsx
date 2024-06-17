@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-
 import { useNavigate } from "react-router-dom";
 import { Prompt } from "react-router";
 import { Modal, Button } from "react-bootstrap";
-
 import { useAppContext } from "../contextApi/context";
 import { getHierarchy } from "../Utils/service/apiService";
 import Card from "./common/Card";
+import { getHierarchyState } from "../Utils/service/initiateState";
+import Pagination from "./common/Pagination";
 
 const HierarchyPageView = () => {
   const { userName } = useParams();
   const { store } = useAppContext();
-  const [hierarchydata, sethierarchyData] = useState([]);
-  const [pathdata, setPathData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState();
+  const [hierarchyData, setHierarchyData] = useState([]);
+  const [pathData, setPathData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-
+  const [demoData, setDemoData] = useState(getHierarchyState);
   const [totalData, setTotalData] = useState(0);
   const [totalEntries, setTotalEntries] = useState(5);
+  const [paginationData, setPaginationData] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalData: 0,
+    totalEntries: 5,
+  });
 
   // console.log('========>Hierechy',totalPages)
   const takeMeToAccount = (userName) => {
@@ -29,7 +33,7 @@ const HierarchyPageView = () => {
 
   const navigate = useNavigate();
   let action = "store";
-  let data = { page: currentPage, searchName: name };
+  let data = { page: paginationData.currentPage, searchName: name };
 
   async function ClearPath() {
     const action = "clearAll";
@@ -49,28 +53,46 @@ const HierarchyPageView = () => {
     const res = await getHierarchy({
       adminName: userName,
       action: action,
+      totalEntries: paginationData.totalEntries,
+      searchName: name,
+      pageNumber: paginationData.currentPage,
     });
     if (res) {
       console.log("Response=>> HIERECHY", res.data);
-      sethierarchyData(res.data.userDetails.createdUsers);
+      setHierarchyData(res.data.userDetails.createdUsers);
       setPathData(res.data.path);
-      setTotalPages(res.data.totalPages);
       setIsLoading(true);
-      setTotalData(res.data.totalItems);
+      setPaginationData({
+        ...paginationData,
+        currentPage: res.data.page,
+        totalPages: res.data.totalPages,
+        totalData: res.data.totalRecords,
+      });
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, [userName, action, currentPage, name, totalEntries]);
+  }, [
+    userName,
+    action,
+    paginationData.totalEntries,
+    name,
+    paginationData.currentPage,
+  ]);
 
-  let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
-  let endIndex = Math.min(currentPage * totalEntries, totalData);
+  let startIndex = Math.min(
+    (paginationData.currentPage - 1) * paginationData.totalEntries + 1
+  );
+  let endIndex = Math.min(
+    paginationData.currentPage * paginationData.totalEntries,
+    paginationData.totalData
+  );
 
   // useEffect(() => {
   //   AccountServices.getHierarchy(userId, auth.user)
   //     .then((res) => {
-  //       sethierarchyData(res.data.userDetails.createdUsers);
+  //       setHierarchyData(res.data.userDetails.createdUsers);
   //       setPathData(res.data.path);
   //     })
   //     .catch((err) => {
@@ -78,13 +100,16 @@ const HierarchyPageView = () => {
   //     });
   // }, [userId, auth]);
 
-  console.log("hierarchy data=>>>", hierarchydata);
-  console.log("Path data=>>>", pathdata);
+  console.log("hierarchy data=>>>", hierarchyData);
+  console.log("Path data=>>>", pathData);
+  console.log("demoData", demoData);
 
   const handlePageChange = (page) => {
     console.log("Changing to page:", page);
-
-    setCurrentPage(page);
+    setPaginationData({
+      ...paginationData,
+      currentPage: page,
+    });
     setIsLoading(false);
   };
 
@@ -106,7 +131,7 @@ const HierarchyPageView = () => {
                   </li>
                   <li class="active">
                     {" "}
-                    {pathdata.map((data) => (
+                    {pathData.map((data) => (
                       <Link
                         to={{
                           pathname: `/hierarchyView/${data}`,
@@ -138,7 +163,12 @@ const HierarchyPageView = () => {
                       <select
                         class="form-select form-select-sm w-25"
                         aria-label=".form-select-sm example"
-                        onChange={(e) => setTotalEntries(e.target.value)}
+                        onChange={(e) =>
+                          setPaginationData({
+                            ...paginationData,
+                            totalEntries: Number(e.target.value),
+                          })
+                        }
                       >
                         <option selected value="5">
                           Show 5 entries
@@ -183,47 +213,66 @@ const HierarchyPageView = () => {
                   </div>
 
                   <div class="QA_table mb_30">
-                    <table class="table lms_table_active table-bordered">
-                      <thead>
-                        <tr className="text-bolder fs-6 text-center">
-                          <th scope="col">Username</th>
-                          <th scope="col">Credit ref</th>
-                          <th scope="col">Partnership</th>
-                          <th scope="col">Balance</th>
-                          <th scope="col">Exposure</th>
-                          <th scope="col">Avail. Bal.</th>
-                          <th scope="col">Ref. P/L</th>
-                          <th scope="col">Status</th>
-                          <th>Actions</th>
+                    {hierarchyData?.length > 0 ? (
+                      <>
+                        {" "}
+                        <table class="table lms_table_active table-bordered">
+                          <thead>
+                            <tr className="text-bolder fs-6 text-center">
+                              <th scope="col">Username</th>
+                              <th scope="col">Credit ref</th>
+                              <th scope="col">Partnership</th>
+                              <th scope="col">Balance</th>
+                              <th scope="col">Exposure</th>
+                              <th scope="col">Avail. Bal.</th>
+                              <th scope="col">Ref. P/L</th>
+                              <th scope="col">Status</th>
+                              <th>Actions</th>
 
-                          {/* <th scope="col">Action</th> */}
-                        </tr>
-                      </thead>
-                      {hierarchydata.map((data, i) => {
-                        // const creditRefLength = data.creditRef.length;
-                        // const partnershipLength = data.partnership.length;
-                        console.log("data", data);
-                        return (
-                          <Card
-                            userName={data.userName}
-                            role={data.roles[0].role}
-                            key={data.id}
-                            // creditRef={data.creditRef[creditRefLength - 1]?.value}
-                            balance={data.balance}
-                            loadBalance={data.loadBalance}
-                            refProfitLoss={data.refProfitLoss}
-                            adminId={data.adminId}
-                            // partnership={
-                            //     data.partnership[partnershipLength - 1]?.value
-                            // }
-                            Status={data.Status}
-                            // creditRefLength={creditRefLength}
-                            // partnershipLength={partnershipLength}
-                            callingParent="HierarchyPageView"
-                          />
-                        );
-                      })}
-                    </table>
+                              {/* <th scope="col">Action</th> */}
+                            </tr>
+                          </thead>
+                          {hierarchyData.map((data, i) => {
+                            // const creditRefLength = data.creditRef.length;
+                            // const partnershipLength = data.partnership.length;
+                            console.log("data", data);
+                            return (
+                              <Card
+                                userName={data.userName}
+                                role={data.roles[0].role}
+                                key={data.id}
+                                // creditRef={data.creditRef[creditRefLength - 1]?.value}
+                                balance={data.balance}
+                                loadBalance={data.loadBalance}
+                                refProfitLoss={data.refProfitLoss}
+                                adminId={data.id}
+                                // partnership={
+                                //     data.partnership[partnershipLength - 1]?.value
+                                // }
+                                Status={data.Status}
+                                // creditRefLength={creditRefLength}
+                                // partnershipLength={partnershipLength}
+                                callingParent="HierarchyPageView"
+                              />
+                            );
+                          })}
+                        </table>
+                        <Pagination
+                          currentPage={paginationData.currentPage}
+                          totalPages={paginationData.totalPages}
+                          handlePageChange={handlePageChange}
+                          startIndex={startIndex}
+                          endIndex={endIndex}
+                          totalData={paginationData.totalData}
+                        />
+                      </>
+                    ) : (
+                      <div className="alert text-dark bg-light" role="alert">
+                        <div className="alert-text d-flex justify-content-center">
+                          <b> &#128680; No Data Found !! </b>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
