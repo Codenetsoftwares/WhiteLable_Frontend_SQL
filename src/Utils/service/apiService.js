@@ -47,7 +47,7 @@ export async function getAllCreate(body = {}, isToast = false) {
 export async function getAccountStatement_api(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
-    const response = await makeCall(`${UrlConstant.AccountStatement}/${body._id}`, callParams, isToast);
+    const response = await makeCall(`${UrlConstant.AccountStatement}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}`, callParams, isToast);
     return response;
   } catch (error) {
     throw error;
