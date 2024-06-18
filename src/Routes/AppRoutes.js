@@ -7,6 +7,8 @@ import Login from '../Pages/Accounts/Login/Login';
 import Temp from '../screen/Temp';
 import AdminLayout from '../Layout/AdminLayout';
 
+
+
 const AppRoutes = () => {
   const userrole = sessionStorage.getItem('role') || '';
 
@@ -20,7 +22,7 @@ const AppRoutes = () => {
           path="/"
           element={
             <RequireAuth>
-              <AdminLayout />
+              <AdminLayout/>
             </RequireAuth>
           }
         >
