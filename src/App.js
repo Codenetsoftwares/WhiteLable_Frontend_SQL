@@ -13,6 +13,8 @@ import ViewSubAdminPermission from "./pages/ViewSubAdminPermission";
 import HierarchyPageView from './components/HierarchyPageView';
 import AccountLandingModal from "./profileAccount/AccountLandingModal";
 
+import AdminAccountStatement from "./pages/AdminAccountStatement";
+import AgentDelete from "./pages/AgentDelete";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
             <Route path="/" element={<AdminLayout />}>
               <Route path="welcome" element={<Temp />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
+              <Route path="/adminaccountstatement" element={<AdminAccountStatement/>} />
+              <Route path="/agentDelete" element={<AgentDelete/>} />
               <Route path="hierarchyView/:userName" element={<HierarchyPageView />} />
               <Route path="/account-landing/:userName" element={<AccountLandingModal />} />
               <Route path="wallet" element={<Wallet />} />

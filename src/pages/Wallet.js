@@ -244,6 +244,7 @@ const Wallet = () => {
                         loadBalance={data.loadBalance}
                         refProfitLoss={data.refProfitLoss}
                         adminId={data.adminId}
+                        userId={data.adminId} // pending for decision TOM
                         // partnership={
                         //     data.partnership[partnershipLength - 1]?.value
                         // }

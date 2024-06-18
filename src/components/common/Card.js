@@ -5,8 +5,7 @@ import CustomTransactionModal from '../../modal/customTransactionModal';
 import ViewPartnershipAndCreditRefModal from '../../modal/viewPartnershipAndCreditRefModal';
 import { getHierarchy, getPartnershipLog } from '../../Utils/service/apiService';
 import StatusModal from "../../modal/StatusModal";
-
-
+import { moveToTrash_api } from "../../Utils/service/apiService";
 
 const Card = ({
   role,
@@ -44,6 +43,22 @@ const Card = ({
     setTransactionModalShow(boolParam);
     setDifferentiate(differentiateParam);
   };
+
+  async function handleDelete() {
+    console.log('======>>>> onclick the id', userId)
+    const userConfirmed = window.confirm(
+      "Balance should be 0 to move the Admin User to trash"
+    );
+    const response = await moveToTrash_api({ requestId: userId });
+    if (userConfirmed) {
+      console.log("Im here in line 94");
+      if (response.status === 201) {
+
+        alert("Agent Deleted approval sent!");
+        // window.location.reload();
+      }
+    }
+  }
 
   const handelOpenViewModal = (boolParam, differentiateParam) => {
     setViewModalShow(boolParam);
@@ -221,96 +236,111 @@ const Card = ({
             {balance}
           </td>
           <td scope="row" className="fs-6 text-center text-danger">
-            {isNaN(loadBalance - creditRef) ? 0 : loadBalance - creditRef}
+            {isNaN(loadBalance - creditRef) ? 0 : (loadBalance - creditRef)}
           </td>
           <td scope="row" className="fs-6 text-center">
-            <p className="border border-1 w-75 text-center bg-success rounded-pill">{Status}</p>
+            <p className="border border-1 w-75 text-center bg-success rounded-pill">
+              {Status}
+            </p>
           </td>
           <td scope="row" className="fs-6 text-center">
-            {callingParent === 'Wallet' ? (
-              <>
-                {' '}
-                <span className="mx-1" onClick={() => handelOpenTransactionModal(true, 'walletAmountProvider')}>
-                  <button
-                    className={`btn border border-2 rounded ${['Suspended'].includes(store?.admin?.Status)
-                      ? 'disabled'
-                      : store?.admin?.roles[0].permission.some((role) => role === 'TransferBalance')
-                        ? ''
-                        : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
-                          store?.admin?.roles[0].role,
-                        )
-                          ? ''
-                          : 'disabled'
-                      }`}
-                    title="Addmoney"
-                  >
-                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
-                  </button>
-                </span>
-                <span className="mx-1">
-                  <button
-                    className={`btn border border-2 rounded ${['Suspended'].includes(store?.admin?.Status)
-                      ? 'disabled'
-                      : store?.admin?.roles[0].permission.some((role) => role === 'Status')
-                        ? ''
-                        : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
-                          store?.admin?.roles[0].role,
-                        )
-                          ? ''
-                          : 'disabled'
-                      }`}
-                    title="Setting"
-                    type="button"
-
-                    onClick={handleStatus}
-                  >
-                    <i className="fa-thin fas fa-gear"></i>
-                  </button>
-                </span>
-              </>
-            ) : null}
-
             <span className="mx-1">
               <button
-                className={`btn border border-2 rounded ${store?.admin?.roles[0].permission.some((role) => role === 'Profile-View')
-                  ? ''
-                  : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
-                    store?.admin?.roles[0].role,
+                data-bs-toggle="modal"
+                data-bs-target={`#transferbalance-${userId}`}
+                className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
+                  ? "disabled" : store?.admin?.roles[0].permission.some(
+                    (role) => role === "TransferBalance"
                   )
-                    ? ''
-                    : 'disabled'
+                    ? ""
+                    : [
+                      "superAdmin",
+                      "WhiteLabel",
+                      "HyperAgent",
+                      "SuperAgent",
+                      "MasterAgent",
+                    ].includes(store?.admin?.roles[0].role)
+                      ? ""
+                      : "disabled"
+                  }`}
+                title="Addmoney"
+              >
+                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+              </button>
+            </span>
+            <span className="mx-1">
+              <button
+                className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
+                  ? "disabled" : store?.admin?.roles[0].permission.some((role) => role === "Status")
+                    ? ""
+                    : [
+                      "superAdmin",
+                      "WhiteLabel",
+                      "HyperAgent",
+                      "SuperAgent",
+                      "MasterAgent",
+                    ].includes(store?.admin?.roles[0].role)
+                      ? ""
+                      : "disabled"
+                  }`}
+                title="Setting"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target={`#activeInactive-${userId}`}
+              // onClick={handlestatus}
+              >
+                <i className="fa-thin fas fa-gear"></i>
+              </button>
+            </span>
+            <span className="mx-1">
+              <button
+                className={`btn border border-2 rounded ${store?.admin?.roles[0].permission.some(
+                  (role) => role === "Profile-View"
+                )
+                  ? ""
+                  : [
+                    "superAdmin",
+                    "WhiteLabel",
+                    "HyperAgent",
+                    "SuperAgent",
+                    "MasterAgent",
+                  ].includes(store?.admin?.roles[0].role)
+                    ? ""
+                    : "disabled"
                   }`}
                 title="Profile"
                 onClick={() => {
-                  takeMeToAccount(userName);
+                  // takeMeToAccount(userName);
                 }}
               >
                 <i class="fa-solid fa-user"></i>
               </button>
             </span>
-            {callingParent === 'Wallet' ? (
-              <span className="mx-1">
-                <button
-                  className={`btn border border-2 rounded ${['Suspended'].includes(store?.admin?.Status)
-                    ? 'disabled'
-                    : store?.admin?.roles[0].permission.some((role) => role === 'Delete-Admin')
-                      ? ''
-                      : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
-                        store?.admin?.roles[0].role,
-                      )
-                        ? ''
-                        : 'disabled'
-                    }`}
-                  title="Delete"
-                  onClick={(e) => {
-                    // handeldelete(userId);
-                  }}
-                >
-                  <i class="fa-light fas fa-trash"></i>
-                </button>
-              </span>
-            ) : null}
-
+            <span className="mx-1">
+              <button
+                className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
+                  ? "disabled" : store?.admin?.roles[0].permission.some(
+                    (role) => role === "Delete-Admin"
+                  )
+                    ? ""
+                    : [
+                      "superAdmin",
+                      "WhiteLabel",
+                      "HyperAgent",
+                      "SuperAgent",
+                      "MasterAgent",
+                    ].includes(store?.admin?.roles[0].role)
+                      ? ""
+                      : "disabled"
+                  }`}
+                title="Delete"
+                onClick={(e) => {
+                  handeldelete();
+                }}
+              >
+                <i class="fa-light fas fa-trash"></i>
+              </button>
+            </span>
             <span className="mx-1">
               <button className="btn border border-2 rounded" title="Wallet">
                 <i class="fa-regular fas fa-wallet"></i>
@@ -318,37 +348,9 @@ const Card = ({
             </span>
           </td>
         </tr>
-        <StatusModal
-          statusId={statusId}
-          name={userName}
-          userRole={role}
-          key={`activeInactive`}
 
-        />
       </tbody>
-
-      {/* Modal component */}
-      <CustomTransactionModal
-        show={transactionModalShow}
-        onHide={() => setTransactionModalShow(false)}
-        message="Hi this is msg"
-        differentiate={differentiate}
-        adminId={adminId}
-        adminName={userName}
-        role={role}
-        setRefresh={setRefresh}
-      />
-      <ViewPartnershipAndCreditRefModal
-        show={viewModalShow}
-        onHide={() => setViewModalShow(false)}
-        message="Hi this is msg"
-        differentiate={differentiate}
-        adminId={adminId}
-        adminName={userName}
-        role={role}
-      />
-    </React.Fragment >
-  );
+      );
 };
 
-export default Card;
+      export default Card;

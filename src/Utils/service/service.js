@@ -47,6 +47,8 @@ export const getAuthCallParams = async (methodType, body) => {
       return { ...params, body: JSON.stringify(body) };
     case 'PUT':
       return { ...params, body: JSON.stringify(body) };
+      case 'DELETE':
+        return { ...params, body: JSON.stringify(body) };
 
     default:
       return false;
@@ -56,6 +58,7 @@ export const getAuthCallParams = async (methodType, body) => {
 export async function makeCall(callName, callParams, isToast) {
   try {
     let call = await fetch(callName, callParams);
+    
     let timeout = getTimeoutPromise();
 
     const response = await Promise.race([timeout, call]).catch((err) => {
