@@ -290,63 +290,68 @@ const Card = ({
             </p>
           </td>
           <td scope="row" className="fs-6 text-center">
-            <span
-              className="mx-1"
-              onClick={() =>
-                handelOpenTransactionModal(true, "walletAmountProvider")
-              }
-            >
-              <button
-                className={`btn border border-2 rounded ${
-                  ["Suspended"].includes(store?.admin?.Status)
-                    ? "disabled"
-                    : store?.admin?.roles[0].permission.some(
-                        (role) => role === "TransferBalance"
-                      )
-                    ? ""
-                    : [
-                        "superAdmin",
-                        "WhiteLabel",
-                        "HyperAgent",
-                        "SuperAgent",
-                        "MasterAgent",
-                      ].includes(store?.admin?.roles[0].role)
-                    ? ""
-                    : "disabled"
-                }`}
-                title="Addmoney"
-              >
-                <i class="fa-solid fa-circle-dollar-to-slot"></i>
-              </button>
-            </span>
-            <span className="mx-1">
-              <button
-                className={`btn border border-2 rounded ${
-                  ["Suspended"].includes(store?.admin?.Status)
-                    ? "disabled"
-                    : store?.admin?.roles[0].permission.some(
-                        (role) => role === "Status"
-                      )
-                    ? ""
-                    : [
-                        "superAdmin",
-                        "WhiteLabel",
-                        "HyperAgent",
-                        "SuperAgent",
-                        "MasterAgent",
-                      ].includes(store?.admin?.roles[0].role)
-                    ? ""
-                    : "disabled"
-                }`}
-                title="Setting"
-                type="button"
-                // data-bs-toggle="modal"
-                // data-bs-target={`#activeInactive-${adminId}`}
-                // onClick={handleStatus}
-              >
-                <i className="fa-thin fas fa-gear"></i>
-              </button>
-            </span>
+            {callingParent === "Wallet" ? (
+              <>
+                {" "}
+                <span
+                  className="mx-1"
+                  onClick={() =>
+                    handelOpenTransactionModal(true, "walletAmountProvider")
+                  }
+                >
+                  <button
+                    className={`btn border border-2 rounded ${
+                      ["Suspended"].includes(store?.admin?.Status)
+                        ? "disabled"
+                        : store?.admin?.roles[0].permission.some(
+                            (role) => role === "TransferBalance"
+                          )
+                        ? ""
+                        : [
+                            "superAdmin",
+                            "WhiteLabel",
+                            "HyperAgent",
+                            "SuperAgent",
+                            "MasterAgent",
+                          ].includes(store?.admin?.roles[0].role)
+                        ? ""
+                        : "disabled"
+                    }`}
+                    title="Addmoney"
+                  >
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                  </button>
+                </span>
+                <span className="mx-1">
+                  <button
+                    className={`btn border border-2 rounded ${
+                      ["Suspended"].includes(store?.admin?.Status)
+                        ? "disabled"
+                        : store?.admin?.roles[0].permission.some(
+                            (role) => role === "Status"
+                          )
+                        ? ""
+                        : [
+                            "superAdmin",
+                            "WhiteLabel",
+                            "HyperAgent",
+                            "SuperAgent",
+                            "MasterAgent",
+                          ].includes(store?.admin?.roles[0].role)
+                        ? ""
+                        : "disabled"
+                    }`}
+                    title="Setting"
+                    type="button"
+
+                    // onClick={handlestatus}
+                  >
+                    <i className="fa-thin fas fa-gear"></i>
+                  </button>
+                </span>
+              </>
+            ) : null}
+
             <span className="mx-1">
               <button
                 className={`btn border border-2 rounded ${
@@ -372,33 +377,36 @@ const Card = ({
                 <i class="fa-solid fa-user"></i>
               </button>
             </span>
-            <span className="mx-1">
-              <button
-                className={`btn border border-2 rounded ${
-                  ["Suspended"].includes(store?.admin?.Status)
-                    ? "disabled"
-                    : store?.admin?.roles[0].permission.some(
-                        (role) => role === "Delete-Admin"
-                      )
-                    ? ""
-                    : [
-                        "superAdmin",
-                        "WhiteLabel",
-                        "HyperAgent",
-                        "SuperAgent",
-                        "MasterAgent",
-                      ].includes(store?.admin?.roles[0].role)
-                    ? ""
-                    : "disabled"
-                }`}
-                title="Delete"
-                onClick={(e) => {
-                  handleDelete();
-                }}
-              >
-                <i class="fa-light fas fa-trash"></i>
-              </button>
-            </span>
+            {callingParent === "Wallet" ? (
+              <span className="mx-1">
+                <button
+                  className={`btn border border-2 rounded ${
+                    ["Suspended"].includes(store?.admin?.Status)
+                      ? "disabled"
+                      : store?.admin?.roles[0].permission.some(
+                          (role) => role === "Delete-Admin"
+                        )
+                      ? ""
+                      : [
+                          "superAdmin",
+                          "WhiteLabel",
+                          "HyperAgent",
+                          "SuperAgent",
+                          "MasterAgent",
+                        ].includes(store?.admin?.roles[0].role)
+                      ? ""
+                      : "disabled"
+                  }`}
+                  title="Delete"
+                  onClick={(e) => {
+                    handleDelete();
+                  }}
+                >
+                  <i class="fa-light fas fa-trash"></i>
+                </button>
+              </span>
+            ) : null}
+
             <span className="mx-1">
               <button className="btn border border-2 rounded" title="Wallet">
                 <i class="fa-regular fas fa-wallet"></i>
