@@ -114,7 +114,6 @@ const AccountLandingModal = () => {
     componentToRender = (
       <AccountProfile
         props={profileView}
-
         // UserName={userId}
       />
     );
