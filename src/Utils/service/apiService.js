@@ -259,3 +259,18 @@ export async function restoreTrash_api(body = {}, isToast = false) {
     throw error;
   }
 }
+
+
+export async function getActivityLog_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.activityLog}/${body.userName}`,
+      callParams,
+      isToast,
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Layout from './Layout';
-import { useAppContext } from '../contextApi/context';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Layout from "./Layout";
+import { useAppContext } from "../contextApi/context";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import strings from '../Utils/constant/stringConstant';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import strings from "../Utils/constant/stringConstant";
 
 const NavTop = () => {
   const navigate = useNavigate();
   const { store, dispatch } = useAppContext();
-  console.log('store=>>>', store);
+  console.log("store=>>>", store);
 
   useEffect(() => {
     let logoutPerformed = false;
@@ -19,8 +19,8 @@ const NavTop = () => {
       if (!logoutPerformed && error.response && error.response.status === 423) {
         logoutPerformed = true;
         store.logout();
-        toast.error('User Account Is Locked');
-        navigate('/');
+        toast.error("User Account Is Locked");
+        navigate("/");
       }
     };
 
@@ -29,7 +29,7 @@ const NavTop = () => {
       (error) => {
         handleUnauthorized(error);
         return Promise.reject(error);
-      },
+      }
     );
 
     return () => {
@@ -42,8 +42,8 @@ const NavTop = () => {
       type: strings.LOG_OUT,
       payload: { isLogin: false },
     });
-    navigate('/home');
-    toast.info('Logout successfully');
+    navigate("/");
+    toast.info("Logout successfully");
   };
 
   return (
@@ -67,7 +67,7 @@ const NavTop = () => {
                       <h5>{store.admin.adminName}</h5>
                     </div>
                     <div className="profile_info_details">
-                      <a style={{ cursor: 'pointer' }} onClick={handleLogout}>
+                      <a style={{ cursor: "pointer" }} onClick={handleLogout}>
                         <b className="text-danger">Logout</b>
                       </a>
                     </div>
