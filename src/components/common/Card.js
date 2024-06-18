@@ -9,6 +9,7 @@ import {
 } from "../../Utils/service/apiService";
 import StatusModal from "../../modal/StatusModal";
 import { moveToTrash_api } from "../../Utils/service/apiService";
+import Button from 'react-bootstrap/Button';
 
 const Card = ({
   role,
@@ -37,6 +38,7 @@ const Card = ({
   const [transactionModalShow, setTransactionModalShow] = useState(false);
   const [viewModalShow, setViewModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState("");
+  const [showModal, setShowModal] = useState(false);
   console.log("userId", adminId);
   console.log("name&role", userName, role);
 
@@ -45,6 +47,15 @@ const Card = ({
   const handelOpenTransactionModal = (boolParam, differentiateParam) => {
     setTransactionModalShow(boolParam);
     setDifferentiate(differentiateParam);
+  };
+
+
+  const handleClose = () => setShowModal(false);
+  const handleStatusModalShow = () => setShowModal(true);
+
+  const handleStatusChange = (status) => {
+    console.log('Status changed to:', status);
+    // Additional logic for handling status change
   };
 
   async function handleDelete() {
@@ -323,31 +334,30 @@ const Card = ({
                   </button>
                 </span>
                 <span className="mx-1">
-                  <button
-                    className={`btn border border-2 rounded ${
-                      ["Suspended"].includes(store?.admin?.Status)
-                        ? "disabled"
-                        : store?.admin?.roles[0].permission.some(
-                            (role) => role === "Status"
-                          )
-                        ? ""
-                        : [
-                            "superAdmin",
-                            "WhiteLabel",
-                            "HyperAgent",
-                            "SuperAgent",
-                            "MasterAgent",
-                          ].includes(store?.admin?.roles[0].role)
-                        ? ""
-                        : "disabled"
-                    }`}
-                    title="Setting"
-                    type="button"
-
-                    // onClick={handlestatus}
-                  >
-                    <i className="fa-thin fas fa-gear"></i>
-                  </button>
+                <button
+        className={`btn border border-2 rounded ${
+          ["Suspended"].includes(store?.admin?.Status)
+            ? "disabled"
+            : store?.admin?.roles[0].permission.some(
+                (role) => role === "Status"
+              )
+            ? ""
+            : [
+                "superAdmin",
+                "WhiteLabel",
+                "HyperAgent",
+                "SuperAgent",
+                "MasterAgent",
+              ].includes(store?.admin?.roles[0].role)
+            ? ""
+            : "disabled"
+        }`}
+        title="Setting"
+        type="button"
+        onClick={handleStatusModalShow}
+      >
+        <i className="fa-thin fas fa-gear"></i>
+      </button>
                 </span>
               </>
             ) : null}
@@ -434,11 +444,14 @@ const Card = ({
         adminName={userName}
         role={role}
       />
-      <StatusModal
-        statusId={statusId}
-        name={userName}
-        userRole={role}
-        key={`activeInactive`}
+        <StatusModal
+        show={showModal}
+        handleClose={handleClose}
+        statusId="some-status-id"
+        name={role}
+        userRole={userName}
+        onStatusChange={handleStatusChange}
+        setUser={() => {}}
       />
     </React.Fragment>
   );

@@ -33,6 +33,7 @@ class UrlConstant {
   viewTrash= `${this.url_dev}/${this.admin}/view-trash`;
   deleteTrash= `${this.url_dev}/delete/admin-user`;
   restoreTrash=`${this.url_dev}/${this.admin}/restore-to-wallet-use`;
+  activityLog= `${this.url_dev}/get-ip`;
 }
 
 const urls = new UrlConstant();

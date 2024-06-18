@@ -9,6 +9,7 @@ import AccountStatement from "./AccountStatement";
 import AccountProfile from "./AccountProfile";
 import { useAppContext } from "../contextApi/context";
 import {
+  getActivityLog_api,
   getAllTransactionView,
   getUserProfileView,
 } from "../Utils/service/apiService";
@@ -47,6 +48,7 @@ const AccountLandingModal = () => {
 
   useEffect(() => {
     getAll_transactionView();
+    getActivityLog();
   }, [userName, currentPage, startDate, endDate]);
 
   async function getAll_transactionView() {
@@ -62,7 +64,15 @@ const AccountLandingModal = () => {
     setTotalData(response.data.totalItems);
   }
   console.log("Line number 42=======>", startDate, endDate);
-
+  // useEffect(() => {
+  //   MyAccountServices.getActivityLog(userId, auth.user)
+  //     .then((res) => setActivityView(res.data))
+  //     .catch((err) => {});
+  // }, [userId, auth]);
+  async function getActivityLog(){
+const response = await getActivityLog_api({userName: userName,})
+setActivityView(response.data)
+  }
   let startIndex = Math.min((currentPage - 1) * 5 + 1);
   let endIndex = Math.min(currentPage * 5, totalData);
   const handlePageChange = (page) => {
