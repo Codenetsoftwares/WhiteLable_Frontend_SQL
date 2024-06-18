@@ -78,3 +78,7 @@ export function getHierarchyState(body = {}) {
     totalEntries: 5,
   };
 }
+
+export function adminAccountStatement(body = {}) {
+  return { accountDetails: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "", totalData: "" }
+}

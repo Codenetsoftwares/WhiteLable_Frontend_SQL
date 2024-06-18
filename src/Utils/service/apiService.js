@@ -1,6 +1,6 @@
-import UrlConstant from '../constant/UrlConstant';
-import strings from '../constant/stringConstant';
-import { getAuthCallParams, getNoAuthCallParams, makeCall } from './service';
+import UrlConstant from "../constant/UrlConstant";
+import strings from "../constant/stringConstant";
+import { getAuthCallParams, getNoAuthCallParams, makeCall } from "./service";
 
 export async function login(body, isToast = false) {
   try {
@@ -25,7 +25,11 @@ export async function allAdminCreate(body = {}, isToast = false) {
 export async function viewBalance(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
-    const response = await makeCall(`${UrlConstant.viewBalance}/${body._id}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.viewBalance}/${body._id}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
@@ -109,7 +113,11 @@ export async function getCreditRefLog(body = {}, isToast = false) {
 export async function createSubAdmin(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.POST, body, isToast);
-    const response = await makeCall(`${UrlConstant.createSubAdmin}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.createSubAdmin}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
@@ -148,7 +156,11 @@ export async function getHierarchy(body = {}, isToast = false) {
 export async function getviewSubAdminPermission(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.POST, body, isToast);
-    const response = await makeCall(`${UrlConstant.viewSubAdminPermission}/${body._id}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.viewSubAdminPermission}/${body._id}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;
@@ -158,7 +170,90 @@ export async function getviewSubAdminPermission(body = {}, isToast = false) {
 export async function getEditSubAdminPermission(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.PUT, body, isToast);
-    const response = await makeCall(`${UrlConstant.editSubAdminPermission}/${body._id}`, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.editSubAdminPermission}/${body._id}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getUserProfileView(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+
+    const response = await makeCall(
+      `${UrlConstant.UserProfileView}/${body.userName}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllTransactionView(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(`${UrlConstant.allTransactionView}/${body.userName}?page=${body.pageNumber}&startDate=${body.fromDate}&endDate=${body.toDate}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function getAccountStatement_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(`${UrlConstant.AccountStatement}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function moveToTrash_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(UrlConstant.moveToTrash, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+export async function viewTrash_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(UrlConstant.viewTrash, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteTrash_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.DELETE, body, isToast);
+    const response = await makeCall(`${UrlConstant.deleteTrash}/${body.trashId}`, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function restoreTrash_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(UrlConstant.restoreTrash, callParams, isToast);
     return response;
   } catch (error) {
     throw error;

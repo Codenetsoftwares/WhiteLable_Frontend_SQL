@@ -26,6 +26,13 @@ class UrlConstant {
   allSubAdmin = `${this.url_dev}/${this.view}-all-subAdmin-creates`;
   viewSubAdminPermission = `${this.url_dev}/${this.admin}/single-sub-admin`;
   editSubAdminPermission = `${this.url_dev}/${this.admin}/edit-subadmin-permissions`;
+  UserProfileView=`${this.url_dev}/User-Profile-view`;
+  allTransactionView=`${this.url_dev}/transaction-view`;
+  AccountStatement= `${this.url_dev}/${this.admin}/account-statement`;
+  moveToTrash= `${this.url_dev}/${this.admin}/move-to-trash-user`;
+  viewTrash= `${this.url_dev}/${this.admin}/view-trash`;
+  deleteTrash= `${this.url_dev}/delete/admin-user`;
+  restoreTrash=`${this.url_dev}/${this.admin}/restore-to-wallet-use`;
 }
 
 const urls = new UrlConstant();
