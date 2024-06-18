@@ -1,43 +1,38 @@
-import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Alert from "react-bootstrap/Alert";
-import {
-  addCash,
-  transferAmount,
-  updateCreditRef,
-  updatePartnership,
-} from "../Utils/service/apiService";
-import { useAppContext } from "../contextApi/context";
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
+import { addCash, transferAmount, updateCreditRef, updatePartnership } from '../Utils/service/apiService';
+import { useAppContext } from '../contextApi/context';
 const CustomTransactionModal = (props) => {
   const [formData, setFormData] = useState({
     amount: 0,
-    password: "",
-    remarks: "",
+    password: '',
+    remarks: '',
   });
   const { store } = useAppContext();
-  console.log("store from modal", store);
-  console.log("from modal=>>>>", props?.differentiate);
-  console.log("from modal adminId=>>>>", props?.adminId);
-  console.log("from modal adminName=>>>>", props?.adminName);
-  console.log("from modal adminName=>>>>", props?.role);
+  console.log('store from modal', store);
+  console.log('from modal=>>>>', props?.differentiate);
+  console.log('from modal adminId=>>>>', props?.adminId);
+  console.log('from modal adminName=>>>>', props?.adminName);
+  console.log('from modal adminName=>>>>', props?.role);
 
   // Setting Modal Title
-  let modalTitle = "";
-  if (props.differentiate === "creditRefProvider") {
-    modalTitle = "Provide Edit Credit ref. Amount";
-  } else if (props.differentiate === "partnershipProvider") {
-    modalTitle = "Provide Edit PartnerShip Amount";
-  } else if (props.differentiate === "walletAmountProvider") {
-    modalTitle = "Provide Transfer Amount";
-  } else if (props.differentiate === "addCashProvider") {
-    modalTitle = "Add Cash";
+  let modalTitle = '';
+  if (props.differentiate === 'creditRefProvider') {
+    modalTitle = 'Provide Edit Credit ref. Amount';
+  } else if (props.differentiate === 'partnershipProvider') {
+    modalTitle = 'Provide Edit PartnerShip Amount';
+  } else if (props.differentiate === 'walletAmountProvider') {
+    modalTitle = 'Provide Transfer Amount';
+  } else if (props.differentiate === 'addCashProvider') {
+    modalTitle = 'Add Cash';
   }
 
   // API Hitting for creditRef and Partnership provider
   async function handelSave() {
     switch (props.differentiate) {
-      case "creditRefProvider":
+      case 'creditRefProvider':
         const creditRefData = {
           creditRef: formData.amount,
           password: formData.password,
@@ -47,15 +42,16 @@ const CustomTransactionModal = (props) => {
             id: props?.adminId,
             data: creditRefData,
           },
-          true
+          true,
         );
         if (creditRefResponse) {
           props.onHide();
           console.log(creditRefResponse);
+          props.setRefresh(creditRefResponse);
         }
         break;
 
-      case "partnershipProvider":
+      case 'partnershipProvider':
         const partnershipData = {
           partnership: formData.amount,
           password: formData.password,
@@ -65,14 +61,15 @@ const CustomTransactionModal = (props) => {
             id: props?.adminId,
             data: partnershipData,
           },
-          true
+          true,
         );
         if (partnershipResponse) {
           props.onHide();
           console.log(partnershipResponse);
+          props.setRefresh(partnershipResponse);
         }
         break;
-      case "addCashProvider":
+      case 'addCashProvider':
         const addCashData = {
           amount: formData.amount,
         };
@@ -81,22 +78,23 @@ const CustomTransactionModal = (props) => {
             adminId: store.admin.id,
             data: addCashData,
           },
-          true
+          true,
         );
         if (addCashResponse) {
           props.onHide();
           console.log(addCashResponse);
+          props.setRefresh(addCashResponse);
         }
         break;
 
       default:
     }
 
-    console.log("formData", formData);
+    console.log('formData', formData);
   }
   // API Hitting for Wallet provider
   async function handelDepositAndWithdraw(modeOfTransaction) {
-    if (modeOfTransaction === "Withdraw") {
+    if (modeOfTransaction === 'Withdraw') {
       const WithdrawData = {
         withdrawalAmt: formData.amount,
         password: formData.password,
@@ -108,11 +106,12 @@ const CustomTransactionModal = (props) => {
           adminId: store.admin.id,
           data: WithdrawData,
         },
-        true
+        true,
       );
       if (creditRefResponse) {
         props.onHide();
         console.log(creditRefResponse);
+        props.setRefresh(creditRefResponse);
       }
     } else {
       const DepositData = {
@@ -126,47 +125,39 @@ const CustomTransactionModal = (props) => {
           adminId: store.admin.id,
           data: DepositData,
         },
-        true
+        true,
       );
       if (creditRefResponse) {
         props.onHide();
         console.log(creditRefResponse);
+        props.setRefresh(creditRefResponse);
       }
     }
   }
 
   return (
-    <Modal
-      {...props}
-      size="md"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal {...props} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header
         closeButton
         style={{
-          height: "5px",
-          backgroundColor: "#006699",
-          color: "white",
+          height: '5px',
+          backgroundColor: '#006699',
+          color: 'white',
         }}
       >
         <Modal.Title className="fs-6">{modalTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="my-2">
-          {props?.differentiate !== "addCashProvider" ? (
+          {props?.differentiate !== 'addCashProvider' ? (
             <React.Fragment>
-              <span style={{ fontWeight: "bold", color: "#6ae635" }}>
-                {props?.role}
-              </span>
+              <span style={{ fontWeight: 'bold', color: '#6ae635' }}>{props?.role}</span>
               <br />
               <span>{props?.adminName}</span>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Alert variant="primary">
-                Transaction By — {store.admin.adminName}
-              </Alert>
+              <Alert variant="primary">Transaction By — {store.admin.adminName}</Alert>
             </React.Fragment>
           )}
         </div>
@@ -187,7 +178,7 @@ const CustomTransactionModal = (props) => {
               }
             />
           </div>
-          {props.differentiate === "walletAmountProvider" ? (
+          {props.differentiate === 'walletAmountProvider' ? (
             <input
               type="text"
               className="form-control mb-2"
@@ -200,7 +191,7 @@ const CustomTransactionModal = (props) => {
               }
             />
           ) : null}
-          {props?.differentiate !== "addCashProvider" ? (
+          {props?.differentiate !== 'addCashProvider' ? (
             <input
               type="password"
               className="form-control"
@@ -216,7 +207,7 @@ const CustomTransactionModal = (props) => {
         </form>
       </Modal.Body>
       <Modal.Footer>
-        {props.differentiate !== "walletAmountProvider" ? (
+        {props.differentiate !== 'walletAmountProvider' ? (
           <>
             <Button onClick={props?.onHide} variant="secondary">
               Close
@@ -225,16 +216,10 @@ const CustomTransactionModal = (props) => {
           </>
         ) : (
           <>
-            <Button
-              onClick={() => handelDepositAndWithdraw("Deposit")}
-              variant="success"
-            >
+            <Button onClick={() => handelDepositAndWithdraw('Deposit')} variant="success">
               Deposit
             </Button>
-            <Button
-              onClick={() => handelDepositAndWithdraw("Withdraw")}
-              variant="danger"
-            >
+            <Button onClick={() => handelDepositAndWithdraw('Withdraw')} variant="danger">
               Withdraw
             </Button>
           </>

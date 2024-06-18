@@ -1148,7 +1148,8 @@ Docs & License: https://fullcalendar.io/
       });
       if (context.options.allDaySlot) {
         // should we display the "all-day" area?
-        this.dayGrid = new daygrid.DayGrid(this.el.querySelector('.fc-day-grid'), { // the all-day subcomponent of this view
+        this.dayGrid = new daygrid.DayGrid(this.el.querySelector('.fc-day-grid'), {
+          // the all-day subcomponent of this view
           renderNumberIntroHtml: this.renderDayGridIntroHtml,
           renderBgIntroHtml: this.renderDayGridBgIntroHtml,
           renderIntroHtml: this.renderDayGridIntroHtml,

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { Prompt } from "react-router";
-import { Modal, Button } from "react-bootstrap";
-import { useAppContext } from "../contextApi/context";
-import { getHierarchy } from "../Utils/service/apiService";
-import Card from "./common/Card";
-import { getHierarchyState } from "../Utils/service/initiateState";
-import Pagination from "./common/Pagination";
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Prompt } from 'react-router';
+import { Modal, Button } from 'react-bootstrap';
+import { useAppContext } from '../contextApi/context';
+import { getHierarchy } from '../Utils/service/apiService';
+import Card from './common/Card';
+import { getHierarchyState } from '../Utils/service/initiateState';
+import Pagination from './common/Pagination';
 
 const HierarchyPageView = () => {
   const { userName } = useParams();
@@ -15,7 +15,7 @@ const HierarchyPageView = () => {
   const [hierarchyData, setHierarchyData] = useState([]);
   const [pathData, setPathData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [demoData, setDemoData] = useState(getHierarchyState);
   const [totalData, setTotalData] = useState(0);
   const [totalEntries, setTotalEntries] = useState(5);
@@ -32,11 +32,11 @@ const HierarchyPageView = () => {
   };
 
   const navigate = useNavigate();
-  let action = "store";
+  let action = 'store';
   let data = { page: paginationData.currentPage, searchName: name };
 
   async function ClearPath() {
-    const action = "clearAll";
+    const action = 'clearAll';
     const data = {
       adminName: userName,
       action: action,
@@ -58,7 +58,7 @@ const HierarchyPageView = () => {
       pageNumber: paginationData.currentPage,
     });
     if (res) {
-      console.log("Response=>> HIERECHY", res.data);
+      console.log('Response=>> HIERECHY', res.data);
       setHierarchyData(res.data.userDetails.createdUsers);
       setPathData(res.data.path);
       setIsLoading(true);
@@ -73,21 +73,10 @@ const HierarchyPageView = () => {
 
   useEffect(() => {
     fetchData();
-  }, [
-    userName,
-    action,
-    paginationData.totalEntries,
-    name,
-    paginationData.currentPage,
-  ]);
+  }, [userName, action, paginationData.totalEntries, name, paginationData.currentPage]);
 
-  let startIndex = Math.min(
-    (paginationData.currentPage - 1) * paginationData.totalEntries + 1
-  );
-  let endIndex = Math.min(
-    paginationData.currentPage * paginationData.totalEntries,
-    paginationData.totalData
-  );
+  let startIndex = Math.min((paginationData.currentPage - 1) * paginationData.totalEntries + 1);
+  let endIndex = Math.min(paginationData.currentPage * paginationData.totalEntries, paginationData.totalData);
 
   // useEffect(() => {
   //   AccountServices.getHierarchy(userId, auth.user)
@@ -100,12 +89,12 @@ const HierarchyPageView = () => {
   //     });
   // }, [userId, auth]);
 
-  console.log("hierarchy data=>>>", hierarchyData);
-  console.log("Path data=>>>", pathData);
-  console.log("demoData", demoData);
+  console.log('hierarchy data=>>>', hierarchyData);
+  console.log('Path data=>>>', pathData);
+  console.log('demoData', demoData);
 
   const handlePageChange = (page) => {
-    console.log("Changing to page:", page);
+    console.log('Changing to page:', page);
     setPaginationData({
       ...paginationData,
       currentPage: page,
@@ -120,9 +109,7 @@ const HierarchyPageView = () => {
           <div class="col-12">
             <div class="page_title_box d-flex flex-wrap align-items-center justify-content-between">
               <div class="page_title_left d-flex align-items-center">
-                <h3 class="f_s_25 f_w_700 dark_text mr_30">
-                  Hierarchy Dashboard
-                </h3>
+                <h3 class="f_s_25 f_w_700 dark_text mr_30">Hierarchy Dashboard</h3>
                 <ol class="breadcrumb page_bradcam mb-0">
                   <li class="breadcrumb-item">
                     <a href="#" onClick={ClearPath}>
@@ -130,14 +117,14 @@ const HierarchyPageView = () => {
                     </a>
                   </li>
                   <li class="active">
-                    {" "}
+                    {' '}
                     {pathData.map((data) => (
                       <Link
                         to={{
                           pathname: `/hierarchyView/${data}`,
                         }}
                       >
-                        <a style={{ cursor: "pointer" }}>&nbsp;/&nbsp;{data}</a>
+                        <a style={{ cursor: 'pointer' }}>&nbsp;/&nbsp;{data}</a>
                       </Link>
                     ))}
                   </li>
@@ -193,8 +180,8 @@ const HierarchyPageView = () => {
                               />
                             </div>
                             <button type="submit">
-                              {" "}
-                              <i class="ti-search"></i>{" "}
+                              {' '}
+                              <i class="ti-search"></i>{' '}
                             </button>
                           </form>
                         </div>
@@ -215,7 +202,7 @@ const HierarchyPageView = () => {
                   <div class="QA_table mb_30">
                     {hierarchyData?.length > 0 ? (
                       <>
-                        {" "}
+                        {' '}
                         <table class="table lms_table_active table-bordered">
                           <thead>
                             <tr className="text-bolder fs-6 text-center">
@@ -235,7 +222,7 @@ const HierarchyPageView = () => {
                           {hierarchyData.map((data, i) => {
                             // const creditRefLength = data.creditRef.length;
                             // const partnershipLength = data.partnership.length;
-                            console.log("data", data);
+                            console.log('data', data);
                             return (
                               <Card
                                 userName={data.userName}

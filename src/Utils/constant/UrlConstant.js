@@ -1,13 +1,13 @@
 // import strings from "./stringConstant";
 
 class UrlConstant {
-  constructor() { }
+  constructor() {}
 
-  url_dev = "http://localhost:8000/api";
+  url_dev = 'http://localhost:8000/api';
 
   // Admin api
-  admin = "admin";
-  view = "view";
+  admin = 'admin';
+  view = 'view';
 
   login = `${this.url_dev}/${this.admin}-login`;
   Create = `${this.url_dev}/${this.admin}-create`;

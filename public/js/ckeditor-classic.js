@@ -17499,13 +17499,11 @@
             t.commands.add('paragraph', new df(t)),
               e.schema.register('paragraph', { inheritAllFrom: '$block' }),
               t.conversion.elementToElement({ model: 'paragraph', view: 'p' }),
-              t.conversion
-                .for('upcast')
-                .elementToElement({
-                  model: (t, e) =>
-                    uf.paragraphLikeElements.has(t.name) ? (t.isEmpty ? null : e.createElement('paragraph')) : null,
-                  converterPriority: 'low',
-                }),
+              t.conversion.for('upcast').elementToElement({
+                model: (t, e) =>
+                  uf.paragraphLikeElements.has(t.name) ? (t.isEmpty ? null : e.createElement('paragraph')) : null,
+                converterPriority: 'low',
+              }),
               n.upcastDispatcher.on(
                 'element',
                 (t, e, n) => {
@@ -18648,12 +18646,10 @@
               t.conversion
                 .for('editingDowncast')
                 .attributeToElement({ model: 'linkHref', view: (t, e) => Mm(Em(t), e) }),
-              t.conversion
-                .for('upcast')
-                .elementToAttribute({
-                  view: { name: 'a', attributes: { href: !0 } },
-                  model: { key: 'linkHref', value: (t) => t.getAttribute('href') },
-                }),
+              t.conversion.for('upcast').elementToAttribute({
+                view: { name: 'a', attributes: { href: !0 } },
+                model: { key: 'linkHref', value: (t) => t.getAttribute('href') },
+              }),
               t.commands.add('link', new em(t)),
               t.commands.add('unlink', new nm(t));
             const n = (function (t, e) {
@@ -18728,12 +18724,10 @@
                     }
                   },
                 }),
-                e.conversion
-                  .for('upcast')
-                  .elementToAttribute({
-                    view: { name: 'a', attributes: n.get(t.id).attributes },
-                    model: { key: t.id },
-                  });
+                e.conversion.for('upcast').elementToAttribute({
+                  view: { name: 'a', attributes: n.get(t.id).attributes },
+                  model: { key: t.id },
+                });
             });
           }
           _setupLinkHighlight() {
@@ -21876,13 +21870,11 @@
             afterInit() {
               const t = this.editor,
                 e = t.t;
-              t.plugins
-                .get(Kf)
-                .register('image', {
-                  ariaLabel: e('b'),
-                  items: t.config.get('image.toolbar') || [],
-                  getRelatedElement: ou,
-                });
+              t.plugins.get(Kf).register('image', {
+                ariaLabel: e('b'),
+                items: t.config.get('image.toolbar') || [],
+                getRelatedElement: ou,
+              });
             }
           },
           lf,

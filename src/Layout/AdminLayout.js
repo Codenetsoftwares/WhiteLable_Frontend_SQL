@@ -1,7 +1,6 @@
-import React from "react";
-import NavTop from "./NavTop";
-import Navside from "./Navside";
-
+import React from 'react';
+import NavTop from './NavTop';
+import Navside from './Navside';
 
 const AdminLayout = () => {
   return (
