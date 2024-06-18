@@ -45,11 +45,11 @@ const Card = ({
   };
 
   async function handleDelete() {
-    console.log('======>>>> onclick the id', userId)
+    console.log('======>>>> onclick the id', adminId)
     const userConfirmed = window.confirm(
       "Balance should be 0 to move the Admin User to trash"
     );
-    const response = await moveToTrash_api({ requestId: userId });
+    const response = await moveToTrash_api({ requestId: adminId });
     if (userConfirmed) {
       console.log("Im here in line 94");
       if (response.status === 201) {
@@ -247,7 +247,7 @@ const Card = ({
             <span className="mx-1">
               <button
                 data-bs-toggle="modal"
-                data-bs-target={`#transferbalance-${userId}`}
+                data-bs-target={`#transferbalance-${adminId}`}
                 className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
                   ? "disabled" : store?.admin?.roles[0].permission.some(
                     (role) => role === "TransferBalance"
@@ -286,7 +286,7 @@ const Card = ({
                 title="Setting"
                 type="button"
                 data-bs-toggle="modal"
-                data-bs-target={`#activeInactive-${userId}`}
+                data-bs-target={`#activeInactive-${adminId}`}
               // onClick={handlestatus}
               >
                 <i className="fa-thin fas fa-gear"></i>
@@ -335,7 +335,7 @@ const Card = ({
                   }`}
                 title="Delete"
                 onClick={(e) => {
-                  handeldelete();
+                  handleDelete();
                 }}
               >
                 <i class="fa-light fas fa-trash"></i>
@@ -350,7 +350,8 @@ const Card = ({
         </tr>
 
       </tbody>
-      );
+    </React.Fragment>
+  );
 };
 
-      export default Card;
+export default Card;

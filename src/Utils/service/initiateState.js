@@ -81,3 +81,4 @@ export function getHierarchyState(body = {}) {
 
 export function adminAccountStatement(body = {}) {
   return { accountDetails: [], currentPage: 1, totalPages: "", totalEntries: 5, name: "", totalData: "" }
+}
