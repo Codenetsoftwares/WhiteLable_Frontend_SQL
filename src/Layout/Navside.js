@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../contextApi/context";
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../contextApi/context';
 
 const Navside = () => {
-
   const { store } = useAppContext();
   const [isUser, setIsUser] = useState(true);
   const [isRequest, setIsRequest] = useState(true);
@@ -23,8 +22,8 @@ const Navside = () => {
     setUserRole(!userRole);
   };
   const takeMeToAdminAccount = () => {
-    navigate("/adminaccountstatement");
-  }
+    navigate('/adminaccountstatement');
+  };
   return (
     <nav className="sidebar">
       <div className="logo d-flex justify-content-between">
@@ -46,7 +45,7 @@ const Navside = () => {
                 <img src="../img/menu-icon/dashboard.svg" alt="" />
               </div>
               <div className="nav_title">
-                <span>User Management  </span>
+                <span>User Management </span>
               </div>
             </a>
           </li>
@@ -61,37 +60,30 @@ const Navside = () => {
               </div>
             </a>
             <ul>
-              {[
-                "superAdmin",
-                "WhiteLabel",
-                "HyperAgent",
-                "SuperAgent",
-                "MasterAgent",
-              ].includes(store.admin.roles[0].role) && <li >
-                  <Link to="/allAdminCreate" >
-
-
+              {['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                store.admin.roles[0].role,
+              ) && (
+                <li>
+                  <Link to="/allAdminCreate">
                     <span>
                       <i class="fa-solid fa-circle"></i>Create Admin
                     </span>
                   </Link>
-                </li>}
+                </li>
+              )}
 
-
-              {store.admin.roles[0].permission.includes("Create-Admin") && <li>
-                <Link to="/allAdminCreate">
-                  <span>
-                    <i class="fa-solid fa-circle"></i>Create Admin
-                  </span>
-
-                </Link>
-              </li>}
-
+              {store.admin.roles[0].permission.includes('Create-Admin') && (
+                <li>
+                  <Link to="/allAdminCreate">
+                    <span>
+                      <i class="fa-solid fa-circle"></i>Create Admin
+                    </span>
+                  </Link>
+                </li>
+              )}
 
               <li>
                 <Link to="/wallet">
-
-
                   <span>
                     <i class="fa-solid fa-circle"></i>Wallet
                   </span>
@@ -104,104 +96,95 @@ const Navside = () => {
           </li>
         )}
 
-
         <li className="" onClick={takeMeToAdminAccount}>
           <a className="" href="#" aria-expanded="false">
             <div>
               <img src="../img/menu-icon/dashboard.svg" alt="" />
             </div>
             <div>
-
               <span>Account Statement</span>
-
             </div>
           </a>
         </li>
 
-
-        {[
-          "superAdmin",
-          "WhiteLabel",
-          "HyperAgent",
-          "SuperAgent",
-          "MasterAgent",
-        ].includes(store.admin.roles[0].role) && <>{isRequest ? (
-          <li className="" onClick={handleRequestToggle}>
-            <a className="has-arrow" href="#" aria-expanded="false">
-              <div className="nav_icon_small">
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div className="nav_title">
-                <span>Request</span>
-              </div>
-            </a>
-          </li>
-        ) : (
-          <li className="" onClick={handleRequestToggle}>
-            <a className="has-arrow" href="#" aria-expanded="false">
-              <div>
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div>
-                <span>Request</span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <Link to="/agentDelete">
-
-                  <span>
-                    {" "}
-                    <i class="fa-solid fa-circle"></i>Approve deletion
-                  </span>
-                </Link>
+        {['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+          store.admin.roles[0].role,
+        ) && (
+          <>
+            {isRequest ? (
+              <li className="" onClick={handleRequestToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div className="nav_icon_small">
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div className="nav_title">
+                    <span>Request</span>
+                  </div>
+                </a>
               </li>
-            </ul>
-          </li>
-        )}</>}
-
-
-        {store.admin.roles[0].permission.includes("Delete-Admin") && <>{isRequest ? (
-          <li className="" onClick={handleRequestToggle}>
-            <a className="has-arrow" href="#" aria-expanded="false">
-              <div className="nav_icon_small">
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div className="nav_title">
-                <span>Request </span>
-              </div>
-            </a>
-          </li>
-        ) : (
-          <li className="" onClick={handleRequestToggle}>
-            <a className="has-arrow" href="#" aria-expanded="false">
-              <div>
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div>
-                <span>Request </span>
-              </div>
-            </a>
-            <ul>
-              <li>
-                <Link to="/agentDelete">Agent Delete</Link>
+            ) : (
+              <li className="" onClick={handleRequestToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div>
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div>
+                    <span>Request</span>
+                  </div>
+                </a>
+                <ul>
+                  <li>
+                    <Link to="/agentDelete">
+                      <span>
+                        {' '}
+                        <i class="fa-solid fa-circle"></i>Approve deletion
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
-            </ul>
-          </li>
-        )}</>}
+            )}
+          </>
+        )}
 
+        {store.admin.roles[0].permission.includes('Delete-Admin') && (
+          <>
+            {isRequest ? (
+              <li className="" onClick={handleRequestToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div className="nav_icon_small">
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div className="nav_title">
+                    <span>Request </span>
+                  </div>
+                </a>
+              </li>
+            ) : (
+              <li className="" onClick={handleRequestToggle}>
+                <a className="has-arrow" href="#" aria-expanded="false">
+                  <div>
+                    <img src="../img/menu-icon/dashboard.svg" alt="" />
+                  </div>
+                  <div>
+                    <span>Request </span>
+                  </div>
+                </a>
+                <ul>
+                  <li>
+                    <Link to="/agentDelete">Agent Delete</Link>
+                  </li>
+                </ul>
+              </li>
+            )}
+          </>
+        )}
 
-        {
-          [
-            "superAdmin",
-            "WhiteLabel",
-            "HyperAgent",
-            "SuperAgent",
-            "MasterAgent",
-          ].includes(store.admin.roles[0].role) &&
+        {['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+          store.admin.roles[0].role,
+        ) && (
           <>
             {userRole ? (
-
               <li className="" onClick={handleUserRoleToggle}>
                 <a className="has-arrow" href="#" aria-expanded="false">
                   <div className="nav_icon_small">
@@ -224,16 +207,16 @@ const Navside = () => {
                 </a>
                 <ul className="d-flex flex-column ml-0">
                   <li>
-                      <Link to="/CreateSubAdmin">
+                    <Link to="/CreateSubAdmin">
                       <span>
-                        {" "}
+                        {' '}
                         <i class="fa-solid fa-circle"></i>Create New
                       </span>
                     </Link>
                   </li>
 
                   <li>
-                      <Link to="/ViewAllSubAdmin">
+                    <Link to="/ViewAllSubAdmin">
                       <span>
                         <i class="fa-solid fa-circle"></i>View Existing
                       </span>
@@ -243,13 +226,9 @@ const Navside = () => {
               </li>
             )}
           </>
-        }
-
-
+        )}
       </ul>
     </nav>
-
-
   );
 };
 

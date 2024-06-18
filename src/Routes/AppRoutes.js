@@ -1,14 +1,14 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { RequireAuth } from "../Utils/RequireAuth";
-import Authform from "../Components/AuthForm";
-import Login from "../Pages/Accounts/Login/Login";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { RequireAuth } from '../Utils/RequireAuth';
+import Authform from '../Components/AuthForm';
+import Login from '../Pages/Accounts/Login/Login';
 
-import Temp from "../screen/Temp";
-import AdminLayout from "../Layout/AdminLayout";
+import Temp from '../screen/Temp';
+import AdminLayout from '../Layout/AdminLayout';
 
 const AppRoutes = () => {
-  const userrole = sessionStorage.getItem("role") || "";
+  const userrole = sessionStorage.getItem('role') || '';
 
   return (
     <BrowserRouter>

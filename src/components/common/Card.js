@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../../contextApi/context";
-import CustomTransactionModal from "../../modal/customTransactionModal";
-import ViewPartnershipAndCreditRefModal from "../../modal/viewPartnershipAndCreditRefModal";
-import {
-  getHierarchy,
-  getPartnershipLog,
-} from "../../Utils/service/apiService";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../contextApi/context';
+import CustomTransactionModal from '../../modal/customTransactionModal';
+import ViewPartnershipAndCreditRefModal from '../../modal/viewPartnershipAndCreditRefModal';
+import { getHierarchy, getPartnershipLog } from '../../Utils/service/apiService';
 
 const Card = ({
   role,
@@ -22,20 +19,21 @@ const Card = ({
   creditRefLength,
   partnershipLength,
   callingParent,
+  setRefresh,
 }) => {
   const { dispatch, store } = useAppContext();
-  const [Istatus, setIStatus] = useState("");
-  const [userid, setUserId] = useState("");
+  const [Istatus, setIStatus] = useState('');
+  const [userid, setUserId] = useState('');
   //   const [adminId, setAdminId] = useState("");
-  const [userhierarchy, setHierarchy] = useState("");
+  const [userhierarchy, setHierarchy] = useState('');
   const [transactionModalShow, setTransactionModalShow] = useState(false);
   const [viewModalShow, setViewModalShow] = useState(false);
-  const [differentiate, setDifferentiate] = useState("");
+  const [differentiate, setDifferentiate] = useState('');
   const navigate = useNavigate();
-  console.log("userId", adminId);
-  console.log("name&role", userName, role);
+  console.log('userId', adminId);
+  console.log('name&role', userName, role);
 
-  console.log("store", store);
+  console.log('store', store);
 
   const handelOpenTransactionModal = (boolParam, differentiateParam) => {
     setTransactionModalShow(boolParam);
@@ -46,12 +44,12 @@ const Card = ({
     setViewModalShow(boolParam);
     setDifferentiate(differentiateParam);
   };
-  let action = "";
+  let action = '';
   async function takeMeToHierarchy(userName) {
-    if (callingParent === "HierarchyPageView") {
-      action = "store";
+    if (callingParent === 'HierarchyPageView') {
+      action = 'store';
     } else {
-      action = "clearAll";
+      action = 'clearAll';
     }
 
     const response = await getHierarchy({
@@ -69,10 +67,7 @@ const Card = ({
       <tbody>
         <tr>
           <th scope="row" className="">
-            <button
-              className="border border-1 w-75 text-center bg-success rounded-pill "
-              style={{ cursor: "auto" }}
-            >
+            <button className="border border-1 w-75 text-center bg-success rounded-pill " style={{ cursor: 'auto' }}>
               {role}
             </button>
 
@@ -80,7 +75,7 @@ const Card = ({
               onClick={() => {
                 takeMeToHierarchy(userName);
               }}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             >
               <b>{userName}</b>
             </p>
@@ -89,47 +84,27 @@ const Card = ({
           <td scope="row" className="fs-6 text-center">
             {creditRefLength > 0 ? (
               //Need to hit Txn Modal
-              <span
-                onClick={() =>
-                  handelOpenTransactionModal(true, "creditRefProvider")
-                }
-              >
-                {creditRef}
-              </span>
+              <span onClick={() => handelOpenTransactionModal(true, 'creditRefProvider')}>{creditRef}</span>
             ) : (
               //Need to hit Txn Modal
-              <span
-                onClick={() =>
-                  handelOpenTransactionModal(true, "creditRefProvider")
-                }
-              >
-                0
-              </span>
+              <span onClick={() => handelOpenTransactionModal(true, 'creditRefProvider')}>0</span>
             )}
-            {callingParent === "Wallet" ? (
+            {callingParent === 'Wallet' ? (
               <span className="">
                 <button
                   className={`border border-0 bg-white btn ${
-                    ["Suspended"].includes(store?.admin?.Status)
-                      ? "disabled"
-                      : store?.admin?.roles[0].permission.some(
-                          (role) => role === "CreditRef-Edit"
-                        )
-                      ? ""
-                      : [
-                          "superAdmin",
-                          "WhiteLabel",
-                          "HyperAgent",
-                          "SuperAgent",
-                          "MasterAgent",
-                        ].includes(store?.admin?.roles[0].role)
-                      ? ""
-                      : "disabled"
+                    ['Suspended'].includes(store?.admin?.Status)
+                      ? 'disabled'
+                      : store?.admin?.roles[0].permission.some((role) => role === 'CreditRef-Edit')
+                        ? ''
+                        : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                              store?.admin?.roles[0].role,
+                            )
+                          ? ''
+                          : 'disabled'
                   }`}
                   aria-label="Close"
-                  onClick={() =>
-                    handelOpenTransactionModal(true, "creditRefProvider")
-                  }
+                  onClick={() => handelOpenTransactionModal(true, 'creditRefProvider')}
                 >
                   <i className="fa-solid fa-pen-to-square"></i>
                 </button>
@@ -139,21 +114,15 @@ const Card = ({
             <span>
               <button
                 className={`border border-0 bg-white btn ${
-                  store?.admin?.roles[0].permission.some(
-                    (role) => role === "CreditRef-View"
-                  )
-                    ? ""
-                    : [
-                        "superAdmin",
-                        "WhiteLabel",
-                        "HyperAgent",
-                        "SuperAgent",
-                        "MasterAgent",
-                      ].includes(store?.admin?.roles[0].role)
-                    ? ""
-                    : "disabled"
+                  store?.admin?.roles[0].permission.some((role) => role === 'CreditRef-View')
+                    ? ''
+                    : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                          store?.admin?.roles[0].role,
+                        )
+                      ? ''
+                      : 'disabled'
                 }`}
-                onClick={() => handelOpenViewModal(true, "creditRefViewer")}
+                onClick={() => handelOpenViewModal(true, 'creditRefViewer')}
               >
                 <i class="fa-regular fa-eye" aria-label="Close"></i>
               </button>
@@ -175,33 +144,25 @@ const Card = ({
               </span>
             )}
 
-            {callingParent === "Wallet" ? (
+            {callingParent === 'Wallet' ? (
               <span className="">
                 <button
                   className={`border border-0 bg-white btn ${
-                    ["Suspended"].includes(store?.admin?.Status)
-                      ? "disabled"
-                      : store?.admin?.roles[0].permission.some(
-                          (role) => role === "Partnership-Edit"
-                        )
-                      ? ""
-                      : [
-                          "superAdmin",
-                          "WhiteLabel",
-                          "HyperAgent",
-                          "SuperAgent",
-                          "MasterAgent",
-                        ].includes(store?.admin?.roles[0].role)
-                      ? ""
-                      : "disabled"
+                    ['Suspended'].includes(store?.admin?.Status)
+                      ? 'disabled'
+                      : store?.admin?.roles[0].permission.some((role) => role === 'Partnership-Edit')
+                        ? ''
+                        : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                              store?.admin?.roles[0].role,
+                            )
+                          ? ''
+                          : 'disabled'
                   }`}
                 >
                   <i
                     className="fa-solid fa-pen-to-square"
                     aria-label="Close"
-                    onClick={() =>
-                      handelOpenTransactionModal(true, "partnershipProvider")
-                    }
+                    onClick={() => handelOpenTransactionModal(true, 'partnershipProvider')}
                   ></i>
                 </button>
               </span>
@@ -210,21 +171,15 @@ const Card = ({
             <span>
               <button
                 className={`border border-0 bg-white btn ${
-                  store?.admin?.roles[0].permission.some(
-                    (role) => role === "Partnership-View"
-                  )
-                    ? ""
-                    : [
-                        "superAdmin",
-                        "WhiteLabel",
-                        "HyperAgent",
-                        "SuperAgent",
-                        "MasterAgent",
-                      ].includes(store?.admin?.roles[0].role)
-                    ? ""
-                    : "disabled"
+                  store?.admin?.roles[0].permission.some((role) => role === 'Partnership-View')
+                    ? ''
+                    : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                          store?.admin?.roles[0].role,
+                        )
+                      ? ''
+                      : 'disabled'
                 }`}
-                onClick={() => handelOpenViewModal(true, "partnershipViewer")}
+                onClick={() => handelOpenViewModal(true, 'partnershipViewer')}
               >
                 <i className="fa-regular fa-eye"></i>
               </button>
@@ -244,37 +199,24 @@ const Card = ({
             {isNaN(loadBalance - creditRef) ? 0 : loadBalance - creditRef}
           </td>
           <td scope="row" className="fs-6 text-center">
-            <p className="border border-1 w-75 text-center bg-success rounded-pill">
-              {Status}
-            </p>
+            <p className="border border-1 w-75 text-center bg-success rounded-pill">{Status}</p>
           </td>
           <td scope="row" className="fs-6 text-center">
-            {callingParent === "Wallet" ? (
+            {callingParent === 'Wallet' ? (
               <>
-                {" "}
-                <span
-                  className="mx-1"
-                  onClick={() =>
-                    handelOpenTransactionModal(true, "walletAmountProvider")
-                  }
-                >
+                {' '}
+                <span className="mx-1" onClick={() => handelOpenTransactionModal(true, 'walletAmountProvider')}>
                   <button
                     className={`btn border border-2 rounded ${
-                      ["Suspended"].includes(store?.admin?.Status)
-                        ? "disabled"
-                        : store?.admin?.roles[0].permission.some(
-                            (role) => role === "TransferBalance"
-                          )
-                        ? ""
-                        : [
-                            "superAdmin",
-                            "WhiteLabel",
-                            "HyperAgent",
-                            "SuperAgent",
-                            "MasterAgent",
-                          ].includes(store?.admin?.roles[0].role)
-                        ? ""
-                        : "disabled"
+                      ['Suspended'].includes(store?.admin?.Status)
+                        ? 'disabled'
+                        : store?.admin?.roles[0].permission.some((role) => role === 'TransferBalance')
+                          ? ''
+                          : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                                store?.admin?.roles[0].role,
+                              )
+                            ? ''
+                            : 'disabled'
                     }`}
                     title="Addmoney"
                   >
@@ -284,21 +226,15 @@ const Card = ({
                 <span className="mx-1">
                   <button
                     className={`btn border border-2 rounded ${
-                      ["Suspended"].includes(store?.admin?.Status)
-                        ? "disabled"
-                        : store?.admin?.roles[0].permission.some(
-                            (role) => role === "Status"
-                          )
-                        ? ""
-                        : [
-                            "superAdmin",
-                            "WhiteLabel",
-                            "HyperAgent",
-                            "SuperAgent",
-                            "MasterAgent",
-                          ].includes(store?.admin?.roles[0].role)
-                        ? ""
-                        : "disabled"
+                      ['Suspended'].includes(store?.admin?.Status)
+                        ? 'disabled'
+                        : store?.admin?.roles[0].permission.some((role) => role === 'Status')
+                          ? ''
+                          : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                                store?.admin?.roles[0].role,
+                              )
+                            ? ''
+                            : 'disabled'
                     }`}
                     title="Setting"
                     type="button"
@@ -314,19 +250,13 @@ const Card = ({
             <span className="mx-1">
               <button
                 className={`btn border border-2 rounded ${
-                  store?.admin?.roles[0].permission.some(
-                    (role) => role === "Profile-View"
-                  )
-                    ? ""
-                    : [
-                        "superAdmin",
-                        "WhiteLabel",
-                        "HyperAgent",
-                        "SuperAgent",
-                        "MasterAgent",
-                      ].includes(store?.admin?.roles[0].role)
-                    ? ""
-                    : "disabled"
+                  store?.admin?.roles[0].permission.some((role) => role === 'Profile-View')
+                    ? ''
+                    : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                          store?.admin?.roles[0].role,
+                        )
+                      ? ''
+                      : 'disabled'
                 }`}
                 title="Profile"
                 onClick={() => {
@@ -336,25 +266,19 @@ const Card = ({
                 <i class="fa-solid fa-user"></i>
               </button>
             </span>
-            {callingParent === "Wallet" ? (
+            {callingParent === 'Wallet' ? (
               <span className="mx-1">
                 <button
                   className={`btn border border-2 rounded ${
-                    ["Suspended"].includes(store?.admin?.Status)
-                      ? "disabled"
-                      : store?.admin?.roles[0].permission.some(
-                          (role) => role === "Delete-Admin"
-                        )
-                      ? ""
-                      : [
-                          "superAdmin",
-                          "WhiteLabel",
-                          "HyperAgent",
-                          "SuperAgent",
-                          "MasterAgent",
-                        ].includes(store?.admin?.roles[0].role)
-                      ? ""
-                      : "disabled"
+                    ['Suspended'].includes(store?.admin?.Status)
+                      ? 'disabled'
+                      : store?.admin?.roles[0].permission.some((role) => role === 'Delete-Admin')
+                        ? ''
+                        : ['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+                              store?.admin?.roles[0].role,
+                            )
+                          ? ''
+                          : 'disabled'
                   }`}
                   title="Delete"
                   onClick={(e) => {
@@ -382,6 +306,7 @@ const Card = ({
         adminId={adminId}
         adminName={userName}
         role={role}
+        setRefresh={setRefresh}
       />
       <ViewPartnershipAndCreditRefModal
         show={viewModalShow}

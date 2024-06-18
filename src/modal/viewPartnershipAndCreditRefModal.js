@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import { useAppContext } from "../contextApi/context";
-import {
-  getCreditRefLog,
-  getPartnershipLog,
-} from "../Utils/service/apiService";
-import { getCreditRefAndPartnership } from "../Utils/service/initiateState";
+import React, { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { useAppContext } from '../contextApi/context';
+import { getCreditRefLog, getPartnershipLog } from '../Utils/service/apiService';
+import { getCreditRefAndPartnership } from '../Utils/service/initiateState';
 
 const ViewPartnershipAndCreditRefModal = (props) => {
-  console.log("from modal=>>>>", props?.differentiate);
-  console.log("from modal adminId=>>>>", props?.adminId);
-  console.log("from modal adminName=>>>>", props?.adminName);
-  const [viewPartnershipData, SetViewPartnershipData] = useState(
-    getCreditRefAndPartnership()
-  );
-  const [viewCreditRefData, SetViewCreditRefData] = useState(
-    getCreditRefAndPartnership()
-  );
+  console.log('from modal=>>>>', props?.differentiate);
+  console.log('from modal adminId=>>>>', props?.adminId);
+  console.log('from modal adminName=>>>>', props?.adminName);
+  const [viewPartnershipData, SetViewPartnershipData] = useState(getCreditRefAndPartnership());
+  const [viewCreditRefData, SetViewCreditRefData] = useState(getCreditRefAndPartnership());
   const { store } = useAppContext();
-  let modalTitle = "";
-  if (props.differentiate === "creditRefViewer") {
-    modalTitle = "CreditRef Balance Log";
+  let modalTitle = '';
+  if (props.differentiate === 'creditRefViewer') {
+    modalTitle = 'CreditRef Balance Log';
   } else {
-    modalTitle = "PartnerShip Log";
+    modalTitle = 'PartnerShip Log';
   }
   async function getCreditRefData() {
     const response = await getCreditRefLog({
@@ -53,7 +46,7 @@ const ViewPartnershipAndCreditRefModal = (props) => {
   }, []);
 
   const handelHi = () => {
-    console.log("viewCreditRefData", getCreditRefData());
+    console.log('viewCreditRefData', getCreditRefData());
   };
 
   return (
@@ -65,7 +58,7 @@ const ViewPartnershipAndCreditRefModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <h6>UserName: {props?.adminName}</h6>
-        {props?.differentiate === "creditRefViewer" ? (
+        {props?.differentiate === 'creditRefViewer' ? (
           <React.Fragment>
             {viewCreditRefData.length > 0 ? (
               <table className="table lms_table_active3 table-bordered table-sm">
@@ -80,15 +73,12 @@ const ViewPartnershipAndCreditRefModal = (props) => {
                   {viewCreditRefData.map((data, i) => {
                     const originalDate = new Date(data?.date);
                     const options = {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
                     };
 
-                    const formattedDate = originalDate.toLocaleDateString(
-                      "en-US",
-                      options
-                    );
+                    const formattedDate = originalDate.toLocaleDateString('en-US', options);
                     return (
                       <tr key={data._id}>
                         <td>{i + 1}</td>
@@ -119,15 +109,12 @@ const ViewPartnershipAndCreditRefModal = (props) => {
                   {viewPartnershipData.map((data, i) => {
                     const originalDate = new Date(data?.date);
                     const options = {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
                     };
 
-                    const formattedDate = originalDate.toLocaleDateString(
-                      "en-US",
-                      options
-                    );
+                    const formattedDate = originalDate.toLocaleDateString('en-US', options);
                     return (
                       <tr key={data._id}>
                         <td>{i + 1}</td>

@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { getAllCreateState } from "../Utils/service/initiateState";
-import { permissionObj } from "../Utils/constant/permission";
-import { getAllCreate, viewBalance } from "../Utils/service/apiService";
-import { useAppContext } from "../contextApi/context";
-import Card from "../components/common/Card";
-import Pagination from "../components/common/Pagination";
-import CustomTransactionModal from "../modal/customTransactionModal";
+import React, { useState, useEffect } from 'react';
+import { getAllCreateState } from '../Utils/service/initiateState';
+import { permissionObj } from '../Utils/constant/permission';
+import { getAllCreate, viewBalance } from '../Utils/service/apiService';
+import { useAppContext } from '../contextApi/context';
+import Card from '../components/common/Card';
+import Pagination from '../components/common/Pagination';
+import CustomTransactionModal from '../modal/customTransactionModal';
 
 const Wallet = () => {
   const { dispatch, store } = useAppContext();
   const [balance, setBalance] = useState(0);
   const [walletCard, setWalletCard] = useState(getAllCreateState());
   const [modalShow, setModalShow] = useState(false);
-  const [differentiate, setDifferentiate] = useState("");
+  const [differentiate, setDifferentiate] = useState('');
+  const [refresh, setRefresh] = useState({});
 
   const handleChange = (name, value) => {
     setWalletCard((prevData) => ({
@@ -29,33 +30,24 @@ const Wallet = () => {
   useEffect(() => {
     if (store?.admin) {
       {
-        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) &&
-          getAll_Create();
+        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && getAll_Create();
       }
       {
-        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) &&
-          getAll_Create();
+        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && getAll_Create();
       }
     }
-  }, [
-    store?.admin,
-    walletCard.currentPage,
-    walletCard.name,
-    walletCard.totalEntries,
-  ]);
+  }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries, refresh]);
 
   useEffect(() => {
     if (store?.admin) {
       {
-        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) &&
-          view_Balance();
+        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && view_Balance();
       }
       {
-        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) &&
-          view_Balance();
+        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && view_Balance();
       }
     }
-  }, []);
+  }, [refresh]);
 
   async function getAll_Create() {
     const response = await getAllCreate({
@@ -85,18 +77,16 @@ const Wallet = () => {
     }
   }
 
-  let startIndex = Math.min(
-    (Number(walletCard.currentPage) - 1) * Number(walletCard.totalEntries) + 1
-  );
-  console.log("startIndex", walletCard.currentPage);
+  let startIndex = Math.min((Number(walletCard.currentPage) - 1) * Number(walletCard.totalEntries) + 1);
+  console.log('startIndex', walletCard.currentPage);
   let endIndex = Math.min(
     Number(walletCard.currentPage) * Number(walletCard.totalEntries),
-    Number(walletCard.totalData)
+    Number(walletCard.totalData),
   );
 
   const handlePageChange = (page) => {
-    console.log("Changing to page:", page);
-    handleChange("currentPage", page);
+    console.log('Changing to page:', page);
+    handleChange('currentPage', page);
   };
 
   return (
@@ -105,30 +95,26 @@ const Wallet = () => {
         <h2
           className="text-center font-weight-bold mb-4"
           style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            marginBottom: "4px",
+            textAlign: 'center',
+            fontWeight: 'bold',
+            marginBottom: '4px',
           }}
         >
           USER LIST
         </h2>
       </div>
       <div className="text-center mt-10">
-        <p style={{ fontWeight: "bold" }}>Total Balance</p>
+        <p style={{ fontWeight: 'bold' }}>Total Balance</p>
         <h4 className="mb-1">₹{balance}</h4>
-        {store?.admin?.roles &&
-          store?.admin?.roles.length > 0 &&
-          store?.admin?.roles[0].role === "superAdmin" && (
-            <button
-              className="btn btn-danger"
-              aria-label="Close"
-              onClick={() =>
-                handelOpenTransactionModal(true, "addCashProvider")
-              }
-            >
-              ADD CASH
-            </button>
-          )}
+        {store?.admin?.roles && store?.admin?.roles.length > 0 && store?.admin?.roles[0].role === 'superAdmin' && (
+          <button
+            className="btn btn-danger"
+            aria-label="Close"
+            onClick={() => handelOpenTransactionModal(true, 'addCashProvider')}
+          >
+            ADD CASH
+          </button>
+        )}
       </div>
       <div className="white_card_body m-3">
         <div className="QA_section">
@@ -137,7 +123,7 @@ const Wallet = () => {
               <select
                 className="form-select form-select-sm"
                 aria-label=".form-select-sm example"
-                onChange={(e) => handleChange("totalEntries", e.target.value)}
+                onChange={(e) => handleChange('totalEntries', e.target.value)}
               >
                 <option selected value="5">
                   Show 5 entries
@@ -150,103 +136,96 @@ const Wallet = () => {
               </select>
             </div>
 
-            <div
-              className="serach_field_2 ms-auto"
-              style={{ marginLeft: "-10px" }}
-            >
+            <div className="serach_field_2 ms-auto" style={{ marginLeft: '-10px' }}>
               <div className="search_inner">
                 <form Active="#">
                   <div className="search_field">
                     <input
                       value={walletCard.name}
                       onChange={(e) => {
-                        handleChange("name", e.target.value);
+                        handleChange('name', e.target.value);
                       }}
                       type="text"
                       placeholder="Search content here..."
                     />
                   </div>
                   <button type="submit">
-                    {" "}
-                    <i className="ti-search"></i>{" "}
+                    {' '}
+                    <i className="ti-search"></i>{' '}
                   </button>
                 </form>
               </div>
             </div>
           </div>
-          <div className="QA_table mb_30" style={{ overflow: "auto" }}>
+          <div className="QA_table mb_30" style={{ overflow: 'auto' }}>
             {walletCard.userList.length > 0 ? (
               <>
                 <table className="table lms_table_active3 table-bordered table-sm">
                   <thead
                     style={{
-                      height: "10px",
-                      backgroundColor: "#006699",
-                      color: "white",
-                      fontWeight: "bold",
+                      height: '10px',
+                      backgroundColor: '#006699',
+                      color: 'white',
+                      fontWeight: 'bold',
                     }}
                   >
                     <tr>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 "
-                        style={{ fontWeight: "bold", color: "white" }}
-                      >
+                      <th scope="col" className="text-bolder fs-6 " style={{ fontWeight: 'bold', color: 'white' }}>
                         Username
                       </th>
                       <th
                         scope="col"
                         className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: "bold", color: "white" }}
+                        style={{ fontWeight: 'bold', color: 'white' }}
                       >
                         Credit Ref.
                       </th>
                       <th
                         scope="col"
                         className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: "bold", color: "white" }}
+                        style={{ fontWeight: 'bold', color: 'white' }}
                       >
                         Partnership
                       </th>
                       <th
                         scope="col"
                         className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: "bold", color: "white" }}
+                        style={{ fontWeight: 'bold', color: 'white' }}
                       >
                         Balance
                       </th>
                       <th
                         scope="col"
                         className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: "bold", color: "white" }}
+                        style={{ fontWeight: 'bold', color: 'white' }}
                       >
                         Exposure
                       </th>
                       <th
                         scope="col"
                         className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: "bold", color: "white" }}
+                        style={{ fontWeight: 'bold', color: 'white' }}
                       >
                         Avail. Bal.
                       </th>
                       <th
                         scope="col"
                         className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: "bold", color: "white" }}
+                        style={{ fontWeight: 'bold', color: 'white' }}
                       >
                         Ref. P/L
                       </th>
                       <th
                         scope="col"
                         className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: "bold", color: "white" }}
+                        style={{ fontWeight: 'bold', color: 'white' }}
                       >
                         Status
                       </th>
                       <th
                         scope="col"
                         className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: "bold", color: "white" }}
+                        style={{ fontWeight: 'bold', color: 'white' }}
                       >
                         Actions
                       </th>
@@ -272,6 +251,7 @@ const Wallet = () => {
                         // creditRefLength={creditRefLength}
                         // partnershipLength={partnershipLength}
                         callingParent="Wallet"
+                        setRefresh={setRefresh}
                       />
                     );
                   })}
@@ -302,6 +282,7 @@ const Wallet = () => {
         onHide={() => setModalShow(false)}
         message="Hi this is msg"
         differentiate={differentiate}
+        setRefresh={setRefresh}
       />
     </div>
   );
