@@ -9,7 +9,7 @@ import {
 } from "../../Utils/service/apiService";
 import StatusModal from "../../modal/StatusModal";
 import { moveToTrash_api } from "../../Utils/service/apiService";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 
 const Card = ({
   role,
@@ -28,13 +28,10 @@ const Card = ({
   setRefresh,
 }) => {
   console.log("userrole ======>>>> ", role, userName);
-  // const [userid, setUserId] = useState("");
-  // const [userID, setUserID] = useState("");
-  // const [userhierarchy, setHierarchy] = useState("");
+
   const navigate = useNavigate();
   const { dispatch, store } = useAppContext();
-  // const [Istatus, setIStatus] = useState('');
-  //   const [adminId, setAdminId] = useState("");
+
   const [transactionModalShow, setTransactionModalShow] = useState(false);
   const [viewModalShow, setViewModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState("");
@@ -49,13 +46,11 @@ const Card = ({
     setDifferentiate(differentiateParam);
   };
 
-
   const handleClose = () => setShowModal(false);
   const handleStatusModalShow = () => setShowModal(true);
 
   const handleStatusChange = (status) => {
-    console.log('Status changed to:', status);
-    // Additional logic for handling status change
+    console.log("Status changed to:", status);
   };
 
   async function handleDelete() {
@@ -334,30 +329,30 @@ const Card = ({
                   </button>
                 </span>
                 <span className="mx-1">
-                <button
-        className={`btn border border-2 rounded ${
-          ["Suspended"].includes(store?.admin?.Status)
-            ? "disabled"
-            : store?.admin?.roles[0].permission.some(
-                (role) => role === "Status"
-              )
-            ? ""
-            : [
-                "superAdmin",
-                "WhiteLabel",
-                "HyperAgent",
-                "SuperAgent",
-                "MasterAgent",
-              ].includes(store?.admin?.roles[0].role)
-            ? ""
-            : "disabled"
-        }`}
-        title="Setting"
-        type="button"
-        onClick={handleStatusModalShow}
-      >
-        <i className="fa-thin fas fa-gear"></i>
-      </button>
+                  <button
+                    className={`btn border border-2 rounded ${
+                      ["Suspended"].includes(store?.admin?.Status)
+                        ? "disabled"
+                        : store?.admin?.roles[0].permission.some(
+                            (role) => role === "Status"
+                          )
+                        ? ""
+                        : [
+                            "superAdmin",
+                            "WhiteLabel",
+                            "HyperAgent",
+                            "SuperAgent",
+                            "MasterAgent",
+                          ].includes(store?.admin?.roles[0].role)
+                        ? ""
+                        : "disabled"
+                    }`}
+                    title="Setting"
+                    type="button"
+                    onClick={handleStatusModalShow}
+                  >
+                    <i className="fa-thin fas fa-gear"></i>
+                  </button>
                 </span>
               </>
             ) : null}
@@ -444,7 +439,7 @@ const Card = ({
         adminName={userName}
         role={role}
       />
-        <StatusModal
+      <StatusModal
         show={showModal}
         handleClose={handleClose}
         statusId="some-status-id"
