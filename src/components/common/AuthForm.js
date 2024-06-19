@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
-import { getAuthForm } from '../../Utils/service/initiateState';
-import { LoginSchema } from '../../Utils/schema';
-import { useAppContext } from '../../contextApi/context';
-import strings from '../../Utils/constant/stringConstant';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { getAuthForm } from "../../Utils/service/initiateState";
+import { LoginSchema } from "../../Utils/schema";
+import { useAppContext } from "../../contextApi/context";
+import strings from "../../Utils/constant/stringConstant";
 
 const Authform = ({ purpose, authFormApi }) => {
   const [authForm] = useState(getAuthForm);
@@ -13,21 +13,21 @@ const Authform = ({ purpose, authFormApi }) => {
   const navigate = useNavigate();
 
   const roleOptions = {
-    superAdmin: ['whiteLabel', 'hyperAgent', 'superAgent', 'masterAgent'],
-    SubAdmin: ['whiteLabel', 'hyperAgent', 'superAgent', 'masterAgent'],
-    whiteLabel: ['hyperAgent', 'masterAgent', 'superAgent', 'user'],
-    superAgent: ['hyperAgent', 'masterAgent', 'user'],
-    hyperAgent: ['masterAgent', 'user'],
-    masterAgent: ['user'],
+    superAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
+    SubAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
+    whiteLabel: ["hyperAgent", "masterAgent", "superAgent", "user"],
+    superAgent: ["hyperAgent", "masterAgent", "user"],
+    hyperAgent: ["masterAgent", "user"],
+    masterAgent: ["user"],
   };
   const renderRoleOptions = () => {
-    if (purpose === 'create') {
+    if (purpose === "create") {
       const availableRoles = roleOptions[store?.admin?.roles[0]?.role] || [];
       // const availableRoles = [];
 
       return (
         <>
-          <option selected>Open this select role</option>
+          <option selected>Open This Select Role</option>
           {availableRoles.map((option) => (
             <option key={option} value={option}>
               {option}
@@ -39,14 +39,23 @@ const Authform = ({ purpose, authFormApi }) => {
     return null;
   };
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm, setFieldValue } = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    resetForm,
+    setFieldValue,
+  } = useFormik({
     initialValues: {
       ...authForm,
       roles: authForm.roles || [], // Ensure role is an array
     },
     validationSchema: LoginSchema,
     onSubmit: (values, action) => {
-      console.log('values++===============>', values);
+      console.log("values++===============>", values);
       authFormHandler(values);
       resetForm();
     },
@@ -60,13 +69,13 @@ const Authform = ({ purpose, authFormApi }) => {
       payload: true,
     });
     const response = await authFormApi(values, true);
-    console.log('res from login', response);
-    if (purpose === 'login' && response) {
+    console.log("res from login", response);
+    if (purpose === "login" && response) {
       dispatch({
         type: strings.LOG_IN,
         payload: { isLogin: true, ...response.data },
       });
-      navigate('/welcome');
+      navigate("/welcome");
 
       // setShowLogin(!showLogin);
     }
@@ -85,20 +94,20 @@ const Authform = ({ purpose, authFormApi }) => {
     } else {
       updatedRoles.push(selectedRole);
     }
-    setFieldValue('roles', updatedRoles);
+    setFieldValue("roles", updatedRoles);
   };
 
   return (
     <div className="main_content_iner ">
-      <div className="container-fluid" style={{ marginTop: '15rem' }}>
+      <div className="container-fluid" style={{ marginTop: "15rem" }}>
         <div className="col-lg-12">
           <div className="row justify-content-center">
             <div className="col-lg-6">
               <div className="modal-content cs_modal">
                 <div className="modal-header justify-content-center theme_bg_1">
                   <h5 className="modal-title text_white">
-                    {purpose === 'create' && 'Create'}
-                    {purpose === 'login' && 'Log In'}
+                    {purpose === "create" && "Create"}
+                    {purpose === "login" && "Log In"}
                   </h5>
                 </div>
                 <div className="modal-body">
@@ -107,32 +116,40 @@ const Authform = ({ purpose, authFormApi }) => {
                       <input
                         type="text"
                         className="form-control "
-                        placeholder="enter userName"
+                        placeholder="Enter UserName"
                         name="userName"
                         // style={{ border: '1px solid black' }}
                         value={values.userName}
                         onChange={handleChange}
                       />
-                      <span>{errors.userName && touched.userName ? <p>{errors.userName}</p> : null}</span>
+                      <span>
+                        {errors.userName && touched.userName ? (
+                          <p>{errors.userName}</p>
+                        ) : null}
+                      </span>
                     </div>
                     <div className="">
                       <input
                         type="password"
                         className="form-control "
-                        placeholder="enter password"
+                        placeholder="Enter Password"
                         name="password"
                         // style={{ border: '1px solid black' }}
                         value={values.password}
                         onChange={handleChange}
                       />
-                      <span>{errors.password && touched.password ? <p>{errors.password}</p> : null}</span>
+                      <span>
+                        {errors.password && touched.password ? (
+                          <p>{errors.password}</p>
+                        ) : null}
+                      </span>
                     </div>
-                    {purpose === 'create' && (
+                    {purpose === "create" && (
                       <div className="">
                         <select
                           className="form-select"
                           name="role"
-                          value={values.roles || ''}
+                          value={values.roles || ""}
                           onChange={handleRoleChange}
                           onBlur={handleBlur}
                         >
@@ -140,11 +157,15 @@ const Authform = ({ purpose, authFormApi }) => {
                         </select>
                       </div>
                     )}
-                    <a className="btn_1 full_width text-center" style={{ cursor: 'pointer' }} onClick={handleSubmit}>
-                      {purpose === 'create' && 'Create'}
-                      {purpose === 'login' && 'Log In'}
+                    <a
+                      className="btn_1 full_width text-center"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleSubmit}
+                    >
+                      {purpose === "create" && "Create"}
+                      {purpose === "login" && "Log In"}
                     </a>
-                    {purpose === 'login' && (
+                    {purpose === "login" && (
                       <div className="text-center">
                         <p></p>
                         <a

@@ -126,13 +126,13 @@ const Wallet = () => {
                 onChange={(e) => handleChange('totalEntries', e.target.value)}
               >
                 <option selected value="5">
-                  Show 5 entries
+                  Show 5 Entries
                 </option>
-                <option value="10">10 entries</option>
-                <option value="15">15 entries</option>
-                <option value="25">25 entries</option>
-                <option value="50">50 entries</option>
-                <option value="75">75 entries</option>
+                <option value="10">10 Entries</option>
+                <option value="15">15 Entries</option>
+                <option value="25">25 Entries</option>
+                <option value="50">50 Entries</option>
+                <option value="75">75 Entries</option>
               </select>
             </div>
 
