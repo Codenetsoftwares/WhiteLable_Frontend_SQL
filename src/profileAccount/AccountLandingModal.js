@@ -17,6 +17,7 @@ import { accountStatementInitialState } from "../Utils/service/initiateState";
 
 const AccountLandingModal = () => {
   const { userName } = useParams();
+  console.log('======>>> username',userName )
   const [state, setState] = useState(accountStatementInitialState());
 
   useEffect(() => {
@@ -130,7 +131,7 @@ const AccountLandingModal = () => {
   } else if (state.toggle === 2) {
     componentToRender = <ActivityLog props={state.activityView} />;
   } else if (state.toggle === 3) {
-    componentToRender = <AccountProfile props={state.profileView} />;
+    componentToRender = <AccountProfile props={state.profileView} UserName={userName} />;
   }
 
   return (

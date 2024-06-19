@@ -124,7 +124,9 @@ const AdminAccountStatement = () => {
                           </>
                         )}
                         <td></td>
-                        <td>{`${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`}</td>
+                        <td> {transaction.hasOwnProperty('transferFromUserAccount') && transaction.hasOwnProperty('transferToUserAccount')
+        ? `${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`
+        : 'Self-Transaction'}</td>
                       </tr>
                     ))}
                   </table>

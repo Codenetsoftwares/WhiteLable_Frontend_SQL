@@ -126,7 +126,7 @@ export function adminAccountStatementInitialState() {
     statement: [],
     currentPage: 1,
     totalPages: 0,
-    totalEntries: 10,
+    totalEntries: 5,
     totalData: 0,
   };
 }
