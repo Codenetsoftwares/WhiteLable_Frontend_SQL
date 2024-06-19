@@ -30,13 +30,17 @@ const Wallet = () => {
 
   useEffect(() => {
     if (store?.admin) {
-      permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && getAll_Create();
+      { permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && getAll_Create(); } 
+      { permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && getAll_Create(); } 
+
     }
+    
   }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries, refresh]);
 
   useEffect(() => {
     if (store?.admin) {
-      permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && view_Balance();
+      {permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && view_Balance();}
+      { permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && view_Balance(); }
     }
   }, [refresh]);
 
