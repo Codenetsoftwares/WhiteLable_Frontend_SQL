@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { activeInactiveInitialState } from "../Utils/service/initiateState";
 
 const StatusModal = ({
   show,
@@ -11,55 +12,56 @@ const StatusModal = ({
   onStatusChange,
   setUser,
 }) => {
-  const [active, setActive] = useState(true);
-  const [btncolor1, setBtncolor1] = useState(false);
-  const [btncolor2, setBtncolor2] = useState(false);
-  const [btncolor3, setBtncolor3] = useState(false);
-  const [lock, setLock] = useState(true);
-  const [password, setPassword] = useState("");
-  const [isClicked, setIsClicked] = useState(false);
+  const [state, setState] = useState(activeInactiveInitialState());
 
   const handleActiveChange = () => {
-    setActive(true);
-    setIsClicked(true);
-    setBtncolor1(true);
-    setBtncolor2(false);
-    setBtncolor3(false);
+    setState((prevState) => ({
+      ...prevState,
+      active: true,
+      isClicked: true,
+      btncolor1: true,
+      btncolor2: false,
+      btncolor3: false,
+    }));
   };
 
   const handleInactiveChange = () => {
-    setActive(false);
-    setIsClicked(true);
-    setBtncolor2(true);
-    setBtncolor1(false);
-    setBtncolor3(false);
-    setLock(true);
+    setState((prevState) => ({
+      ...prevState,
+      active: false,
+      isClicked: true,
+      btncolor2: true,
+      btncolor1: false,
+      btncolor3: false,
+      lock: true,
+    }));
   };
 
   const handleLockChange = () => {
-    setLock(false);
-    setIsClicked(true);
-    setBtncolor3(true);
-    setBtncolor1(false);
-    setBtncolor2(false);
+    setState((prevState) => ({
+      ...prevState,
+      lock: false,
+      isClicked: true,
+      btncolor3: true,
+      btncolor1: false,
+      btncolor2: false,
+    }));
   };
 
   const handleSubmit = () => {
-    if (isClicked) {
-      // Simulating API call or any async operation
+    if (state.isClicked) {
       setTimeout(() => {
-        // Example of handling the status change locally
         let status = "";
-        if (active && lock) {
+        if (state.active && state.lock) {
           status = "Active";
-        } else if (!active && lock) {
+        } else if (!state.active && state.lock) {
           status = "Suspended";
-        } else if (!active && !lock) {
+        } else if (!state.active && !state.lock) {
           status = "Locked";
         }
         onStatusChange(status);
         handleClose();
-      }, 1000); // Simulating a delay
+      }, 1000);
     } else {
       alert("Please select any status to continue");
     }
@@ -92,38 +94,38 @@ const StatusModal = ({
             <span>{name}</span>
           </div>
           <span style={{ fontWeight: "bold" }}>
-            {active && lock
+            {state.active && state.lock
               ? "Active"
-              : !active && lock
+              : !state.active && state.lock
               ? "Suspended"
               : "Locked"}
           </span>
         </div>
         <div className="modal-body d-flex justify-content-between">
           <Button
-            variant={btncolor1 ? "success" : "outline-success"}
+            variant={state.btncolor1 ? "success" : "outline-success"}
             onClick={handleActiveChange}
             style={{ width: "33.33%", marginRight: "2%" }}
           >
-            <i class="fas fa-check-circle mb-1" /> <br />
+            <i className="fas fa-check-circle mb-1" /> <br />
             <span>Active</span>
           </Button>
           <Button
-            variant={btncolor2 ? "danger" : "outline-danger"}
+            variant={state.btncolor2 ? "danger" : "outline-danger"}
             onClick={handleInactiveChange}
             style={{ width: "calc(33.33% - 6px)" }}
           >
-            <i class="fas fa-ban mb-1" /> <br />
+            <i className="fas fa-ban mb-1" /> <br />
             <span>Suspended</span>
           </Button>
           <Button
-            variant={btncolor3 ? "secondary" : "outline-secondary"}
+            variant={state.btncolor3 ? "secondary" : "outline-secondary"}
             onClick={handleLockChange}
             style={{ width: "calc(33.33% - 8px)" }}
           >
-            <i class="fas fa-lock mb-1" /> <br />
+            <i className="fas fa-lock mb-1" /> <br />
             <span>Lock</span>
-          </Button>Z
+          </Button>
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -131,8 +133,13 @@ const StatusModal = ({
           type="password"
           className="form-control mr-2"
           placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={state.password}
+          onChange={(e) =>
+            setState((prevState) => ({
+              ...prevState,
+              password: e.target.value,
+            }))
+          }
           style={{ width: "40%" }}
         />
         <Button

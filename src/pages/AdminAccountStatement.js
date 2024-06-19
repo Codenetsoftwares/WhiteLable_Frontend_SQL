@@ -3,48 +3,50 @@ import { useAppContext } from "../contextApi/context";
 import { getAccountStatement_api } from "../Utils/service/apiService";
 import { permissionObj } from "../Utils/constant/permission";
 import Pagination from "../components/common/Pagination";
+import { adminAccountStatementInitialState } from "../Utils/service/initiateState";
 
 const AdminAccountStatement = () => {
   const { dispatch, store } = useAppContext();
   console.log("========>>> _id", store);
-  const [statement, setStatement] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState();
-  const [totalEntries, setTotalEntries] = useState(10);
-  const [totalData, setTotalData] = useState(0);
-  console.log("========>>>> statement", statement, totalPages, totalData);
+
+  const [state, setState] = useState(adminAccountStatementInitialState());
 
   async function AccountStatement() {
     const response = await getAccountStatement_api({
       _id: store?.admin?.id,
-      pageNumber:currentPage,
-      dataLimit:totalEntries
+      pageNumber: state.currentPage,
+      dataLimit: state.totalEntries,
     });
     console.log("======>>>>>> response", response.pagination);
-    setStatement(response.data);
-    setTotalPages(response.pagination.totalPages);
-    setTotalData(response.pagination.totalItems);
+
+    setState((prevState) => ({
+      ...prevState,
+      statement: response.data,
+      totalPages: response.pagination.totalPages,
+      totalData: response.pagination.totalItems,
+    }));
   }
 
-  async function handlePageChange(page) {
-    console.log('========>>>> page change',page);
+  function handlePageChange(page) {
+    console.log("========>>>> page change", page);
 
-    setCurrentPage(page);
+    setState((prevState) => ({
+      ...prevState,
+      currentPage: page,
+    }));
   }
 
   useEffect(() => {
     if (store?.admin) {
-      {
-        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) &&
-          AccountStatement();
-      }
-
-      {
-        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) &&
-          AccountStatement();
+      if (
+        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) ||
+        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role)
+      ) {
+        AccountStatement();
       }
     }
-  }, [store?.admin,currentPage,totalEntries]);
+  }, [store?.admin, state.currentPage, state.totalEntries]);
+
   function formatDate(dateString) {
     const options = {
       year: "numeric",
@@ -54,37 +56,35 @@ const AdminAccountStatement = () => {
       minute: "numeric",
       second: "numeric",
     };
-    const formattedDate = new Date(dateString).toLocaleDateString(
-      "en-US",
-      options
-    );
-    return formattedDate;
+    return new Date(dateString).toLocaleDateString("en-US", options);
   }
-  let startIndex = Math.min((currentPage - 1) * totalEntries + 1);
-  let endIndex = Math.min(currentPage * totalEntries, totalData);
+
+  const startIndex = Math.min((state.currentPage - 1) * state.totalEntries + 1);
+  const endIndex = Math.min(
+    state.currentPage * state.totalEntries,
+    state.totalData
+  );
+
   return (
     <div className="d-flex justify-content-center m-5">
       {/* card */}
-      <div class="card w-100 rounded">
+      <div className="card w-100 rounded">
         <div
-          class="card-heade text-white p-1"
+          className="card-heade text-white p-1"
           style={{ backgroundColor: "#26416e" }}
         >
           <b>&nbsp;&nbsp;Account Statement</b>
         </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <div class="white_card_body">
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">
+            <div className="white_card_body">
               {/* Table */}
-              <div class="QA_section">
-                <div class="QA_table mb_30">
-                  <table class="table lms_table_active3 ">
+              <div className="QA_section">
+                <div className="QA_table mb_30">
+                  <table className="table lms_table_active3">
                     <thead>
                       <tr
-                        style={{
-                          backgroundColor: "#e6e9ed",
-                          color: "#5562a3",
-                        }}
+                        style={{ backgroundColor: "#e6e9ed", color: "#5562a3" }}
                       >
                         <th scope="col">
                           <b>Date/Time</b>
@@ -95,9 +95,6 @@ const AdminAccountStatement = () => {
                         <th scope="col">
                           <b>Withdraw</b>
                         </th>
-                        {/* <th scope="col">
-                        <b>Balance</b>
-                      </th> */}
                         <th scope="col">
                           <b>Remark</b>
                         </th>
@@ -106,7 +103,7 @@ const AdminAccountStatement = () => {
                         </th>
                       </tr>
                     </thead>
-                    {statement.map((transaction) => (
+                    {state.statement.map((transaction) => (
                       <tr key={transaction._id}>
                         <th scope="row">
                           <a href="#" className="question_content">
@@ -126,26 +123,28 @@ const AdminAccountStatement = () => {
                             <td></td>
                           </>
                         )}
-
                         <td></td>
-                        <td>{`${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`}</td>
+                        <td> {transaction.hasOwnProperty('transferFromUserAccount') && transaction.hasOwnProperty('transferToUserAccount')
+        ? `${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`
+        : 'Self-Transaction'}</td>
                       </tr>
                     ))}
                   </table>
                 </div>
-                {/* Table */}
               </div>
-
-              {/* No Data Found */}
-
               {/* End of No Data Found */}
             </div>
           </li>
-          <li class="list-group-item">
+          <li className="list-group-item">
             <select
-              class="form-select form-select-sm w-25"
+              className="form-select form-select-sm w-25"
               aria-label=".form-select-sm example"
-              onChange={(e) => setTotalEntries(e.target.value)}
+              onChange={(e) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  totalEntries: e.target.value,
+                }))
+              }
             >
               <option selected value="5">
                 Show 5 entries
@@ -156,16 +155,16 @@ const AdminAccountStatement = () => {
               <option value="50">50 entries</option>
               <option value="75">75 entries</option>
             </select>
-            {/* Pagiantion */}
+            {/* Pagination */}
             <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
+              currentPage={state.currentPage}
+              totalPages={state.totalPages}
               handlePageChange={handlePageChange}
               startIndex={startIndex}
               endIndex={endIndex}
-              totalData={totalData}
+              totalData={state.totalData}
             />
-            {/* Pagiantion */}
+            {/* Pagination */}
           </li>
         </ul>
       </div>

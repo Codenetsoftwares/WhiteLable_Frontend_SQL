@@ -30,13 +30,10 @@ const Card = ({
   setRefresh,
 }) => {
   console.log("userrole ======>>>> ", role, userName);
-  // const [userid, setUserId] = useState("");
-  // const [userID, setUserID] = useState("");
-  // const [userhierarchy, setHierarchy] = useState("");
+
   const navigate = useNavigate();
   const { dispatch, store } = useAppContext();
-  // const [Istatus, setIStatus] = useState('');
-  //   const [adminId, setAdminId] = useState("");
+
   const [transactionModalShow, setTransactionModalShow] = useState(false);
   const [viewModalShow, setViewModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState("");
@@ -51,13 +48,11 @@ const Card = ({
     setDifferentiate(differentiateParam);
   };
 
-
   const handleClose = () => setShowModal(false);
   const handleStatusModalShow = () => setShowModal(true);
 
   const handleStatusChange = (status) => {
-    console.log('Status changed to:', status);
-    // Additional logic for handling status change
+    console.log("Status changed to:", status);
   };
 
   async function handleDelete() {
