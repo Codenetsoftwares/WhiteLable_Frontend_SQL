@@ -143,6 +143,7 @@ console.log('=====>>> stored data',state)
                 setState((prevState) => ({
                   ...prevState,
                   totalEntries: e.target.value,
+                  currentPage: 1,
                 }))
               }
             >
