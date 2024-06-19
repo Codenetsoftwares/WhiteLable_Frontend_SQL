@@ -20,9 +20,26 @@ const AccountLandingModal = () => {
   console.log('======>>> username',userName )
   const [state, setState] = useState(accountStatementInitialState());
 
+  
+  const formatDate = (dateString) => {
+    // Parse the date string to create a Date object
+    const date = new Date(dateString);
+  
+    // Extract the year, month, and day
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    // Format the date as "YYYY-MM-DD"
+    return `${year}-${month}-${day}`;
+  };
+
   useEffect(() => {
     getAll_userProfileStatement();
   }, [userName]);
+
+
+  
 
   useEffect(() => {
     getAll_transactionView();
@@ -37,20 +54,22 @@ const AccountLandingModal = () => {
       profileView: response.data,
     }));
   }
+  console.log("first===>",state.startDate)
+console.log("tom===>",formatDate(state.startDate))
 
   async function getAll_transactionView() {
     const response = await getAllTransactionView({
       userName,
       pageNumber: state.currentPage,
-      fromDate: state.startDate,
-      toDate: state.endDate,
+      fromDate: formatDate(state.startDate),
+      toDate: formatDate(state.endDate),
     });
     console.log("response for transaction view line 67", response);
     setState((prevState) => ({
       ...prevState,
       statementView: response.data,
-      totalPages: response.data.totalPages,
-      totalData: response.data.totalItems,
+      totalPages: response.pagination.totalPages,
+      totalData: response.pagination.totalItems,
     }));
   }
 

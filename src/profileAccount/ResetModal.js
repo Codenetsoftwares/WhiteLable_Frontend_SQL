@@ -33,6 +33,7 @@ const ResetModal = ({ show, handleClose , userName }) => {
     
       const response = await resetAdminPassword_api(data);
       console.log(response);
+      handleClose();
     } else {
       alert("New Password and Confirm Password do not match");
     }
@@ -65,7 +66,7 @@ const ResetModal = ({ show, handleClose , userName }) => {
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text w-100" id="basic-addon1">
-                New Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                New Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
             </div>
             <input

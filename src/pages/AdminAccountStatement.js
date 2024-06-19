@@ -10,7 +10,7 @@ const AdminAccountStatement = () => {
   console.log("========>>> _id", store);
 
   const [state, setState] = useState(adminAccountStatementInitialState());
-
+console.log('=====>>> stored data',state)
   async function AccountStatement() {
     const response = await getAccountStatement_api({
       _id: store?.admin?.id,

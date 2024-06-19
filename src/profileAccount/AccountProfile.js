@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-// import EditIcon from "../../Assets/EditIcon.png";
-// import MyAccountServices from "../../Services/MyAccountServices";
-// import { useAuth } from "../../Utils/Auth";
+import EditIcon from "../Assets/EditIcon.png";
+
 import { Modal, Button } from "react-bootstrap";
 import ResetModal from "./ResetModal";
 
@@ -84,7 +83,7 @@ const AccountProfile = ({ props, UserName }) => {
             <b style={{ color: "#1c3763" }}>Password : </b>
             <b>********</b>{" "}
             <img
-              // src={EditIcon}
+              src={EditIcon}
               style={{ width: isHovered ? "25px" : "20px" }}
               onMouseOver={() => setIsHovered(true)}
               onMouseOut={() => setIsHovered(false)}
