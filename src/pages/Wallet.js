@@ -6,6 +6,7 @@ import { useAppContext } from '../contextApi/context';
 import Card from '../components/common/Card';
 import Pagination from '../components/common/Pagination';
 import CustomTransactionModal from '../modal/customTransactionModal';
+import strings from '../Utils/constant/stringConstant';
 
 const Wallet = () => {
   const { dispatch, store } = useAppContext();
@@ -29,23 +30,13 @@ const Wallet = () => {
 
   useEffect(() => {
     if (store?.admin) {
-      {
-        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && getAll_Create();
-      }
-      {
-        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && getAll_Create();
-      }
+      permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && getAll_Create();
     }
   }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries, refresh]);
 
   useEffect(() => {
     if (store?.admin) {
-      {
-        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && view_Balance();
-      }
-      {
-        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && view_Balance();
-      }
+      permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && view_Balance();
     }
   }, [refresh]);
 
@@ -106,7 +97,7 @@ const Wallet = () => {
       <div className="text-center mt-10">
         <p style={{ fontWeight: 'bold' }}>Total Balance</p>
         <h4 className="mb-1">₹{balance}</h4>
-        {store?.admin?.roles && store?.admin?.roles.length > 0 && store?.admin?.roles[0].role === 'superAdmin' && (
+        {store?.admin?.roles && store?.admin?.roles.length > 0 && store?.admin?.roles[0].role === strings.superAdmin && (
           <button
             className="btn btn-danger"
             aria-label="Close"
