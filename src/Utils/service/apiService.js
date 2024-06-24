@@ -334,3 +334,32 @@ export async function resetAdminPassword_api(body = {}, isToast = false) {
     throw error;
   }
 }
+
+export async function userCreate(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(
+      UrlConstant.UserCreate,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function getUserList(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      UrlConstant.viewCreateList,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

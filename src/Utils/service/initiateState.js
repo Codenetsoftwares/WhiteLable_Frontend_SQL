@@ -130,3 +130,18 @@ export function adminAccountStatementInitialState() {
     totalData: 0,
   };
 }
+
+export function getUserCreate(body = {}) {
+  return { userName: "", firstName: "", lastName: "", mobileNo: "", password: "" };
+}
+
+export function getViewUserList(body = {}) {
+  return {
+    userList: [],
+    currentPage: 1,
+    totalPages: "",
+    totalEntries: 5,
+    name: "",
+    totalData: "",
+  };
+}
