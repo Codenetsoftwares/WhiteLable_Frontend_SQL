@@ -18,7 +18,7 @@ export class StringConstants {
 
   // roles
   superAdmin = 'superAdmin';
-  whiteLabel = '?page=${body.pageNumber}&pageSize=${body.dataLimit}';
+  whiteLabel = 'whiteLabel';
   hyperAgent = 'hyperAgent';
   superAgent = 'superAgent';
   masterAgent = 'masterAgent';
