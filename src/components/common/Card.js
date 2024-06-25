@@ -63,7 +63,7 @@ const Card = ({
     const response = await moveToTrash_api({ requestId: adminId });
     if (userConfirmed) {
       console.log("Im here in line 94");
-      if (response.status === 201) {
+      if (response?.responseCode === 201) {
         alert("Agent Deleted approval sent!");
         // window.location.reload();
       }
