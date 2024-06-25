@@ -183,7 +183,7 @@ const Card = ({
                     : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
                       ? ""
                       : "disabled"
-                    }`}
+                  }`}
                 onClick={() => handelOpenViewModal(true, "creditRefViewer")}
               >
                 <i class="fa-regular fa-eye" aria-label="Close"></i>
@@ -372,15 +372,18 @@ const Card = ({
         role={role}
         setRefresh={setRefresh}
       />
-      <ViewPartnershipAndCreditRefModal
-        show={viewModalShow}
-        onHide={() => setViewModalShow(false)}
-        message="Hi this is msg"
-        differentiate={differentiate}
-        adminId={adminId}
-        adminName={userName}
-        role={role}
-      />
+      {
+        adminId != undefined &&
+        <ViewPartnershipAndCreditRefModal
+          show={viewModalShow}
+          onHide={() => setViewModalShow(false)}
+          message="Hi this is msg"
+          differentiate={differentiate}
+          adminId={adminId}
+          adminName={userName}
+          role={role}
+        />
+      }
       <StatusModal
         show={showModal}
         handleClose={handleClose}
