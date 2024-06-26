@@ -116,7 +116,7 @@ const Authform = ({ purpose, authFormApi }) => {
                       <input
                         type="text"
                         className="form-control "
-                        placeholder="Enter UserName"
+                        placeholder="Enter Username"
                         name="userName"
                         // style={{ border: '1px solid black' }}
                         value={values.userName}
