@@ -158,7 +158,15 @@ const Authform = ({ purpose, authFormApi }) => {
                       </div>
                     )}
 {console.log('===>> roles ',values.roles)}
-                   {values.roles.length>0 &&<a
+                   {purpose === "create"&&values.roles.length>0 &&<a
+                      className="btn_1 full_width text-center"
+                      style={{ cursor: values.roles ? "pointer" : "not-allowed" }}
+                      onClick={values.roles ? handleSubmit : undefined}
+                    >
+                      {purpose === "create" && "Create"}
+                      {purpose === "login" && "Log In"}
+                    </a>}
+                    {purpose === "login" &&<a
                       className="btn_1 full_width text-center"
                       style={{ cursor: values.roles ? "pointer" : "not-allowed" }}
                       onClick={values.roles ? handleSubmit : undefined}
