@@ -12,6 +12,8 @@ import { moveToTrash_api } from "../../Utils/service/apiService";
 import Button from 'react-bootstrap/Button';
 import strings from "../../Utils/constant/stringConstant";
 import { permissionObj } from "../../Utils/constant/permission";
+import { toast } from "react-toastify";
+
 
 const Card = ({
   role,
@@ -28,12 +30,12 @@ const Card = ({
   partnershipLength,
   callingParent,
   setRefresh,
+  adminDelete,
 }) => {
   console.log("userrole ======>>>> ", role, userName);
 
   const navigate = useNavigate();
   const { dispatch, store } = useAppContext();
-
   const [transactionModalShow, setTransactionModalShow] = useState(false);
   const [viewModalShow, setViewModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState("");
@@ -60,12 +62,14 @@ const Card = ({
     const userConfirmed = window.confirm(
       "Balance should be 0 to move the Admin User to trash"
     );
-    const response = await moveToTrash_api({ requestId: adminId });
+   
     if (userConfirmed) {
+      const response = await moveToTrash_api({ requestId: adminId });
       console.log("Im here in line 94");
-      if (response?.responseCode === 201) {
-        alert("Agent Deleted approval sent!");
-        // window.location.reload();
+      if (response){
+        console.log(response)
+        adminDelete(response)
+        toast.info(response.message)
       }
     }
   }

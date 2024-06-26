@@ -15,6 +15,7 @@ const Wallet = () => {
   const [modalShow, setModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState('');
   const [refresh, setRefresh] = useState({});
+  const[adminDelete, setAdminDelete] = useState('');
 
   const handleChange = (name, value) => {
     setWalletCard((prevData) => ({
@@ -35,7 +36,7 @@ const Wallet = () => {
 
     }
     
-  }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries, refresh]);
+  }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries, refresh, adminDelete]);
 
   useEffect(() => {
     if (store?.admin) {
@@ -248,6 +249,7 @@ const Wallet = () => {
                         // partnershipLength={partnershipLength}
                         callingParent="Wallet"
                         setRefresh={setRefresh}
+                        adminDelete={setAdminDelete}
                       />
                     );
                   })}
