@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../contextApi/context';
+import { permissionObj } from '../Utils/constant/permission';
+import strings from '../Utils/constant/stringConstant';
 
 const Navside = () => {
   const { store } = useAppContext();
@@ -60,19 +62,19 @@ const Navside = () => {
               </div>
             </a>
             <ul>
-              {['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+              {permissionObj.allAdmin.includes(
                 store.admin.roles[0].role,
               ) && (
-                <li>
-                  <Link to="/allAdminCreate">
-                    <span>
-                      <i class="fa-solid fa-circle"></i>Create Admin
-                    </span>
-                  </Link>
-                </li>
-              )}
+                  <li>
+                    <Link to="/allAdminCreate">
+                      <span>
+                        <i class="fa-solid fa-circle"></i>Create Admin
+                      </span>
+                    </Link>
+                  </li>
+                )}
 
-              {store.admin.roles[0].permission.includes('Create-Admin') && (
+              {store.admin.roles[0].permission.includes(strings.createAdmin) && (
                 <li>
                   <Link to="/allAdminCreate">
                     <span>
@@ -96,58 +98,78 @@ const Navside = () => {
           </li>
         )}
 
-        <li className="" onClick={takeMeToAdminAccount}>
-          <a className="" href="#" aria-expanded="false">
-            <div>
-              <img src="../img/menu-icon/dashboard.svg" alt="" />
-            </div>
-            <div>
-              <span>Account Statement</span>
-            </div>
-          </a>
-        </li>
+        
 
-        {['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+        {permissionObj.allAdmin.includes(
           store.admin.roles[0].role,
         ) && (
-          <>
-            {isRequest ? (
-              <li className="" onClick={handleRequestToggle}>
-                <a className="has-arrow" href="#" aria-expanded="false">
-                  <div className="nav_icon_small">
-                    <img src="../img/menu-icon/dashboard.svg" alt="" />
-                  </div>
-                  <div className="nav_title">
-                    <span>Request</span>
-                  </div>
-                </a>
-              </li>
-            ) : (
-              <li className="" onClick={handleRequestToggle}>
-                <a className="has-arrow" href="#" aria-expanded="false">
-                  <div>
-                    <img src="../img/menu-icon/dashboard.svg" alt="" />
-                  </div>
-                  <div>
-                    <span>Request</span>
-                  </div>
-                </a>
-                <ul>
-                  <li>
-                    <Link to="/agentDelete">
-                      <span>
-                        {' '}
-                        <i class="fa-solid fa-circle"></i>Approve deletion
-                      </span>
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-            )}
-          </>
-        )}
+          <li className="" onClick={takeMeToAdminAccount}>
+            <a className="" href="#" aria-expanded="false">
+              <div>
+                <img src="../img/menu-icon/dashboard.svg" alt="" />
+              </div>
+              <div>
+                <span>Account Statement</span>
+              </div>
+            </a>
+          </li>
+          )}
 
-        {store.admin.roles[0].permission.includes('Delete-Admin') && (
+        {store.admin.roles[0].permission.includes(strings.accountStatement) && (
+            <li className="" onClick={takeMeToAdminAccount}>
+              <a className="" href="#" aria-expanded="false">
+                <div>
+                  <img src="../img/menu-icon/dashboard.svg" alt="" />
+                </div>
+                <div>
+                  <span>Account Statement</span>
+                </div>
+              </a>
+            </li>
+          )}
+
+        {store.admin.roles[0].permission.includes(strings.deleteAdmin) && 
+         (
+            <>
+              {isRequest ? (
+                <li className="" onClick={handleRequestToggle}>
+                  <a className="has-arrow" href="#" aria-expanded="false">
+                    <div className="nav_icon_small">
+                      <img src="../img/menu-icon/dashboard.svg" alt="" />
+                    </div>
+                    <div className="nav_title">
+                      <span>Request</span>
+                    </div>
+                  </a>
+                </li>
+              ) : (
+                <li className="" onClick={handleRequestToggle}>
+                  <a className="has-arrow" href="#" aria-expanded="false">
+                    <div>
+                      <img src="../img/menu-icon/dashboard.svg" alt="" />
+                    </div>
+                    <div>
+                      <span>Request</span>
+                    </div>
+                  </a>
+                  <ul>
+                    <li>
+                      <Link to="/agentDelete">
+                        <span>
+                          {' '}
+                          <i class="fa-solid fa-circle"></i>Approve delete
+                        </span>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              )}
+            </>
+          )}
+
+        {permissionObj.allAdmin.includes(
+          store.admin.roles[0].role,
+        ) &&  (
           <>
             {isRequest ? (
               <li className="" onClick={handleRequestToggle}>
@@ -180,53 +202,100 @@ const Navside = () => {
           </>
         )}
 
-        {['superAdmin', 'WhiteLabel', 'HyperAgent', 'SuperAgent', 'MasterAgent'].includes(
+        {permissionObj.allAdmin.includes(
           store.admin.roles[0].role,
         ) && (
-          <>
-            {userRole ? (
-              <li className="" onClick={handleUserRoleToggle}>
-                <a className="has-arrow" href="#" aria-expanded="false">
-                  <div className="nav_icon_small">
-                    <img src="../img/menu-icon/dashboard.svg" alt="" />
-                  </div>
-                  <div className="nav_title">
-                    <span>User Role</span>
-                  </div>
-                </a>
-              </li>
-            ) : (
-              <li className="" onClick={handleUserRoleToggle}>
-                <a className="has-arrow" href="#" aria-expanded="false">
-                  <div>
-                    <img src="../img/menu-icon/dashboard.svg" alt="" />
-                  </div>
-                  <div>
-                    <span>User Role</span>
-                  </div>
-                </a>
-                <ul className="d-flex flex-column ml-0">
-                  <li>
-                    <Link to="/CreateSubAdmin">
-                      <span>
-                        {' '}
-                        <i class="fa-solid fa-circle"></i>Create New
-                      </span>
-                    </Link>
-                  </li>
+            <>
+              {userRole ? (
+                <li className="" onClick={handleUserRoleToggle}>
+                  <a className="has-arrow" href="#" aria-expanded="false">
+                    <div className="nav_icon_small">
+                      <img src="../img/menu-icon/dashboard.svg" alt="" />
+                    </div>
+                    <div className="nav_title">
+                      <span>User Role</span>
+                    </div>
+                  </a>
+                </li>
+              ) : (
+                <li className="" onClick={handleUserRoleToggle}>
+                  <a className="has-arrow" href="#" aria-expanded="false">
+                    <div>
+                      <img src="../img/menu-icon/dashboard.svg" alt="" />
+                    </div>
+                    <div>
+                      <span>User Role</span>
+                    </div>
+                  </a>
+                  <ul className="d-flex flex-column ml-0">
+                    <li>
+                      <Link to="/CreateSubAdmin">
+                        <span>
+                          {' '}
+                          <i class="fa-solid fa-circle"></i>Create New
+                        </span>
+                      </Link>
+                    </li>
 
-                  <li>
-                    <Link to="/ViewAllSubAdmin">
-                      <span>
-                        <i class="fa-solid fa-circle"></i>View Existing
-                      </span>
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-            )}
-          </>
-        )}
+                    <li>
+                      <Link to="/ViewAllSubAdmin">
+                        <span>
+                          <i class="fa-solid fa-circle"></i>View Existing
+                        </span>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              )}
+            </>
+          )}
+
+        {store.admin.roles[0].permission.includes(strings.createAdmin)
+          && (
+            <>
+              {userRole ? (
+                <li className="" onClick={handleUserRoleToggle}>
+                  <a className="has-arrow" href="#" aria-expanded="false">
+                    <div className="nav_icon_small">
+                      <img src="../img/menu-icon/dashboard.svg" alt="" />
+                    </div>
+                    <div className="nav_title">
+                      <span>User Role</span>
+                    </div>
+                  </a>
+                </li>
+              ) : (
+                <li className="" onClick={handleUserRoleToggle}>
+                  <a className="has-arrow" href="#" aria-expanded="false">
+                    <div>
+                      <img src="../img/menu-icon/dashboard.svg" alt="" />
+                    </div>
+                    <div>
+                      <span>User Role</span>
+                    </div>
+                  </a>
+                  <ul className="d-flex flex-column ml-0">
+                    <li>
+                      <Link to="/CreateSubAdmin">
+                        <span>
+                          {' '}
+                          <i class="fa-solid fa-circle"></i>Create New
+                        </span>
+                      </Link>
+                    </li>
+
+                    <li>
+                      <Link to="/ViewAllSubAdmin">
+                        <span>
+                          <i class="fa-solid fa-circle"></i>View Existing
+                        </span>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              )}
+            </>
+          )}
       </ul>
     </nav>
   );

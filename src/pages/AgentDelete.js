@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { deleteTrash_api, restoreTrash_api, viewTrash_api } from "../Utils/service/apiService";
-
-
+import { toast } from "react-toastify";
 
 const AgentDelete = () => {
- 
   const [viewAgentDelete, setViewAgentDelete] = useState([]);
+  const [reload, setReload] = useState(false); // state to trigger reload
 
   async function viewApprovedDelete() {
     const response = await viewTrash_api();
@@ -15,32 +14,38 @@ const AgentDelete = () => {
 
   useEffect(() => {
     viewApprovedDelete();
-  }, []);
+  }, [reload]);
+
   async function handleDeleteAgent(id) {
     console.log("onclick user trash id", id);
 
     const response = await deleteTrash_api({ trashId: id });
+if (response){
+  toast.info(response.message);
+  setReload(!reload); 
 
-    alert("Agent Deleted From Trash Successfully!");
-    window.location.reload();
-  }
-
-  async function handleRestore (adminId){
-    console.log('onclick adminId ===== >>',adminId)
-const data ={
-  adminId:adminId
 }
-const response = await restoreTrash_api(data)
-alert("Agent Restore From Trash Successfully!");
-window.location.reload();
+  
   }
+
+  async function handleRestore(adminId) {
+    console.log('onclick adminId ===== >>', adminId);
+    const data = { adminId: adminId };
+    const response = await restoreTrash_api(data);
+    if (response){
+      toast.info(response .message);
+      setReload(!reload); 
+    }
+  
+  }
+
   return (
     <>
       {viewAgentDelete.length > 0 ? (
-        <div className="container d-flex justify-content-center ">
-          <div className=" p-2">
+        <div className="container d-flex justify-content-center">
+          <div className="p-2">
             <div>
-              <table className="table  m-2">
+              <table className="table m-2">
                 <thead
                   style={{
                     height: "10px",
@@ -67,10 +72,8 @@ window.location.reload();
                     <td>{data.userName}</td>
                     <td>
                       <button
-                        className="btn  btn-danger text-dark rounded"
-                        onClick={(e) => {
-                          handleDeleteAgent(data.trashId);
-                        }}
+                        className="btn btn-danger text-dark rounded"
+                        onClick={() => handleDeleteAgent(data.trashId)}
                       >
                         Delete
                       </button>
@@ -78,7 +81,7 @@ window.location.reload();
                     <td>
                       <button
                         className="btn btn-info text-dark rounded"
-                          onClick={(e) => handleRestore(data.adminId)}
+                        onClick={() => handleRestore(data.adminId)}
                       >
                         Restore
                       </button>
@@ -90,7 +93,7 @@ window.location.reload();
           </div>
         </div>
       ) : (
-        <div class="container alert alert-warning mt-1" role="alert">
+        <div className="container alert alert-warning mt-1" role="alert">
           <p className="d-flex justify-content-center">
             No Delete Request Found
           </p>

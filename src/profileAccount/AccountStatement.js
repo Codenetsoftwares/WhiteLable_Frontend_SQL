@@ -19,7 +19,7 @@ const AccountStatement = ({
   endIndex,
   totalData,
 }) => {
-    console.log('======>>> user profile data in account statement PAGE',props)
+    console.log('======>>> user profile data in account statement PAGE',totalData,currentPage,totalPages)
   const [dataSource, setDataSource] = useState("");
 
   function formatDate(dateString) {

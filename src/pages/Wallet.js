@@ -6,6 +6,7 @@ import { useAppContext } from '../contextApi/context';
 import Card from '../components/common/Card';
 import Pagination from '../components/common/Pagination';
 import CustomTransactionModal from '../modal/customTransactionModal';
+import strings from '../Utils/constant/stringConstant';
 
 const Wallet = () => {
   const { dispatch, store } = useAppContext();
@@ -14,6 +15,7 @@ const Wallet = () => {
   const [modalShow, setModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState('');
   const [refresh, setRefresh] = useState({});
+  const[adminDelete, setAdminDelete] = useState('');
 
   const handleChange = (name, value) => {
     setWalletCard((prevData) => ({
@@ -29,23 +31,17 @@ const Wallet = () => {
 
   useEffect(() => {
     if (store?.admin) {
-      {
-        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && getAll_Create();
-      }
-      {
-        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && getAll_Create();
-      }
+      { permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && getAll_Create(); } 
+      { permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && getAll_Create(); } 
+
     }
-  }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries, refresh]);
+    
+  }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries, refresh, adminDelete]);
 
   useEffect(() => {
     if (store?.admin) {
-      {
-        permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && view_Balance();
-      }
-      {
-        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && view_Balance();
-      }
+      {permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && view_Balance();}
+      { permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && view_Balance(); }
     }
   }, [refresh]);
 
@@ -106,7 +102,7 @@ const Wallet = () => {
       <div className="text-center mt-10">
         <p style={{ fontWeight: 'bold' }}>Total Balance</p>
         <h4 className="mb-1">₹{balance}</h4>
-        {store?.admin?.roles && store?.admin?.roles.length > 0 && store?.admin?.roles[0].role === 'superAdmin' && (
+        {store?.admin?.roles && store?.admin?.roles.length > 0 && store?.admin?.roles[0].role === strings.superAdmin && (
           <button
             className="btn btn-danger"
             aria-label="Close"
@@ -126,13 +122,13 @@ const Wallet = () => {
                 onChange={(e) => handleChange('totalEntries', e.target.value)}
               >
                 <option selected value="5">
-                  Show 5 entries
+                  Show 5 Entries
                 </option>
-                <option value="10">10 entries</option>
-                <option value="15">15 entries</option>
-                <option value="25">25 entries</option>
-                <option value="50">50 entries</option>
-                <option value="75">75 entries</option>
+                <option value="10">10 Entries</option>
+                <option value="15">15 Entries</option>
+                <option value="25">25 Entries</option>
+                <option value="50">50 Entries</option>
+                <option value="75">75 Entries</option>
               </select>
             </div>
 
@@ -253,6 +249,7 @@ const Wallet = () => {
                         // partnershipLength={partnershipLength}
                         callingParent="Wallet"
                         setRefresh={setRefresh}
+                        adminDelete={setAdminDelete}
                       />
                     );
                   })}

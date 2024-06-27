@@ -18,7 +18,7 @@ export class StringConstants {
 
   // roles
   superAdmin = 'superAdmin';
-  whiteLabel = '?page=${body.pageNumber}&pageSize=${body.dataLimit}';
+  whiteLabel = 'whiteLabel';
   hyperAgent = 'hyperAgent';
   superAgent = 'superAgent';
   masterAgent = 'masterAgent';
@@ -50,22 +50,22 @@ export class StringConstants {
   trashView = 'trash-view';
 
   roles = [
-    'TransferBalance',
-    'Status',
-    'CreditRef-Edit',
-    'Partnership-Edit',
-    'CreditRef-View',
-    'Partnership-View',
-    'User-Profile-View',
-    'Profile-View',
-    'Create-Admin',
-    'Create-User',
-    'AccountStatement',
-    'ActivityLog',
-    'Delete-Admin',
-    'Restore-Admin',
-    'Move-To-Trash',
-    'Trash-View',
+    'transferBalance',
+    'status',
+    'creditRef-Edit',
+    'partnership-Edit',
+    'creditRef-View',
+    'partnership-view',
+    'user-profile-view',
+    'profile-view',
+    'create-Admin',
+    'create-user',
+    'accountStatement',
+    'activityLog',
+    'delete-admin',
+    'restore-admin',
+    'move-to-trash',
+    'trash-view',
   ];
 }
 
