@@ -228,25 +228,26 @@ const Wallet = () => {
                     </tr>
                   </thead>
                   {walletCard.userList.map((data, i) => {
-                    // const creditRefLength = data.creditRef.length;
-                    // const partnershipLength = data.partnership.length;
+                    const creditRefLength = data.creditRefs.length;
+                    console.log("creditRefLength",creditRefLength)
+                    const partnershipLength = data.partnerships.length;
                     return (
                       <Card
                         userName={data.userName}
                         role={data.roles[0].role}
                         key={data.id}
-                        // creditRef={data.creditRef[creditRefLength - 1]?.value}
+                        creditRef={data?.creditRefs[creditRefLength - 1]?.value}
                         balance={data.balance}
                         loadBalance={data.loadBalance}
                         refProfitLoss={data.refProfitLoss}
                         adminId={data.adminId}
                         userId={data.adminId} // pending for decision TOM
-                        // partnership={
-                        //     data.partnership[partnershipLength - 1]?.value
-                        // }
+                        partnership={
+                            data?.partnerships[partnershipLength - 1]?.value
+                        }
                         Status={data.Status}
-                        // creditRefLength={creditRefLength}
-                        // partnershipLength={partnershipLength}
+                        creditRefLength={creditRefLength}
+                        partnershipLength={partnershipLength}
                         callingParent="Wallet"
                         setRefresh={setRefresh}
                         adminDelete={setAdminDelete}
