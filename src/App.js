@@ -14,7 +14,8 @@ import AccountLandingModal from "./profileAccount/AccountLandingModal";
 
 import AdminAccountStatement from "./pages/AdminAccountStatement";
 import AgentDelete from "./pages/AgentDelete";
-import WelcomePage from "./screen/WelcomePage";
+import WelcomePage from "./pages/welcomepage/WelcomePage";
+// import WelcomePage from "./screen/WelcomePage";
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
           <Routes>
             <Route index element={<Login />} />
             <Route path="/" element={<AdminLayout />}>
-              <Route path="welcome" element={<WelcomePage />} />
+              <Route path="welcome" element={<WelcomePage/>} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
               <Route
                 path="/adminaccountstatement"
