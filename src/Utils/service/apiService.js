@@ -273,7 +273,11 @@ export async function moveToTrash_api(body = {}, isToast = false) {
 export async function viewTrash_api(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
-    const response = await makeCall(UrlConstant.viewTrash, callParams, isToast);
+    const response = await makeCall(
+      `${UrlConstant.viewTrash}/${body.adminId}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;

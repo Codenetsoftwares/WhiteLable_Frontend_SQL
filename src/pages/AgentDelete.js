@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { deleteTrash_api, restoreTrash_api, viewTrash_api } from "../Utils/service/apiService";
+import {
+  deleteTrash_api,
+  restoreTrash_api,
+  viewTrash_api,
+} from "../Utils/service/apiService";
 import { toast } from "react-toastify";
+import { useAppContext } from "../contextApi/context";
 
 const AgentDelete = () => {
+  const { store } = useAppContext();
+  console.log("======>>> id from store", store);
   const [viewAgentDelete, setViewAgentDelete] = useState([]);
   const [reload, setReload] = useState(false); // state to trigger reload
+  const id = store?.admin?.id;
 
   async function viewApprovedDelete() {
-    const response = await viewTrash_api();
+    const response = await viewTrash_api({adminId:id 
+    });
     console.log("======>>> response", response);
     setViewAgentDelete(response.data);
   }
@@ -20,23 +29,20 @@ const AgentDelete = () => {
     console.log("onclick user trash id", id);
 
     const response = await deleteTrash_api({ trashId: id });
-if (response){
-  toast.info(response.message);
-  setReload(!reload); 
-
-}
-  
+    if (response) {
+      toast.info(response.message);
+      setReload(!reload);
+    }
   }
 
   async function handleRestore(adminId) {
-    console.log('onclick adminId ===== >>', adminId);
+    console.log("onclick adminId ===== >>", adminId);
     const data = { adminId: adminId };
     const response = await restoreTrash_api(data);
-    if (response){
-      toast.info(response .message);
-      setReload(!reload); 
+    if (response) {
+      toast.info(response.message);
+      setReload(!reload);
     }
-  
   }
 
   return (
