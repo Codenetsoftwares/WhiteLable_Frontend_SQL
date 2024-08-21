@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getAllCreateState } from '../Utils/service/initiateState';
 import { permissionObj } from '../Utils/constant/permission';
 import { getAllCreate, viewBalance } from '../Utils/service/apiService';
@@ -7,6 +7,7 @@ import Card from '../components/common/Card';
 import Pagination from '../components/common/Pagination';
 import CustomTransactionModal from '../modal/customTransactionModal';
 import strings from '../Utils/constant/stringConstant';
+import { debounce } from 'lodash';
 
 const Wallet = () => {
   const { dispatch, store } = useAppContext();
@@ -15,13 +16,26 @@ const Wallet = () => {
   const [modalShow, setModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState('');
   const [refresh, setRefresh] = useState({});
-  const[adminDelete, setAdminDelete] = useState('');
+  const [adminDelete, setAdminDelete] = useState('');
+
+  //  debounced search handler
+  const debouncedGetAllCreate = useCallback(
+    debounce((searchName) => {
+      getAll_Create(searchName);
+    }, 1500),
+    [] 
+  );
 
   const handleChange = (name, value) => {
+    console.log('=====>>>> values onchange', name, value);
     setWalletCard((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+
+    if (name === 'name') {
+      debouncedGetAllCreate(value);
+    }
   };
 
   const handelOpenTransactionModal = (boolParam, differentiateParam) => {
@@ -31,35 +45,37 @@ const Wallet = () => {
 
   useEffect(() => {
     if (store?.admin) {
-      { permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && getAll_Create(); } 
-      { permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && getAll_Create(); } 
-
+      if (permissionObj.allAdmin.includes(store?.admin?.roles[0].role) ||
+        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role)) {
+        getAll_Create();
+      }
     }
-    
-  }, [store?.admin, walletCard.currentPage, walletCard.name, walletCard.totalEntries, refresh, adminDelete]);
+  }, [store?.admin, walletCard.currentPage, walletCard.totalEntries, refresh, adminDelete]);
 
   useEffect(() => {
     if (store?.admin) {
-      {permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && view_Balance();}
-      { permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role) && view_Balance(); }
+      if (permissionObj.allAdmin.includes(store?.admin?.roles[0].role) ||
+        permissionObj.allSubAdmin.includes(store?.admin?.roles[0].role)) {
+        view_Balance();
+      }
     }
   }, [refresh]);
 
-  async function getAll_Create() {
+  async function getAll_Create(searchName = walletCard.name) {
     const response = await getAllCreate({
       _id: store?.admin?.id,
       pageNumber: walletCard.currentPage,
       dataLimit: walletCard.totalEntries,
-      name: walletCard.name,
+      name: searchName,
     });
 
     if (response) {
-      setWalletCard({
-        ...walletCard,
-        userList: response.data,
-        totalPages: response.pagination.totalPages,
-        totalData: response.pagination.totalRecords,
-      });
+      setWalletCard((prevData) => ({
+        ...prevData,
+        userList: response?.data,
+        totalPages: response?.pagination?.totalPages,
+        totalData: response?.pagination?.totalRecords,
+      }));
     }
   }
 
@@ -74,7 +90,6 @@ const Wallet = () => {
   }
 
   let startIndex = Math.min((Number(walletCard.currentPage) - 1) * Number(walletCard.totalEntries) + 1);
-  console.log('startIndex', walletCard.currentPage);
   let endIndex = Math.min(
     Number(walletCard.currentPage) * Number(walletCard.totalEntries),
     Number(walletCard.totalData),
@@ -86,7 +101,7 @@ const Wallet = () => {
   };
 
   return (
-    <div>
+    <div >
       <div className="row ">
         <h2
           className="text-center font-weight-bold mb-4"
@@ -120,10 +135,9 @@ const Wallet = () => {
                 className="form-select form-select-sm"
                 aria-label=".form-select-sm example"
                 onChange={(e) => handleChange('totalEntries', e.target.value)}
+                value={walletCard.totalEntries}
               >
-                <option selected value="5">
-                  Show 5 Entries
-                </option>
+                <option value="5">Show 5 Entries</option>
                 <option value="10">10 Entries</option>
                 <option value="15">15 Entries</option>
                 <option value="25">25 Entries</option>
@@ -134,11 +148,12 @@ const Wallet = () => {
 
             <div className="serach_field_2 ms-auto" style={{ marginLeft: '-10px' }}>
               <div className="search_inner">
-                <form Active="#">
+                <form>
                   <div className="search_field">
                     <input
                       value={walletCard.name}
                       onChange={(e) => {
+                        console.log('Input changed'); // Confirm onChange is firing
                         handleChange('name', e.target.value);
                       }}
                       type="text"
@@ -146,15 +161,14 @@ const Wallet = () => {
                     />
                   </div>
                   <button type="submit">
-                    {' '}
-                    <i className="ti-search"></i>{' '}
+                    <i className="ti-search"></i>
                   </button>
                 </form>
               </div>
             </div>
           </div>
-          <div className="QA_table mb_30" style={{ overflow: 'auto' }}>
-            {walletCard.userList.length > 0 ? (
+          <div className="QA_table mb_30" style={{ overflow: 'y-scroll' }}>
+            {walletCard?.userList?.length > 0 ? (
               <>
                 <table className="table lms_table_active3 table-bordered table-sm">
                   <thead
@@ -166,7 +180,7 @@ const Wallet = () => {
                     }}
                   >
                     <tr>
-                      <th scope="col" className="text-bolder fs-6 " style={{ fontWeight: 'bold', color: 'white' }}>
+                      <th scope="col" className="text-bolder fs-6" style={{ fontWeight: 'bold', color: 'white' }}>
                         Username
                       </th>
                       <th
@@ -228,8 +242,8 @@ const Wallet = () => {
                     </tr>
                   </thead>
                   {walletCard.userList.map((data, i) => {
+                    console.log("dtttta",data)
                     const creditRefLength = data.creditRefs.length;
-                    console.log("creditRefLength",creditRefLength)
                     const partnershipLength = data.partnerships.length;
                     return (
                       <Card
@@ -243,7 +257,7 @@ const Wallet = () => {
                         adminId={data.adminId}
                         userId={data.adminId} // pending for decision TOM
                         partnership={
-                            data?.partnerships[partnershipLength - 1]?.value
+                          data?.partnerships[partnershipLength - 1]?.value
                         }
                         Status={data.Status}
                         creditRefLength={creditRefLength}

@@ -76,6 +76,7 @@ const Card = ({
 
   const handelOpenViewModal = (boolParam, differentiateParam) => {
     setViewModalShow(boolParam);
+    
     setDifferentiate(differentiateParam);
   };
   let action = "";
