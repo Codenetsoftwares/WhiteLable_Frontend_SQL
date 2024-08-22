@@ -126,11 +126,13 @@ const Authform = ({ purpose, authFormApi }) => {
                         value={values.userName}
                         onChange={handleChange}
                       />
-                      <span>
+                      <p>
                         {errors.userName && touched.userName ? (
-                          <p>{errors.userName}</p>
+                          <span className="text-center fw-bold text-danger">
+                            {errors.userName}
+                          </span>
                         ) : null}
-                      </span>
+                      </p>
                     </div>
                     <div className="">
                       <input
@@ -144,7 +146,9 @@ const Authform = ({ purpose, authFormApi }) => {
                       />
                       <span>
                         {errors.password && touched.password ? (
-                          <p>{errors.password}</p>
+                          <p className="text-center fw-bold text-danger">
+                            {errors.password}
+                          </p>
                         ) : null}
                       </span>
                     </div>
@@ -161,6 +165,7 @@ const Authform = ({ purpose, authFormApi }) => {
                         </select>
                       </div>
                     )}
+
                     {console.log('===>> roles ', values.roles)}
                     {purpose === "create" && values.roles.length > 0 && <a
                       className="btn_1 full_width text-center"
@@ -178,6 +183,33 @@ const Authform = ({ purpose, authFormApi }) => {
                       {purpose === "create" && "Create"}
                       {purpose === "login" && "Log In"}
                     </a>}
+
+                    {console.log("===>> roles ", values.roles)}
+                    {purpose === "create" && values.roles.length > 0 && (
+                      <a
+                        className="btn_1 full_width text-center"
+                        style={{
+                          cursor: values.roles ? "pointer" : "not-allowed",
+                        }}
+                        onClick={values.roles ? handleSubmit : undefined}
+                      >
+                        {purpose === "create" && "Create"}
+                        {purpose === "login" && "Log In"}
+                      </a>
+                    )}
+                    {purpose === "login" && (
+                      <a
+                        className="btn_1 full_width text-center"
+                        style={{
+                          cursor: values.roles ? "pointer" : "not-allowed",
+                        }}
+                        onClick={values.roles ? handleSubmit : undefined}
+                      >
+                        {purpose === "create" && "Create"}
+                        {purpose === "login" && "Log In"}
+                      </a>
+                    )}
+
                     {purpose === "login" && (
                       <div className="text-center">
                         <p></p>
