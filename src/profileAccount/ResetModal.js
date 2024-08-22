@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { resetAdminPassword_api } from '../Utils/service/apiService';
+import React, { useState, useEffect } from "react";
+import { Modal, Button } from "react-bootstrap";
+import { resetAdminPassword_api } from "../Utils/service/apiService";
+import { toast } from "react-toastify";
 
-const ResetModal = ({ show, handleClose , userName }) => {
-  
-  const [passwords, setPasswords] = useState({
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  });
+const ResetModal = ({ show, handleClose, userName }) => {
+  const initialState = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
+
+  const [passwords, setPasswords] = useState(initialState);
+
+  useEffect(() => {
+    if (show) {
+      setPasswords(initialState); // Reset passwords when modal opens
+    }
+  }, [show]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,9 +27,12 @@ const ResetModal = ({ show, handleClose , userName }) => {
   };
 
   async function resetPassword() {
-    console.log("resetPassword clicked");
-    if (passwords.newPassword === "" || passwords.confirmPassword === "" || passwords.oldPassword === "") {
-      alert("Fields can't be empty");
+    if (
+      passwords.newPassword === "" ||
+      passwords.confirmPassword === "" ||
+      passwords.oldPassword === ""
+    ) {
+      toast.error("Fields can't be empty");
       return;
     }
     if (passwords.newPassword === passwords.confirmPassword) {
@@ -30,12 +41,12 @@ const ResetModal = ({ show, handleClose , userName }) => {
         oldPassword: passwords.oldPassword,
         password: passwords.newPassword,
       };
-    
+
       const response = await resetAdminPassword_api(data);
-      console.log(response);
+      toast.success(response.message);
       handleClose();
     } else {
-      alert("New Password and Confirm Password do not match");
+      toast.error("New Password and Confirm Password do not match");
     }
   }
 
