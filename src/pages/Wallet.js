@@ -8,6 +8,8 @@ import Pagination from '../components/common/Pagination';
 import CustomTransactionModal from '../modal/customTransactionModal';
 import strings from '../Utils/constant/stringConstant';
 import { debounce } from 'lodash';
+import FullScreenLoader from '../components/FullScreenLoader';
+
 
 const Wallet = () => {
   const { dispatch, store } = useAppContext();
@@ -16,6 +18,7 @@ const Wallet = () => {
   const [modalShow, setModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState('');
   const [refresh, setRefresh] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [adminDelete, setAdminDelete] = useState('');
 
   //  debounced search handler
@@ -23,7 +26,7 @@ const Wallet = () => {
     debounce((searchName) => {
       getAll_Create(searchName);
     }, 1500),
-    [] 
+    []
   );
 
   const handleChange = (name, value) => {
@@ -102,6 +105,7 @@ const Wallet = () => {
 
   return (
     <div >
+      <FullScreenLoader show={isLoading} />
       <div className="row ">
         <h2
           className="text-center font-weight-bold mb-4"
@@ -242,7 +246,7 @@ const Wallet = () => {
                     </tr>
                   </thead>
                   {walletCard.userList.map((data, i) => {
-                    console.log("dtttta",data)
+                    console.log("dtttta", data)
                     const creditRefLength = data.creditRefs.length;
                     const partnershipLength = data.partnerships.length;
                     return (
@@ -265,6 +269,7 @@ const Wallet = () => {
                         callingParent="Wallet"
                         setRefresh={setRefresh}
                         adminDelete={setAdminDelete}
+                        setIsLoading={setIsLoading}
                       />
                     );
                   })}

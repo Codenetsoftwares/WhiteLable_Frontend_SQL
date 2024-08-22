@@ -31,6 +31,7 @@ const Card = ({
   callingParent,
   setRefresh,
   adminDelete,
+  setIsLoading
 }) => {
   console.log("userrole ======>>>> ", role, userName);
 
@@ -62,11 +63,11 @@ const Card = ({
     const userConfirmed = window.confirm(
       "Balance should be 0 to move the Admin User to trash"
     );
-   
+
     if (userConfirmed) {
       const response = await moveToTrash_api({ requestId: adminId });
       console.log("Im here in line 94");
-      if (response){
+      if (response) {
         console.log(response)
         adminDelete(response)
         toast.info(response.message)
@@ -76,7 +77,7 @@ const Card = ({
 
   const handelOpenViewModal = (boolParam, differentiateParam) => {
     setViewModalShow(boolParam);
-    
+
     setDifferentiate(differentiateParam);
   };
   let action = "";
@@ -376,6 +377,7 @@ const Card = ({
         adminName={userName}
         role={role}
         setRefresh={setRefresh}
+        setIsLoading={setIsLoading}
       />
       {
         adminId != undefined &&
