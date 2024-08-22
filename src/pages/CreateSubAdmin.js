@@ -5,10 +5,12 @@ import { getCreateSubAdmin } from "../Utils/service/initiateState";
 import { CreateSubAdminSchema } from "../Utils/schema";
 import { useFormik } from "formik";
 import { createSubAdmin } from "../Utils/service/apiService";
+import FullScreenLoader from "../components/FullScreenLoader";
 
 const CreateSubAdmin = () => {
   const { store, dispatch } = useAppContext();
   const [createSubAdminState] = useState(getCreateSubAdmin);
+  const [isLoading, setIsLoading] = useState(false)
 
   const {
     values,
@@ -41,13 +43,15 @@ const CreateSubAdmin = () => {
 
     setFieldValue("roles[0].permission", updatedPermissions);
   };
-
   async function create_SubAdmin(values) {
+    setIsLoading(true)
     const response = await createSubAdmin(values, true);
+    setIsLoading(false)
   }
 
   return (
     <div className="container mt-5">
+      <FullScreenLoader show={isLoading} />
       <div className="row justify-content-center">
         <div className="col-lg-8">
           <div className="card">
@@ -92,7 +96,7 @@ const CreateSubAdmin = () => {
                     Password
                   </label>
                   <input
-                    type="password"
+                    type="text"
                     className="form-control "
                     placeholder="Enter Password"
                     name="password"

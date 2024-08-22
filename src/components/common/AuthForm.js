@@ -5,10 +5,12 @@ import { getAuthForm } from "../../Utils/service/initiateState";
 import { LoginSchema } from "../../Utils/schema";
 import { useAppContext } from "../../contextApi/context";
 import strings from "../../Utils/constant/stringConstant";
+import FullScreenLoader from "../FullScreenLoader";
 
 const Authform = ({ purpose, authFormApi }) => {
   const [authForm] = useState(getAuthForm);
   const { dispatch, store } = useAppContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -61,13 +63,13 @@ const Authform = ({ purpose, authFormApi }) => {
     },
     enableReinitialize: true,
   });
-
   async function authFormHandler(values) {
     console.log(values);
     dispatch({
       type: strings.isLoading,
       payload: true,
     });
+    setIsLoading(true)
     const response = await authFormApi(values, true);
     console.log("res from login", response);
     if (purpose === "login" && response) {
@@ -83,6 +85,7 @@ const Authform = ({ purpose, authFormApi }) => {
       type: strings.isLoading,
       payload: false,
     });
+    setIsLoading(false)
   }
 
   const handleRoleChange = (event) => {
@@ -99,6 +102,7 @@ const Authform = ({ purpose, authFormApi }) => {
 
   return (
     <div className="main_content_iner ">
+      <FullScreenLoader show={isLoading} />
       <div className="container-fluid" style={{ marginTop: "15rem" }}>
         <div className="col-lg-12">
           <div className="row justify-content-center">
@@ -161,6 +165,25 @@ const Authform = ({ purpose, authFormApi }) => {
                         </select>
                       </div>
                     )}
+
+                    {console.log('===>> roles ', values.roles)}
+                    {purpose === "create" && values.roles.length > 0 && <a
+                      className="btn_1 full_width text-center"
+                      style={{ cursor: values.roles ? "pointer" : "not-allowed" }}
+                      onClick={values.roles ? handleSubmit : undefined}
+                    >
+                      {purpose === "create" && "Create"}
+                      {purpose === "login" && "Log In"}
+                    </a>}
+                    {purpose === "login" && <a
+                      className="btn_1 full_width text-center"
+                      style={{ cursor: values.roles ? "pointer" : "not-allowed" }}
+                      onClick={values.roles ? handleSubmit : undefined}
+                    >
+                      {purpose === "create" && "Create"}
+                      {purpose === "login" && "Log In"}
+                    </a>}
+
                     {console.log("===>> roles ", values.roles)}
                     {purpose === "create" && values.roles.length > 0 && (
                       <a
@@ -186,6 +209,7 @@ const Authform = ({ purpose, authFormApi }) => {
                         {purpose === "login" && "Log In"}
                       </a>
                     )}
+
                     {purpose === "login" && (
                       <div className="text-center">
                         <p></p>

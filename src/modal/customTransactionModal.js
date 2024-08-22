@@ -11,6 +11,7 @@ import {
 import { useAppContext } from "../contextApi/context";
 import { toast } from "react-toastify";
 const CustomTransactionModal = (props) => {
+  const { setIsLoading } = props
   const [formData, setFormData] = useState({
     amount: 0,
     password: "",
@@ -45,6 +46,7 @@ const CustomTransactionModal = (props) => {
             password: formData.password,
           };
 
+          setIsLoading(true)
           const creditRefResponse = await updateCreditRef(
             {
               id: props?.adminId,
@@ -57,6 +59,7 @@ const CustomTransactionModal = (props) => {
             console.log(creditRefResponse);
             props.setRefresh(creditRefResponse);
           }
+          setIsLoading(false)
           break;
         } else {
           toast.info(
@@ -71,6 +74,7 @@ const CustomTransactionModal = (props) => {
             partnership: formData.amount,
             password: formData.password,
           };
+          setIsLoading(true)
           const partnershipResponse = await updatePartnership(
             {
               id: props?.adminId,
@@ -83,6 +87,7 @@ const CustomTransactionModal = (props) => {
             console.log(partnershipResponse);
             props.setRefresh(partnershipResponse);
           }
+          setIsLoading(false)
           break;
         } else {
           toast.info(
@@ -95,6 +100,7 @@ const CustomTransactionModal = (props) => {
           const addCashData = {
             amount: formData.amount,
           };
+          setIsLoading(true)
           const addCashResponse = await addCash(
             {
               adminId: store.admin.id,
@@ -107,6 +113,7 @@ const CustomTransactionModal = (props) => {
             console.log(addCashResponse);
             props.setRefresh(addCashResponse);
           }
+          setIsLoading(false)
           break;
         } else {
           toast.info(
@@ -130,6 +137,7 @@ const CustomTransactionModal = (props) => {
         remarks: formData.remarks,
         receiveUserId: props?.adminId,
       };
+      setIsLoading(true)
       const creditRefResponse = await transferAmount(
         {
           adminId: store.admin.id,
@@ -142,6 +150,8 @@ const CustomTransactionModal = (props) => {
         console.log(creditRefResponse);
         props.setRefresh(creditRefResponse);
       }
+      setIsLoading(false)
+      props.onHide();
     } else {
       const DepositData = {
         transferAmount: formData.amount,
@@ -149,6 +159,7 @@ const CustomTransactionModal = (props) => {
         remarks: formData.remarks,
         receiveUserId: props?.adminId,
       };
+      setIsLoading(true)
       const creditRefResponse = await transferAmount(
         {
           adminId: store.admin.id,
@@ -161,6 +172,9 @@ const CustomTransactionModal = (props) => {
         console.log(creditRefResponse);
         props.setRefresh(creditRefResponse);
       }
+      setIsLoading(false)
+      props.onHide();
+
     }
   }
 
