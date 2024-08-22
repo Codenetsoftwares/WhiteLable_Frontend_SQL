@@ -83,7 +83,7 @@ const CreateSubAdmin = () => {
                   />
                   <span>
                     {errors.userName && touched.userName ? (
-                      <p>{errors.userName}</p>
+                      <p className="text-danger fw-bold">{errors.userName}</p>
                     ) : null}
                   </span>
                 </div>
@@ -106,7 +106,7 @@ const CreateSubAdmin = () => {
                   />
                   <span>
                     {errors.password && touched.password ? (
-                      <p>{errors.password}</p>
+                      <p className="text-danger fw-bold">{errors.password}</p>
                     ) : null}
                   </span>
                 </div>
