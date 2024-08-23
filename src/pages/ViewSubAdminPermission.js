@@ -169,12 +169,12 @@ const ViewSubAdminPermission = () => {
                   <label>
                     <input
                       type="checkbox"
-                      name={permission}
-                      value={permission}
-                      checked={subAdminPermissionData.roles[0].permission.includes(permission)}
+                      name={permission.role}
+                      value={permission.role}
+                      checked={subAdminPermissionData.roles[0].permission.includes(permission.role)}
                       onChange={handleChangeCheckBox}
                     />
-                    <span className="my-1">{permission}</span>
+                    <span className="my-1">{permission.name}</span>
                   </label>
                 </div>
               ))}
