@@ -100,7 +100,7 @@ const CustomTransactionModal = (props) => {
           const addCashData = {
             amount: formData.amount,
           };
-          setIsLoading(true)
+          
           const addCashResponse = await addCash(
             {
               adminId: store.admin.id,
@@ -113,7 +113,7 @@ const CustomTransactionModal = (props) => {
             console.log(addCashResponse);
             props.setRefresh(addCashResponse);
           }
-          setIsLoading(false)
+          
           break;
         } else {
           toast.info(
@@ -151,7 +151,7 @@ const CustomTransactionModal = (props) => {
         props.setRefresh(creditRefResponse);
       }
       setIsLoading(false)
-      props.onHide();
+   
     } else {
       const DepositData = {
         transferAmount: formData.amount,
@@ -173,7 +173,7 @@ const CustomTransactionModal = (props) => {
         props.setRefresh(creditRefResponse);
       }
       setIsLoading(false)
-      props.onHide();
+   
 
     }
   }

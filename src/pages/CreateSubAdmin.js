@@ -129,17 +129,17 @@ const CreateSubAdmin = () => {
                           <input
                             type="checkbox"
                             className="form-check-input"
-                            name={permission}
+                            name={permission.role}
                             checked={values.roles[0].permission.includes(
-                              permission
+                              permission.role
                             )}
                             onChange={handleCheckboxChange}
                           />
                           <label
-                            htmlFor={permission}
+                            htmlFor={permission.name}
                             className="form-check-label"
                           >
-                            {permission}
+                            {permission.name}
                           </label>
                         </div>
                       ))}
