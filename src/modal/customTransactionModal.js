@@ -40,7 +40,7 @@ const CustomTransactionModal = (props) => {
   async function handelSave() {
     switch (props.differentiate) {
       case "creditRefProvider":
-        if (formData.amount > 0 && formData.password !== "") {
+        if (formData.amount >= 0 && formData.password !== "") {
           const creditRefData = {
             creditRef: formData.amount,
             password: formData.password,
@@ -69,7 +69,7 @@ const CustomTransactionModal = (props) => {
         }
 
       case "partnershipProvider":
-        if (formData.amount > 0 && formData.password !== "") {
+        if (formData.amount >= 0 && formData.password !== "") {
           const partnershipData = {
             partnership: formData.amount,
             password: formData.password,

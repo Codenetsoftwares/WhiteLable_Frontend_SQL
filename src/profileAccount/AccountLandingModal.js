@@ -17,19 +17,19 @@ import { accountStatementInitialState } from "../Utils/service/initiateState";
 
 const AccountLandingModal = () => {
   const { userName } = useParams();
-  console.log('======>>> username',userName )
+  console.log('======>>> username', userName)
   const [state, setState] = useState(accountStatementInitialState());
+  console.log("state===>", state)
 
-  
   const formatDate = (dateString) => {
     // Parse the date string to create a Date object
     const date = new Date(dateString);
-  
+
     // Extract the year, month, and day
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
     const day = String(date.getDate()).padStart(2, '0');
-  
+
     // Format the date as "YYYY-MM-DD"
     return `${year}-${month}-${day}`;
   };
@@ -39,7 +39,7 @@ const AccountLandingModal = () => {
   }, [userName]);
 
 
-  
+
 
   useEffect(() => {
     getAll_transactionView();
@@ -54,8 +54,8 @@ const AccountLandingModal = () => {
       profileView: response.data,
     }));
   }
-  console.log("first===>",state.startDate)
-console.log("tom===>",formatDate(state.startDate))
+  console.log("first===>", state.startDate)
+  console.log("tom===>", formatDate(state.startDate))
 
   async function getAll_transactionView() {
     const response = await getAllTransactionView({
@@ -65,12 +65,12 @@ console.log("tom===>",formatDate(state.startDate))
       toDate: formatDate(state.endDate),
     });
     console.log("response for transaction view line 67", response);
-    setState((prevState) => ({
-      ...prevState,
-      statementView: response.data,
-      totalPages: response.pagination.totalPages,
-      totalData: response.pagination.totalItems,
-    }));
+    // setState((prevState) => ({
+    //   ...prevState,
+    //   statementView: response.data,
+    //   totalPages: response.pagination.totalPages,
+    //   totalData: response.pagination.totalItems,
+    // }));
   }
 
   async function getActivityLog() {
@@ -150,9 +150,10 @@ console.log("tom===>",formatDate(state.startDate))
   } else if (state.toggle === 2) {
     componentToRender = <ActivityLog props={state.activityView} />;
   } else if (state.toggle === 3) {
-    componentToRender = <AccountProfile props={state.profileView} UserName={userName} />;
+    componentToRender = <AccountProfile props={state.profileView} UserName={userName} createdByUser={state.profileView.createdById} />;
   }
 
+  console.log("createdByUser", state.profileView.createdById)
   return (
     <div className="container">
       <div className="row row-no-gutters">
