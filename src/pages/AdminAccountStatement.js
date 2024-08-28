@@ -130,11 +130,19 @@ console.log('=====>>> stored data',state)
                       </tr>
                     ))}
                   </table>
+                    {state.statement.length === 0 && (
+                      <div className="alert text-dark bg-light mt-3" role="alert">
+                        <div className="alert-text d-flex justify-content-center">
+                          <b> &#128680; No Data Found !! </b>
+                        </div>
+                      </div>
+                    )}
                 </div>
               </div>
               {/* End of No Data Found */}
             </div>
           </li>
+          {state.statement.length!=0&&
           <li className="list-group-item">
             <select
               className="form-select form-select-sm w-25"
@@ -166,7 +174,7 @@ console.log('=====>>> stored data',state)
               totalData={state.totalData}
             />
             {/* Pagination */}
-          </li>
+          </li>}
         </ul>
       </div>
       {/* card */}
