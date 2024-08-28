@@ -18,8 +18,8 @@ const Authform = ({ purpose, authFormApi }) => {
     superAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
     SubAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
     whiteLabel: ["hyperAgent", "masterAgent", "superAgent", "user"],
-    superAgent: ["hyperAgent", "masterAgent", "user"],
-    hyperAgent: ["masterAgent", "user"],
+    hyperAgent: ["superAgent", "masterAgent", "user"],
+    superAgent: ["masterAgent", "user"],
     masterAgent: ["user"],
   };
   const renderRoleOptions = () => {
@@ -90,14 +90,7 @@ const Authform = ({ purpose, authFormApi }) => {
 
   const handleRoleChange = (event) => {
     const selectedRole = event.target.value;
-    const updatedRoles = [...values.roles];
-    if (updatedRoles.includes(selectedRole)) {
-      const index = updatedRoles.indexOf(selectedRole);
-      updatedRoles.splice(index, 1);
-    } else {
-      updatedRoles.push(selectedRole);
-    }
-    setFieldValue("roles", updatedRoles);
+    setFieldValue("roles", [selectedRole]);
   };
 
   return (
@@ -175,10 +168,10 @@ const Authform = ({ purpose, authFormApi }) => {
                       {purpose === "create" && "Create"}
                       {purpose === "login" && "Log In"}
                     </a>}
-                   
+
 
                     {console.log("===>> roles ", values.roles)}
-                    
+
                     {purpose === "login" && (
                       <a
                         className="btn_1 full_width text-center"

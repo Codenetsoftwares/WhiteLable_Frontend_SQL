@@ -36,11 +36,18 @@ const CustomTransactionModal = (props) => {
     modalTitle = "Add Cash";
   }
 
+  const resetForm = () => {
+    setFormData({
+      amount: 0,
+      password: "",
+      remarks: "",
+    })
+  }
   // API Hitting for creditRef and Partnership provider
   async function handelSave() {
     switch (props.differentiate) {
       case "creditRefProvider":
-        if (formData.amount > 0 && formData.password !== "") {
+        if (formData.amount >= 0 && formData.password !== "") {
           const creditRefData = {
             creditRef: formData.amount,
             password: formData.password,
@@ -57,6 +64,7 @@ const CustomTransactionModal = (props) => {
           if (creditRefResponse) {
             props.onHide();
             console.log(creditRefResponse);
+            resetForm();
             props.setRefresh(creditRefResponse);
           }
           setIsLoading(false)
@@ -69,7 +77,7 @@ const CustomTransactionModal = (props) => {
         }
 
       case "partnershipProvider":
-        if (formData.amount > 0 && formData.password !== "") {
+        if (formData.amount >= 0 && formData.password !== "") {
           const partnershipData = {
             partnership: formData.amount,
             password: formData.password,
@@ -85,6 +93,7 @@ const CustomTransactionModal = (props) => {
           if (partnershipResponse) {
             props.onHide();
             console.log(partnershipResponse);
+            resetForm();
             props.setRefresh(partnershipResponse);
           }
           setIsLoading(false)
@@ -100,7 +109,7 @@ const CustomTransactionModal = (props) => {
           const addCashData = {
             amount: formData.amount,
           };
-          
+
           const addCashResponse = await addCash(
             {
               adminId: store.admin.id,
@@ -111,9 +120,10 @@ const CustomTransactionModal = (props) => {
           if (addCashResponse) {
             props.onHide();
             console.log(addCashResponse);
+            resetForm()
             props.setRefresh(addCashResponse);
           }
-          
+
           break;
         } else {
           toast.info(
@@ -148,10 +158,11 @@ const CustomTransactionModal = (props) => {
       if (creditRefResponse) {
         props.onHide();
         console.log(creditRefResponse);
+        resetForm()
         props.setRefresh(creditRefResponse);
       }
       setIsLoading(false)
-   
+
     } else {
       const DepositData = {
         transferAmount: formData.amount,
@@ -170,10 +181,11 @@ const CustomTransactionModal = (props) => {
       if (creditRefResponse) {
         props.onHide();
         console.log(creditRefResponse);
+        resetForm()
         props.setRefresh(creditRefResponse);
       }
       setIsLoading(false)
-   
+
 
     }
   }

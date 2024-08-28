@@ -5,6 +5,7 @@ import { useAppContext } from '../contextApi/context';
 import { getEditSubAdminPermission, getviewSubAdminPermission } from '../Utils/service/apiService';
 import { getSubAdminPermissionData } from '../Utils/service/initiateState';
 import strings from '../Utils/constant/stringConstant';
+import { toast } from 'react-toastify';
 
 const ViewSubAdminPermission = () => {
   const { id } = useParams();
@@ -16,21 +17,9 @@ const ViewSubAdminPermission = () => {
     if (store?.admin) {
       permissionObj.allAdmin.includes(store?.admin?.roles[0].role) && getSubAdminpermisson();
     }
-  }, []);
+  }, [store?.admin]);
 
-  // async function getSubAdminpermisson() {
-  //   const response = await getviewSubAdminPermission({
-  //     _id: id,
-  //   });
-  //   console.log("res==========>", response)
 
-  //   if (response) {
-  //     setSubAdminPersionData({
-  //       userName: response.data.userName,
-  //       roles: response.data.roles,
-  //     });
-  //   }
-  // }
 
   const getSubAdminpermisson = async () => {
     const response = await getviewSubAdminPermission({
@@ -47,17 +36,27 @@ const ViewSubAdminPermission = () => {
 
   console.log('subAdminPermissionData', subAdminPermissionData?.roles[0]?.permission);
 
-  const handleEditSubAdminPermission = () => {
+
+  const handleEditSubAdminPermission = async () => {
+    const permissions = subAdminPermissionData?.roles[0]?.permission;
+
+    if (permissions.length === 0) {
+      toast.error("Please select at least one permission.");
+      return;
+    }
+
     const value = {
       _id: id,
-      permission: subAdminPermissionData?.roles[0]?.permission,
+      permission: permissions,
     };
 
-    const response = getEditSubAdminPermission(value, true);
+    const response = await getEditSubAdminPermission(value, true);
     if (response) {
       setDisplayEdit(true);
     }
   };
+
+
 
   const handleChange = () => {
     console.log('first');
@@ -69,6 +68,8 @@ const ViewSubAdminPermission = () => {
     const { name, checked } = event.target;
 
     setSubAdminPersionData((prevState) => {
+      if (!prevState?.roles[0]) return;
+
       const updatedPermissions = checked
         ? [...prevState.roles[0].permission, name]
         : prevState.roles[0].permission.filter((item) => item !== name);
@@ -142,12 +143,10 @@ const ViewSubAdminPermission = () => {
             <div
               className="card-header d-flex justify-content-between align-items-center"
               style={{
-                display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 backgroundColor: '#26416e',
                 width: '100%',
-                display: 'flex',
                 justifyContent: 'space-between',
               }}
             >

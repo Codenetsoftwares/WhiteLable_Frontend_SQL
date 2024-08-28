@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 
 const ResetModal = ({ show, handleClose, userName }) => {
   const initialState = {
-    oldPassword: "",
     newPassword: "",
     confirmPassword: "",
+    adminPassword: ""
   };
 
   const [passwords, setPasswords] = useState(initialState);
@@ -30,7 +30,7 @@ const ResetModal = ({ show, handleClose, userName }) => {
     if (
       passwords.newPassword === "" ||
       passwords.confirmPassword === "" ||
-      passwords.oldPassword === ""
+      passwords.adminPassword === ""
     ) {
       toast.error("Fields can't be empty");
       return;
@@ -38,13 +38,18 @@ const ResetModal = ({ show, handleClose, userName }) => {
     if (passwords.newPassword === passwords.confirmPassword) {
       const data = {
         userName: userName,
-        oldPassword: passwords.oldPassword,
+        adminPassword: passwords.adminPassword,
         password: passwords.newPassword,
       };
 
-      const response = await resetAdminPassword_api(data);
-      toast.success(response.message);
-      handleClose();
+      try {
+        const response = await resetAdminPassword_api(data);
+        toast.success(response.message);
+        handleClose();
+      } catch (error) {
+
+        toast.error(error.response?.data?.message);
+      }
     } else {
       toast.error("New Password and Confirm Password do not match");
     }
@@ -60,17 +65,17 @@ const ResetModal = ({ show, handleClose, userName }) => {
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text w-100" id="basic-addon1">
-                Old Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Admin Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
             </div>
             <input
               type="password"
               className="form-control"
               placeholder="Type here...."
-              aria-label="Old Password"
+              aria-label="Admin Password"
               aria-describedby="basic-addon1"
-              name="oldPassword"
-              value={passwords.oldPassword}
+              name="adminPassword"
+              value={passwords.adminPassword}
               onChange={handleChange}
             />
           </div>
