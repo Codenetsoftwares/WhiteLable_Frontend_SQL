@@ -14,22 +14,23 @@ import {
   getUserProfileView,
 } from "../Utils/service/apiService";
 import { accountStatementInitialState } from "../Utils/service/initiateState";
+import BetHistory from "./BetHistory";
+import ProfitAndLoss from "./ProfitAndLoss";
 
 const AccountLandingModal = () => {
   const { userName } = useParams();
-  console.log('======>>> username',userName )
+  console.log("======>>> username", userName);
   const [state, setState] = useState(accountStatementInitialState());
 
-  
   const formatDate = (dateString) => {
     // Parse the date string to create a Date object
     const date = new Date(dateString);
-  
+
     // Extract the year, month, and day
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-    const day = String(date.getDate()).padStart(2, '0');
-  
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+
     // Format the date as "YYYY-MM-DD"
     return `${year}-${month}-${day}`;
   };
@@ -37,9 +38,6 @@ const AccountLandingModal = () => {
   useEffect(() => {
     getAll_userProfileStatement();
   }, [userName]);
-
-
-  
 
   useEffect(() => {
     getAll_transactionView();
@@ -54,8 +52,8 @@ const AccountLandingModal = () => {
       profileView: response.data,
     }));
   }
-  console.log("first===>",state.startDate)
-console.log("tom===>",formatDate(state.startDate))
+  // console.log("first===>", state?.profileView?.roles[0]?.role);
+  console.log("tom===>", formatDate(state.startDate));
 
   async function getAll_transactionView() {
     const response = await getAllTransactionView({
@@ -125,6 +123,22 @@ console.log("tom===>",formatDate(state.startDate))
     }));
   };
 
+  const handelBetHistory = () => {
+    setState((prevState) => ({
+      ...prevState,
+      toggle: 4,
+      activeItem: "betHistory",
+    }));
+  };
+
+  const handelProfitLoss = () => {
+    setState((prevState) => ({
+      ...prevState,
+      toggle: 5,
+      activeItem: "profitAndLoss",
+    }));
+  };
+
   let componentToRender;
   if (state.toggle === 1) {
     componentToRender = (
@@ -150,7 +164,17 @@ console.log("tom===>",formatDate(state.startDate))
   } else if (state.toggle === 2) {
     componentToRender = <ActivityLog props={state.activityView} />;
   } else if (state.toggle === 3) {
-    componentToRender = <AccountProfile props={state.profileView} UserName={userName} />;
+    componentToRender = (
+      <AccountProfile props={state.profileView} UserName={userName} />
+    );
+  } else if (state.toggle === 4) {
+    componentToRender = (
+      <BetHistory props={state.profileView} UserName={userName} />
+    );
+  } else if (state.toggle === 5) {
+    componentToRender = (
+      <ProfitAndLoss props={state.profileView} UserName={userName} />
+    );
   }
 
   return (
@@ -198,6 +222,30 @@ console.log("tom===>",formatDate(state.startDate))
                 onClick={handelProfile}
               >
                 Profile
+              </li>
+              {}
+              <li
+                className="list-group-item"
+                style={{
+                  cursor: "pointer",
+                  backgroundColor:
+                    state.activeItem === "betHistory" ? "#d1d9f0" : "",
+                }}
+                onClick={handelBetHistory}
+              >
+                Bet History
+              </li>
+
+              <li
+                className="list-group-item"
+                style={{
+                  cursor: "pointer",
+                  backgroundColor:
+                    state.activeItem === "profitAndLoss" ? "#d1d9f0" : "",
+                }}
+                onClick={handelProfitLoss}
+              >
+                Profit & Loss
               </li>
             </ul>
           </div>

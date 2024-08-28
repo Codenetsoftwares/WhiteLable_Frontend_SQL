@@ -1,58 +1,15 @@
-import React, { useState, useEffect } from "react";
-// import Pagination from "../Pagination";
+import React from "react";
+import { Pagination } from "react-bootstrap";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import Pagination from "../components/common/Pagination";
-// import ShimmerEffect from "../ShimmerEffect";
 
-const AccountStatement = ({
-  props,
-  handlePageChange,
-  currentPage,
-  totalPages,
-  handleGetStatement,
-  startDate,
-  endDate,
-  setEndDate,
-  setStartDate,
-  startIndex,
-  endIndex,
-  totalData,
-}) => {
-  console.log(
-    "======>>> user profile data in account statement PAGE",
-    totalData,
-    currentPage,
-    totalPages
-  );
-  const [dataSource, setDataSource] = useState("");
-
-  function formatDate(dateString) {
-    const options = {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    };
-    const formattedDate = new Date(dateString).toLocaleDateString(
-      "en-US",
-      options
-    );
-    return formattedDate;
-  }
-
+const BetHistory = ({ setEndDate, setStartDate, startDate, endDate }) => {
   return (
     <div className="col-sm-8 mt-3">
       <div className="card mb-3 w-100 rounded">
         <div
-          className="card-header text-white p-1"
-          style={{ backgroundColor: "#26416e" }}
+          className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-md-between"
+          style={{ backgroundColor: "#e6e9ed" }}
         >
-          <b>&nbsp;&nbsp;Get Account Statement</b>
-        </div>
-        <div className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-md-between">
           {/* <div className="form-group mb-3 mb-md-0 px-2">
             <label>Data Source:</label>
             <select
@@ -67,25 +24,62 @@ const AccountStatement = ({
             </select>
           </div> */}
           <div className="form-group mb-3 mb-md-0 px-2">
-            <label>From Date:</label>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
-          </div>
-          <div className="form-group mb-3 mb-md-0 px-2">
-            <label>To Date:</label>
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-            />
+            <div class="container">
+              <div class="row">
+                <div class="col-sm">Data Source</div>
+                <div class="col-sm">Choose Type</div>
+                <div class="col-sm">From</div>
+                <div class="col-sm">To</div>
+              </div>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm">
+                  {" "}
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected>Select</option>
+                    <option value="settle">LIVE DATA</option>
+                    <option value="unsettle">BACKUP DATA</option>
+                    <option value="void">OLD DATA</option>
+                  </select>
+                </div>
+                <div class="col-sm">
+                  {" "}
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected>Select</option>
+                    <option value="settle">Settle</option>
+                    <option value="unsettle">UnSettle</option>
+                    <option value="void">void</option>
+                  </select>
+                </div>
+                <div class="col-sm">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                  />
+                </div>
+                <div class="col-sm">
+                  {" "}
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div className="form-group mb-0 px-2">
             <button
-              className="btn btn-primary"
+              className="btn btn-primary btn-sm "
               // onClick={handleGetStatement}
             >
-              Get Statement
+              Get History
             </button>
           </div>
         </div>
@@ -97,7 +91,7 @@ const AccountStatement = ({
           class="card-heade text-white p-1"
           style={{ backgroundColor: "#26416e" }}
         >
-          <b>&nbsp;&nbsp;Account Statement</b>
+          <b>&nbsp;&nbsp;Bet History</b>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
@@ -105,7 +99,7 @@ const AccountStatement = ({
               {/* Table */}
               <div class="QA_section">
                 <div class="QA_table mb_30">
-                  <table class="table lms_table_active3 ">
+                  <table class="table lms_table_active3 table-bordered">
                     <thead>
                       <tr
                         style={{
@@ -114,68 +108,50 @@ const AccountStatement = ({
                         }}
                       >
                         <th scope="col">
-                          <b>Date/Time</b>
+                          <b>User Name</b>
                         </th>
                         <th scope="col">
-                          <b>Deposit</b>
+                          <b>Sport Name</b>
                         </th>
                         <th scope="col">
-                          <b>Withdraw</b>
+                          <b>Event</b>
                         </th>
                         <th scope="col">
-                          <b>Balance</b>
+                          <b>Market</b>
                         </th>
                         <th scope="col">
-                          <b>Remark</b>
+                          <b>Selection</b>
                         </th>
                         <th scope="col">
-                          <b>From//To</b>
+                          <b>Type</b>
+                        </th>
+                        <th scope="col">
+                          <b>Odds Req.</b>
+                        </th>
+                        <th scope="col">
+                          <b>Stack</b>
+                        </th>
+                        <th scope="col">
+                          <b>Place Time</b>
+                        </th>
+                        <th scope="col">
+                          <b>Settle Time</b>
                         </th>
                       </tr>
                     </thead>
-                    {props.map((transaction) => (
-                      <tr key={transaction.id}>
-                        <th scope="row">
-                          <a href="#" className="question_content">
-                            {formatDate(transaction.date)}
-                          </a>
-                        </th>
-                        {transaction.transactionType === "debit" ? (
-                          <>
-                            <td></td>
-                            <td className="text-danger">
-                              {transaction.amount}
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td>{transaction.amount}</td>
-                            <td></td>
-                          </>
-                        )}
-
-                        <td>
-                          {transaction.transactionType === "debit"
-                            ? transaction.debitBalance
-                            : transaction.balance}
-                        </td>
-                        <td>{transaction.remarks}</td>
-                        <td>{`${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`}</td>
-                      </tr>
-                    ))}
                   </table>
                 </div>
                 {/* Table */}
               </div>
 
               {/* No Data Found */}
-              {props.length === 0 && (
+              {/* {props.length === 0 && (
                 <div className="alert text-dark bg-light mt-3" role="alert">
                   <div className="alert-text d-flex justify-content-center">
                     <b> &#128680; No Data Found !! </b>
                   </div>
                 </div>
-              )}
+              )} */}
               {/* End of No Data Found */}
             </div>
           </li>
@@ -217,7 +193,7 @@ const AccountStatement = ({
                 </ul>
               </nav>
             </div> */}
-            {props.length > 0 && (
+            {/* {props.length > 0 && (
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -226,7 +202,7 @@ const AccountStatement = ({
                 endIndex={endIndex}
                 totalData={totalData}
               />
-            )}
+            )} */}
 
             {/* Pagiantion */}
           </li>
@@ -237,4 +213,4 @@ const AccountStatement = ({
   );
 };
 
-export default AccountStatement;
+export default BetHistory;
