@@ -63,12 +63,12 @@ const AccountLandingModal = () => {
       toDate: formatDate(state.endDate),
     });
     console.log("response for transaction view line 67", response);
-    // setState((prevState) => ({
-    //   ...prevState,
-    //   statementView: response.data,
-    //   totalPages: response.pagination.totalPages,
-    //   totalData: response.pagination.totalItems,
-    // }));
+    setState((prevState) => ({
+      ...prevState,
+      statementView: response.data,
+      totalPages: response.pagination.totalPages,
+      totalData: response.pagination.totalItems,
+    }));
   }
 
   async function getActivityLog() {
@@ -224,7 +224,7 @@ const AccountLandingModal = () => {
               >
                 Profile
               </li>
-              {}
+              { }
               <li
                 className="list-group-item"
                 style={{

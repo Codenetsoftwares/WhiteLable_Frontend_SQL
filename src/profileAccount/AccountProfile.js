@@ -100,8 +100,9 @@ const AccountProfile = ({ props, UserName, createdByUser }) => {
       </div>
       {console.log("idadmin", store.admin.id === createdByUser)}
 
-      {createdByUser && store?.admin?.id === createdByUser &&
-      <ResetModal show={showPasChange} handleClose={handleClosePasChange} userName={UserName} />}
+
+      <ResetModal show={showPasChange} handleClose={handleClosePasChange} userName={UserName} />
+    
       {/* card end */}
       {/* Modal Change Password */}
 

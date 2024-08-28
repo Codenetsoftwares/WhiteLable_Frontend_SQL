@@ -19,7 +19,7 @@ const ViewSubAdminPermission = () => {
     }
   }, [store?.admin]);
 
-  
+
 
   const getSubAdminpermisson = async () => {
     const response = await getviewSubAdminPermission({
@@ -42,7 +42,7 @@ const ViewSubAdminPermission = () => {
 
     if (permissions.length === 0) {
       toast.error("Please select at least one permission.");
-      return; 
+      return;
     }
 
     const value = {
@@ -52,7 +52,7 @@ const ViewSubAdminPermission = () => {
 
     const response = await getEditSubAdminPermission(value, true);
     if (response) {
-      setDisplayEdit(true); 
+      setDisplayEdit(true);
     }
   };
 
@@ -68,9 +68,8 @@ const ViewSubAdminPermission = () => {
     const { name, checked } = event.target;
 
     setSubAdminPersionData((prevState) => {
-      if (!prevState.roles[0]) {
-        return prevState; 
-      }
+      if (!prevState?.roles[0]) return;
+
       const updatedPermissions = checked
         ? [...prevState.roles[0].permission, name]
         : prevState.roles[0].permission.filter((item) => item !== name);
