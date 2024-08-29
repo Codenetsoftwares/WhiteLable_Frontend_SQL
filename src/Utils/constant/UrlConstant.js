@@ -3,11 +3,12 @@
 class UrlConstant {
   constructor() {}
 
-  url_dev = 'http://localhost:8000/api';
+  url_dev = "http://localhost:8000/api";
 
   // Admin api
-  admin = 'admin';
-  view = 'view';
+  admin = "admin";
+  view = "view";
+  user = "user";
 
   login = `${this.url_dev}/${this.admin}-login`;
   Create = `${this.url_dev}/${this.admin}-create`;
@@ -26,15 +27,17 @@ class UrlConstant {
   allSubAdmin = `${this.url_dev}/${this.view}-all-subAdmin-creates`;
   viewSubAdminPermission = `${this.url_dev}/${this.admin}/single-sub-admin`;
   editSubAdminPermission = `${this.url_dev}/${this.admin}/edit-subadmin-permissions`;
-  UserProfileView=`${this.url_dev}/User-Profile-view`;
-  allTransactionView=`${this.url_dev}/transaction-view`;
-  AccountStatement= `${this.url_dev}/${this.admin}/account-statement`;
-  moveToTrash= `${this.url_dev}/${this.admin}/move-to-trash-user`;
-  viewTrash= `${this.url_dev}/${this.admin}/view-trash`;
-  deleteTrash= `${this.url_dev}/delete/admin-user`;
-  restoreTrash=`${this.url_dev}/${this.admin}/restore-to-wallet-use`;
-  activityLog= `${this.url_dev}/get-ip`;
-  resetPasswordAdmin=`${this.url_dev}/${this.admin}/reset-password`;
+  UserProfileView = `${this.url_dev}/User-Profile-view`;
+  allTransactionView = `${this.url_dev}/transaction-view`;
+  AccountStatement = `${this.url_dev}/${this.admin}/account-statement`;
+  moveToTrash = `${this.url_dev}/${this.admin}/move-to-trash-user`;
+  viewTrash = `${this.url_dev}/${this.admin}/view-trash`;
+  deleteTrash = `${this.url_dev}/delete/admin-user`;
+  restoreTrash = `${this.url_dev}/${this.admin}/restore-to-wallet-use`;
+  activityLog = `${this.url_dev}/get-ip`;
+  resetPasswordAdmin = `${this.url_dev}/${this.admin}/reset-password`;
+  getGameNames = `${this.url_dev}/${this.user}-colorGame-games`;
+  getBetHistory = `${this.url_dev}/${this.user}-colorGame-betHistory`;
 }
 
 const urls = new UrlConstant();

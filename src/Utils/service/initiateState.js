@@ -94,7 +94,13 @@ export function accountStatementInitialState(body = {}) {
   return {
     statementView: [],
     activityView: [],
-    profileView: [],
+    profileView: {
+      roles: [
+        {
+          role: null
+        },
+      ],
+    },
     toggle: 1,
     activeItem: "statement",
     currentPage: 1,
