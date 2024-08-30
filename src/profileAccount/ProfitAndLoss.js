@@ -1,7 +1,13 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 
-const ProfitAndLoss = (setEndDate, setStartDate, startDate, endDate) => {
+const ProfitAndLoss = ({
+  setEndDate,
+  setStartDate,
+  startDate,
+  endDate,
+  dataGameWise,
+}) => {
   return (
     <div className="col-sm-8 mt-3">
       <div className="card mb-3 w-100 rounded">
@@ -92,6 +98,7 @@ const ProfitAndLoss = (setEndDate, setStartDate, startDate, endDate) => {
                           backgroundColor: "#e6e9ed",
                           color: "#5562a3",
                         }}
+                        align="center"
                       >
                         <th scope="col">
                           <b>Sport Name</b>
@@ -106,6 +113,14 @@ const ProfitAndLoss = (setEndDate, setStartDate, startDate, endDate) => {
                           <b>Total P&L</b>
                         </th>
                       </tr>
+                      {dataGameWise?.map((data) => (
+                        <tr align="center">
+                          <td>{data?.gameName}</td>
+                          <td>{data?.profitLoss || "NA"}</td>
+                          <td>{data?.commission || "NA"}</td>
+                          <td>{data?.totalProfitLoss}</td>
+                        </tr>
+                      ))}
                     </thead>
                   </table>
                 </div>

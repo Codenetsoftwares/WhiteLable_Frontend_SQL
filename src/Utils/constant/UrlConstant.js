@@ -38,6 +38,7 @@ class UrlConstant {
   resetPasswordAdmin = `${this.url_dev}/${this.admin}/reset-password`;
   getGameNames = `${this.url_dev}/${this.user}-colorGame-games`;
   getBetHistory = `${this.url_dev}/${this.user}-colorGame-betHistory`;
+  getProfitLossGame = `${this.url_dev}/${this.user}-colorGame-profitLoss`;
 }
 
 const urls = new UrlConstant();

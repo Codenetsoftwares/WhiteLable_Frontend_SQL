@@ -13,6 +13,7 @@ import {
   getAllTransactionView,
   getBetHistory,
   getGameNames,
+  getProfitLossGame,
   getUserProfileView,
 } from "../Utils/service/apiService";
 import { accountStatementInitialState } from "../Utils/service/initiateState";
@@ -31,7 +32,23 @@ const AccountLandingModal = () => {
     totalPages: 0,
     totalData: 0,
     currentPage: 1,
-    itemPerPage : 10
+    itemPerPage: 10,
+  });
+
+  const [profitLossData, SetProfitLossData] = useState({
+    dataGameWise: [],
+    dataMarketWise: [],
+    dataHistory: [],
+    totalPages: 0,
+    totalData: 0,
+    currentPage: 1,
+    itemPerPage: 10,
+    endDate: new Date(),
+    startDate: (() => {
+      const date = new Date();
+      date.setDate(date.getDate() - 7);
+      return date;
+    })(),
   });
 
   const formatDate = (dateString) => {
@@ -67,6 +84,10 @@ const AccountLandingModal = () => {
     betHistoryData.currentPage,
     betHistoryData.itemPerPage,
   ]);
+
+  useEffect(() => {
+    getProfitLossGameWise();
+  }, [profitLossData.startDate, profitLossData.endDate]);
 
   async function getAll_userProfileStatement() {
     const response = await getUserProfileView({ userName });
@@ -130,6 +151,19 @@ const AccountLandingModal = () => {
       totalPages: response.pagination.totalPages,
       totalData: response.pagination.totalItems,
     }));
+  }
+  // For Game wise Profit Loss Data to show
+  async function getProfitLossGameWise() {
+    const response = await getProfitLossGame({
+      userName,
+      fromDate: formatDate(profitLossData.startDate),
+      toDate: formatDate(profitLossData.endDate),
+    });
+    SetProfitLossData((prevState) => ({
+      ...prevState,
+      dataGameWise: response.data,
+    }));
+    console.log("getProfitLossGameWise", profitLossData.dataGameWise);
   }
 
   console.log("getHistoryForBetHistory", betHistoryData);
@@ -259,7 +293,19 @@ const AccountLandingModal = () => {
     );
   } else if (state.toggle === 5) {
     componentToRender = (
-      <ProfitAndLoss props={state.profileView} UserName={userName} />
+      <ProfitAndLoss
+        props={state.profileView}
+        UserName={userName}
+        dataGameWise={profitLossData.dataGameWise}
+        startDate={profitLossData.startDate}
+        endDate={profitLossData.endDate}
+        setStartDate={(date) =>
+          SetProfitLossData((prevState) => ({ ...prevState, startDate: date }))
+        }
+        setEndDate={(date) =>
+          SetProfitLossData((prevState) => ({ ...prevState, endDate: date }))
+        }
+      />
     );
   }
 
