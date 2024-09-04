@@ -1,21 +1,130 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
+import Pagination from "../components/common/Pagination";
+import { Link } from "react-router-dom";
+import {
+  getProfitLossEvent,
+  getProfitLossRunner,
+} from "../Utils/service/apiService";
+import ProfitAndLossEvent from "./ProfitAndLossEvent";
+import ProfitAndLossRunner from "./ProfitLossRunner";
 
 const ProfitAndLoss = ({
+  UserName,
   setEndDate,
   setStartDate,
   startDate,
   endDate,
   dataGameWise,
+  currentPage,
+  totalData,
+  handlePageChange,
+  totalPages,
+  SetProfitLossData,
 }) => {
+  //Pagination
+  const startIndex = Math.min((currentPage - 1) * 10 + 1);
+  const endIndex = Math.min(currentPage * 10, totalData);
+
+  const [profitLossEventData, SetProfitLossEventData] = useState({
+    data: [],
+    totalPages: 0,
+    totalData: 0,
+    currentPage: 1,
+    itemPerPage: 10,
+  });
+
+  const [profitLossRunnerData, SetProfitLossRunnerData] = useState({
+    data: [],
+    totalPages: 0,
+    totalData: 0,
+    currentPage: 1,
+    itemPerPage: 10,
+  });
+
+  const [toggle, SetToggle] = useState(true);
+  const [component, SetComponent] = useState(null);
+  const [marketId, SetMarketId] = useState(null);
+
+  async function getProfitLossRunnerWise() {
+    SetToggle(false);
+    const response = await getProfitLossRunner({
+      userName: UserName,
+      marketId: marketId,
+      limit: profitLossRunnerData.itemPerPage
+    });
+    console.log("runner=>>>", response);
+    SetProfitLossRunnerData((prevState) => ({
+      ...prevState,
+      data: response.data,
+      totalPages: response.pagination.totalPages,
+      totalData: response.pagination.totalItems,
+    }));
+  }
+
+  useEffect(() => {
+    if (marketId) getProfitLossRunnerWise();
+  }, [marketId, profitLossRunnerData.itemPerPage]);
+
+
+  async function getProfitLossEventWise(gameId, componentName) {
+    SetToggle(false);
+    SetComponent(componentName);
+    const response = await getProfitLossEvent({
+      userName: UserName,
+      gameId: gameId,
+      // limit: profitLossEventData.itemPerPage,  //Work pending by serverSide
+    });
+    console.log("event=>>>", response);
+    SetProfitLossEventData((prevState) => ({
+      ...prevState,
+      data: response.data,
+      totalPages: response.pagination.totalPages,
+      totalData: response.pagination.totalItems,
+    }));
+  }
+  console.log("component", component);
+  let componentToRender;
+  if (component === "ProfitAndLossEvent") {
+    componentToRender = (
+      <ProfitAndLossEvent
+        data={profitLossEventData}
+        SetComponent={SetComponent}
+        SetMarketId={SetMarketId}
+        SetProfitLossEventData={SetProfitLossEventData}
+        currentPage={profitLossEventData.currentPage}
+        SetToggle={SetToggle}
+      />
+    );
+  } else {
+    componentToRender = (
+      <ProfitAndLossRunner
+        data={profitLossRunnerData}
+        SetComponent={SetComponent}
+        SetProfitLossRunnerData={SetProfitLossRunnerData}
+        currentPage={profitLossRunnerData.currentPage}
+      />
+    );
+  }
+
+  const handelItemPerPage = (event) => {
+    console.log("event.target.value", event.target.value);
+    SetProfitLossData((prevState) => ({
+      ...prevState,
+      itemPerPage: Number(event.target.value),
+      currentPage: Number(currentPage),
+    }));
+  };
+
   return (
     <div className="col-sm-8 mt-3">
-      <div className="card mb-3 w-100 rounded">
-        <div
-          className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-md-between"
-          style={{ backgroundColor: "#e6e9ed" }}
-        >
-          {/* <div className="form-group mb-3 mb-md-0 px-2">
+      {toggle && (
+        <div className="card mb-3 w-100 rounded">
+          <div
+            className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-md-between"
+            style={{ backgroundColor: "#e6e9ed" }}
+          >
+            {/* <div className="form-group mb-3 mb-md-0 px-2">
             <label>Data Source:</label>
             <select
               className="form-control"
@@ -28,169 +137,157 @@ const ProfitAndLoss = ({
               Add more options as needed
             </select>
           </div> */}
-          <div className="form-group mb-3 mb-md-0 px-2">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm">Data Source</div>
-                <div class="col-sm">From</div>
-                <div class="col-sm">To</div>
-              </div>
-            </div>
-            <div class="container">
-              <div class="row">
-                <div class="col-sm">
-                  {" "}
-                  <select
-                    class="form-select"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Select</option>
-                    <option value="settle">LIVE DATA</option>
-                    <option value="unsettle">BACKUP DATA</option>
-                    <option value="void">OLD DATA</option>
-                  </select>
-                </div>
-                <div class="col-sm">
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                  />
-                </div>
-                <div class="col-sm">
-                  {" "}
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                  />
+            <div className="form-group mb-3 mb-md-0 px-2">
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm">Data Source</div>
+                  <div class="col-sm">From</div>
+                  <div class="col-sm">To</div>
                 </div>
               </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    {" "}
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected>Select</option>
+                      <option value="settle">LIVE DATA</option>
+                      <option value="unsettle">BACKUP DATA</option>
+                      <option value="void">OLD DATA</option>
+                    </select>
+                  </div>
+                  <div class="col-sm">
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                    />
+                  </div>
+                  <div class="col-sm">
+                    {" "}
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="form-group mb-0 px-2">
-            <button
-              className="btn btn-primary"
-              // onClick={handleGetStatement}
-            >
-              Get P&L
-            </button>
+            <div className="form-group mb-0 px-2">
+              <button
+                className="btn btn-primary"
+                // onClick={handleGetStatement}
+              >
+                Get P&L
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* card */}
-      <div class="card w-100 rounded">
-        <div
-          class="card-heade text-white p-1"
-          style={{ backgroundColor: "#26416e" }}
-        >
-          <b>&nbsp;&nbsp;Profit & Loss</b>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <div class="white_card_body">
-              {/* Table */}
-              <div class="QA_section">
-                <div class="QA_table mb_30">
-                  <table class="table lms_table_active3 table-bordered">
-                    <thead>
-                      <tr
-                        style={{
-                          backgroundColor: "#e6e9ed",
-                          color: "#5562a3",
-                        }}
-                        align="center"
-                      >
-                        <th scope="col">
-                          <b>Sport Name</b>
-                        </th>
-                        <th scope="col">
-                          <b>Profit & Loss</b>
-                        </th>
-                        <th scope="col">
-                          <b>Commission</b>
-                        </th>
-                        <th scope="col">
-                          <b>Total P&L</b>
-                        </th>
-                      </tr>
-                      {dataGameWise?.map((data) => (
-                        <tr align="center">
-                          <td>{data?.gameName}</td>
-                          <td>{data?.profitLoss || "NA"}</td>
-                          <td>{data?.commission || "NA"}</td>
-                          <td>{data?.totalProfitLoss}</td>
-                        </tr>
-                      ))}
-                    </thead>
-                  </table>
-                </div>
+      {toggle === true ? (
+        <div class="card w-100 rounded">
+          <div
+            class="card-heade text-white p-1"
+            style={{ backgroundColor: "#26416e" }}
+          >
+            <b>&nbsp;&nbsp;Profit & Loss</b>
+          </div>
+          <select className="w-25 m-1" onChange={handelItemPerPage}>
+            <option selected>Data Range</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="white_card_body">
                 {/* Table */}
-              </div>
+                <div class="QA_section">
+                  <div class="QA_table mb_30">
+                    <table class="table lms_table_active3 table-bordered">
+                      <thead>
+                        <tr
+                          style={{
+                            backgroundColor: "#e6e9ed",
+                            color: "#5562a3",
+                          }}
+                          align="center"
+                        >
+                          <th scope="col">
+                            <b>Sport Name</b>
+                          </th>
+                          <th scope="col">
+                            <b>Profit & Loss</b>
+                          </th>
+                          <th scope="col">
+                            <b>Commission</b>
+                          </th>
+                          <th scope="col">
+                            <b>Total P&L</b>
+                          </th>
+                        </tr>
+                        {dataGameWise?.map((data) => (
+                          <tr align="center">
+                            {" "}
+                            <td
+                              onClick={() =>
+                                getProfitLossEventWise(
+                                  data?.gameId,
+                                  "ProfitAndLossEvent"
+                                )
+                              }
+                              className="text-primary fw-bold"
+                              style={{ cursor: "pointer" }}
+                            >
+                              {data?.gameName}
+                            </td>
+                            <td>{data?.profitLoss || "NDS"}</td>
+                            <td>{data?.commission || "NDS"}</td>
+                            <td>{data?.totalProfitLoss}</td>
+                          </tr>
+                        ))}
+                      </thead>
+                    </table>
+                  </div>
+                  {/* Table */}
+                </div>
 
-              {/* No Data Found */}
-              {/* {props.length === 0 && (
+                {/* No Data Found */}
+                {/* {props.length === 0 && (
                 <div className="alert text-dark bg-light mt-3" role="alert">
                   <div className="alert-text d-flex justify-content-center">
                     <b> &#128680; No Data Found !! </b>
                   </div>
                 </div>
               )} */}
-              {/* End of No Data Found */}
-            </div>
-          </li>
-          <li class="list-group-item">
-            {/* Pagiantion */}
-            {/* <div class="col-lg-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item disabled">
-                    <a
-                      class="page-link"
-                      href="#"
-                      tabindex="-1"
-                      aria-disabled="true"
-                    >
-                      Previous
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      Next
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div> */}
-            {/* {props.length > 0 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                handlePageChange={handlePageChange}
-                startIndex={startIndex}
-                endIndex={endIndex}
-                totalData={totalData}
-              />
-            )} */}
+                {/* End of No Data Found */}
+              </div>
+            </li>
+            <li class="list-group-item">
+              {/* Pagiantion */}
+              {dataGameWise.length > 0 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  handlePageChange={handlePageChange}
+                  startIndex={startIndex}
+                  endIndex={endIndex}
+                  totalData={totalData}
+                />
+              )}
+              {/* Pagiantion */}
+            </li>
+          </ul>
+        </div>
+      ) : (
+        <>{componentToRender}</>
+      )}
 
-            {/* Pagiantion */}
-          </li>
-        </ul>
-      </div>
       {/* card */}
     </div>
   );

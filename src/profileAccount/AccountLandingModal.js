@@ -87,7 +87,12 @@ const AccountLandingModal = () => {
 
   useEffect(() => {
     getProfitLossGameWise();
-  }, [profitLossData.startDate, profitLossData.endDate]);
+  }, [
+    profitLossData.startDate,
+    profitLossData.endDate,
+    profitLossData.currentPage,
+    profitLossData.itemPerPage,
+  ]);
 
   async function getAll_userProfileStatement() {
     const response = await getUserProfileView({ userName });
@@ -158,13 +163,17 @@ const AccountLandingModal = () => {
       userName,
       fromDate: formatDate(profitLossData.startDate),
       toDate: formatDate(profitLossData.endDate),
+      limit: profitLossData.itemPerPage,
     });
+    console.log("getProfitLossGameWise", response);
     SetProfitLossData((prevState) => ({
       ...prevState,
       dataGameWise: response.data,
+      totalPages: response.pagination.totalPages,
+      totalData: response.pagination.totalItems,
     }));
-    console.log("getProfitLossGameWise", profitLossData.dataGameWise);
   }
+  // console.log("getProfitLossGameWise", profitLossData);
 
   console.log("getHistoryForBetHistory", betHistoryData);
 
@@ -172,10 +181,10 @@ const AccountLandingModal = () => {
   const endIndex = Math.min(state.currentPage * 5, state.totalData);
 
   const startIndexBetHistory = Math.min(
-    (betHistoryData.currentPage - 1) * 5 + 1
+    (betHistoryData.currentPage - 1) * 10 + 1
   );
   const endIndexBetHistory = Math.min(
-    betHistoryData.currentPage * 5,
+    betHistoryData.currentPage * 10,
     betHistoryData.totalData
   );
 
@@ -305,6 +314,11 @@ const AccountLandingModal = () => {
         setEndDate={(date) =>
           SetProfitLossData((prevState) => ({ ...prevState, endDate: date }))
         }
+        currentPage={profitLossData.currentPage}
+        totalData={profitLossData.totalData}
+        totalPages={profitLossData.totalPages}
+        handlePageChange={handlePageChange}
+        SetProfitLossData={SetProfitLossData}
       />
     );
   }
