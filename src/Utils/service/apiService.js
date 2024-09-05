@@ -371,7 +371,7 @@ export async function getProfitLossGame(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.getProfitLossGame}/${body.userName}?startDate=${body.fromDate}&endDate=${body.toDate}&limit=${body.limit}`,
+      `${UrlConstant.getProfitLossGame}/${body.userName}?startDate=${body.fromDate}&endDate=${body.toDate}&limit=${body.limit}&search=${body.searchName}`,
       callParams,
       isToast
     );
@@ -385,7 +385,7 @@ export async function getProfitLossEvent(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.getProfitLossEvent}/${body.userName}/${body.gameId}`, ///&limit=${body.limit}
+      `${UrlConstant.getProfitLossEvent}/${body.userName}/${body.gameId}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
       callParams,
       isToast
     );
@@ -395,12 +395,11 @@ export async function getProfitLossEvent(body = {}, isToast = false) {
   }
 }
 
-
 export async function getProfitLossRunner(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.getProfitLossRunner}/${body.userName}/${body.marketId}`, ///&limit=${body.limit}
+      `${UrlConstant.getProfitLossRunner}/${body.userName}/${body.marketId}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
       callParams,
       isToast
     );

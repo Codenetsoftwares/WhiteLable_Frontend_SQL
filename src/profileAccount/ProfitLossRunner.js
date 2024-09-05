@@ -7,6 +7,7 @@ const ProfitAndLossRunner = ({
   SetComponent,
   SetProfitLossRunnerData,
   currentPage,
+  totalItems,
 }) => {
   console.log("data", data);
   const startIndex = Math.min((data.currentPage - 1) * 10 + 1);
@@ -21,6 +22,13 @@ const ProfitAndLossRunner = ({
     }));
     toast.error("Work Pending From ServerSide");
   };
+  const handleSearch = (e) => {
+    SetProfitLossRunnerData((prev) => ({
+      ...prev,
+      searchItem: e.target.value,
+    }));
+  };
+
   return (
     <>
       {/* card */}
@@ -41,18 +49,29 @@ const ProfitAndLossRunner = ({
             <i className="fas fa-arrow-left"></i>
           </span>
         </div>
-        <select className="w-25 m-1" onChange={handelItemPerPage}>
-          <option selected>Data Range</option>
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
+        <div className="m-1 d-flex justify-content-between align-items-center">
+          <select
+            className="form-select w-auto m-1"
+            onChange={handelItemPerPage}
+          >
+            <option defaultValue>Data Range</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <input
+            type="search"
+            className="form-control w-auto"
+            placeholder="Search..."
+            onChange={handleSearch}
+          />
+        </div>
 
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <div className="white_card_body">
-              {data?.data?.length === 0 ? ( // Problem : if really no data from server always it is spinning
+              {data?.data?.length === 0 && totalItems !== 0 ? ( // Problem : if really no data from server always it is spinning
                 // Loader
                 <div
                   className="d-flex justify-content-center align-items-center"
@@ -100,26 +119,39 @@ const ProfitAndLossRunner = ({
                             <b>Settle Time</b>
                           </th>
                         </tr>
-                        {data?.data?.map((data, index) => (
-                          <tr key={index} align="center">
-                            <td>{data?.gameName}</td>
-                            <td>{data?.runnerName}</td>
-                            <td>{data?.marketId || "NDS"}</td>
-                            <td
-                              className="text-primary fw-bold"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                toast.error("Work Pending From ServerSide");
-                              }}
-                            >
-                              {"NDS"}
+                        {data?.data?.length > 0 ? (
+                          data?.data?.map((data, index) => (
+                            <tr key={index} align="center">
+                              <td>{data?.gameName}</td>
+                              <td>{data?.runnerName}</td>
+                              <td>{data?.marketId || "NDS"}</td>
+                              <td
+                                className="text-primary fw-bold"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  toast.error("Work Pending From ServerSide");
+                                }}
+                              >
+                                {"NDS"}
+                              </td>
+                              <td>{"NDS"}</td>
+                              <td>{data?.profitLoss}</td>
+                              <td>{"NDS"}</td>
+                              <td>{"NDS"}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr align="center">
+                            <td colspan="8">
+                              <div
+                                class="alert alert-info fw-bold"
+                                role="alert"
+                              >
+                                No Data Found !!
+                              </div>
                             </td>
-                            <td>{"NDS"}</td>
-                            <td>{data?.profitLoss}</td>
-                            <td>{"NDS"}</td>
-                            <td>{"NDS"}</td>
                           </tr>
-                        ))}
+                        )}
                       </thead>
                     </table>
                   </div>

@@ -32,6 +32,7 @@ const ProfitAndLoss = ({
     totalData: 0,
     currentPage: 1,
     itemPerPage: 10,
+    searchItem: "",
   });
 
   const [profitLossRunnerData, SetProfitLossRunnerData] = useState({
@@ -40,6 +41,7 @@ const ProfitAndLoss = ({
     totalData: 0,
     currentPage: 1,
     itemPerPage: 10,
+    searchItem: "",
   });
 
   const [toggle, SetToggle] = useState(true);
@@ -51,7 +53,8 @@ const ProfitAndLoss = ({
     const response = await getProfitLossRunner({
       userName: UserName,
       marketId: marketId,
-      limit: profitLossRunnerData.itemPerPage
+      limit: profitLossRunnerData.itemPerPage,
+      // searchName: profitLossRunnerData.searchItem,  (by sending blank server is not giving data)
     });
     console.log("runner=>>>", response);
     SetProfitLossRunnerData((prevState) => ({
@@ -64,16 +67,21 @@ const ProfitAndLoss = ({
 
   useEffect(() => {
     if (marketId) getProfitLossRunnerWise();
-  }, [marketId, profitLossRunnerData.itemPerPage]);
-
+  }, [
+    marketId,
+    profitLossRunnerData.itemPerPage,
+    profitLossRunnerData.searchItem,
+  ]);
 
   async function getProfitLossEventWise(gameId, componentName) {
+    // if useEffcet  added give condition toggle must be false for end point to hit
     SetToggle(false);
     SetComponent(componentName);
     const response = await getProfitLossEvent({
       userName: UserName,
       gameId: gameId,
       // limit: profitLossEventData.itemPerPage,  //Work pending by serverSide
+      searchName: profitLossEventData.searchItem,
     });
     console.log("event=>>>", response);
     SetProfitLossEventData((prevState) => ({
@@ -94,6 +102,7 @@ const ProfitAndLoss = ({
         SetProfitLossEventData={SetProfitLossEventData}
         currentPage={profitLossEventData.currentPage}
         SetToggle={SetToggle}
+        totalItems={profitLossEventData.totalData}
       />
     );
   } else {
@@ -103,6 +112,7 @@ const ProfitAndLoss = ({
         SetComponent={SetComponent}
         SetProfitLossRunnerData={SetProfitLossRunnerData}
         currentPage={profitLossRunnerData.currentPage}
+        totalItems={profitLossRunnerData.totalData}
       />
     );
   }
@@ -113,6 +123,13 @@ const ProfitAndLoss = ({
       ...prevState,
       itemPerPage: Number(event.target.value),
       currentPage: Number(currentPage),
+    }));
+  };
+
+  const handleSearch = (e) => {
+    SetProfitLossData((prev) => ({
+      ...prev,
+      searchItem: e.target.value,
     }));
   };
 
@@ -196,13 +213,25 @@ const ProfitAndLoss = ({
           >
             <b>&nbsp;&nbsp;Profit & Loss</b>
           </div>
-          <select className="w-25 m-1" onChange={handelItemPerPage}>
-            <option selected>Data Range</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
+
+          <div className="m-1 d-flex justify-content-between align-items-center">
+            <select
+              className="form-select w-auto m-1"
+              onChange={handelItemPerPage}
+            >
+              <option defaultValue>Data Range</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <input
+              type="search"
+              className="form-control w-auto"
+              placeholder="Search..."
+              onChange={handleSearch}
+            />
+          </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <div class="white_card_body">
@@ -231,26 +260,39 @@ const ProfitAndLoss = ({
                             <b>Total P&L</b>
                           </th>
                         </tr>
-                        {dataGameWise?.map((data) => (
+                        {dataGameWise?.length > 0 ? (
+                          dataGameWise?.map((data) => (
+                            <tr align="center">
+                              {" "}
+                              <td
+                                onClick={() =>
+                                  getProfitLossEventWise(
+                                    data?.gameId,
+                                    "ProfitAndLossEvent"
+                                  )
+                                }
+                                className="text-primary fw-bold"
+                                style={{ cursor: "pointer" }}
+                              >
+                                {data?.gameName}
+                              </td>
+                              <td>{data?.profitLoss || "NDS"}</td>
+                              <td>{data?.commission || "NDS"}</td>
+                              <td>{data?.totalProfitLoss}</td>
+                            </tr>
+                          ))
+                        ) : (
                           <tr align="center">
-                            {" "}
-                            <td
-                              onClick={() =>
-                                getProfitLossEventWise(
-                                  data?.gameId,
-                                  "ProfitAndLossEvent"
-                                )
-                              }
-                              className="text-primary fw-bold"
-                              style={{ cursor: "pointer" }}
-                            >
-                              {data?.gameName}
+                            <td colspan="4">
+                              <div
+                                class="alert alert-info fw-bold"
+                                role="alert"
+                              >
+                                No Data Found !!
+                              </div>
                             </td>
-                            <td>{data?.profitLoss || "NDS"}</td>
-                            <td>{data?.commission || "NDS"}</td>
-                            <td>{data?.totalProfitLoss}</td>
                           </tr>
-                        ))}
+                        )}
                       </thead>
                     </table>
                   </div>

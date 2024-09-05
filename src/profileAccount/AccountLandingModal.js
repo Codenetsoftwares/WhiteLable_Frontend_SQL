@@ -49,6 +49,7 @@ const AccountLandingModal = () => {
       date.setDate(date.getDate() - 7);
       return date;
     })(),
+    searchItem: "",
   });
 
   const formatDate = (dateString) => {
@@ -92,6 +93,7 @@ const AccountLandingModal = () => {
     profitLossData.endDate,
     profitLossData.currentPage,
     profitLossData.itemPerPage,
+    profitLossData.searchItem,
   ]);
 
   async function getAll_userProfileStatement() {
@@ -164,6 +166,7 @@ const AccountLandingModal = () => {
       fromDate: formatDate(profitLossData.startDate),
       toDate: formatDate(profitLossData.endDate),
       limit: profitLossData.itemPerPage,
+      searchName: profitLossData.searchItem,
     });
     console.log("getProfitLossGameWise", response);
     SetProfitLossData((prevState) => ({
