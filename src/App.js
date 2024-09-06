@@ -15,6 +15,7 @@ import AccountLandingModal from "./profileAccount/AccountLandingModal";
 import AdminAccountStatement from "./pages/AdminAccountStatement";
 import AgentDelete from "./pages/AgentDelete";
 import WelcomePage from "./pages/welcomepage/WelcomePage";
+import View_AddCash_history from "./pages/View_AddCash_history";
 // import WelcomePage from "./screen/WelcomePage";
 
 function App() {
@@ -58,6 +59,10 @@ function App() {
               <Route
                 path="ViewSubAdminPermission/:id"
                 element={<ViewSubAdminPermission />}
+              />
+              <Route
+                path="View_AddCash_history"
+                element={<View_AddCash_history />}
               />
             </Route>
           </Routes>

@@ -256,6 +256,20 @@ export async function getAccountStatement_api(body = {}, isToast = false) {
   }
 }
 
+export async function getView_AddCash_history_api(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.View_AddCash_history}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function moveToTrash_api(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.POST, body, isToast);

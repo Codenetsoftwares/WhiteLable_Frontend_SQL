@@ -9,10 +9,12 @@ import CustomTransactionModal from '../modal/customTransactionModal';
 import strings from '../Utils/constant/stringConstant';
 import { debounce } from 'lodash';
 import FullScreenLoader from '../components/FullScreenLoader';
+import { useNavigate } from 'react-router-dom';
 
 
 const Wallet = () => {
   const { dispatch, store } = useAppContext();
+  const navigate = useNavigate()
   const [balance, setBalance] = useState(0);
   const [walletCard, setWalletCard] = useState(getAllCreateState());
   const [modalShow, setModalShow] = useState(false);
@@ -45,6 +47,9 @@ const Wallet = () => {
     setModalShow(boolParam);
     setDifferentiate(differentiateParam);
   };
+  const navigateToAddCash = () => {
+    navigate("/View_AddCash_history")
+  }
 
   useEffect(() => {
     if (store?.admin) {
@@ -122,13 +127,26 @@ const Wallet = () => {
         <p style={{ fontWeight: 'bold' }}>Total Balance</p>
         <h4 className="mb-1">₹{balance}</h4>
         {store?.admin?.roles && store?.admin?.roles.length > 0 && store?.admin?.roles[0].role === strings.superAdmin && (
-          <button
-            className="btn btn-danger"
-            aria-label="Close"
-            onClick={() => handelOpenTransactionModal(true, 'addCashProvider')}
-          >
-            ADD CASH
-          </button>
+          <div className='row'>
+            <div className='col-4'></div>
+            <div className='col-4 '>
+              <button
+                className="btn btn-danger "
+                aria-label="Close"
+                onClick={() => handelOpenTransactionModal(true, 'addCashProvider')}
+              >
+                ADD CASH
+              </button>
+              <button
+                className="btn btn-success ms-2"
+                onClick={() => navigateToAddCash()}
+              >
+                ADD CASH HISTORY
+              </button>
+            </div>
+            <div className='col-4'></div>
+          </div>
+
         )}
       </div>
       <div className="white_card_body m-3">
