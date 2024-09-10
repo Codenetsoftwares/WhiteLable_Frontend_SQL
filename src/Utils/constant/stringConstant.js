@@ -28,6 +28,7 @@ export class StringConstants {
   subSuperAgent = 'subSuperAgent';
   subMasterAgent = 'subMasterAgent';
   createAdmin = 'createAdmin';
+  user = 'user'
 
   // permission
   createSubAdmin = 'create-subAdmin';
