@@ -34,7 +34,8 @@ class UrlConstant {
   deleteTrash= `${this.url_dev}/delete/admin-user`;
   restoreTrash=`${this.url_dev}/${this.admin}/restore-to-wallet-use`;
   activityLog= `${this.url_dev}/get-ip`;
-  resetPasswordAdmin=`${this.url_dev}/${this.admin}/reset-password`;
+  resetPasswordAdmin = `${this.url_dev}/${this.admin}/reset-password`;
+  View_AddCash_history = `${this.url_dev}/${this.view}-main-balance`;
 }
 
 const urls = new UrlConstant();
