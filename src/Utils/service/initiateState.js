@@ -136,3 +136,12 @@ export function adminAccountStatementInitialState() {
     totalData: 0,
   };
 }
+export function view_AddCashHistory_InitialState() {
+  return {
+    history: [],
+    currentPage: 1,
+    totalPages: 0,
+    totalEntries: 10,
+    totalData: 0,
+  };
+}

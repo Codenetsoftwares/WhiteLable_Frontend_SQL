@@ -36,11 +36,13 @@ class UrlConstant {
   restoreTrash = `${this.url_dev}/${this.admin}/restore-to-wallet-use`;
   activityLog = `${this.url_dev}/get-ip`;
   resetPasswordAdmin = `${this.url_dev}/${this.admin}/reset-password`;
+  View_AddCash_history = `${this.url_dev}/${this.view}-main-balance`;
   getGameNames = `${this.url_dev}/${this.user}-colorGame-games`;
   getBetHistory = `${this.url_dev}/${this.user}-colorGame-betHistory`;
   getProfitLossGame = `${this.url_dev}/${this.user}-colorGame-profitLoss`;
   getProfitLossEvent = `${this.url_dev}/${this.user}-colorGame-market_profitLoss`;
   getProfitLossRunner = `${this.url_dev}/${this.user}-colorGame-runner_profitLoss`;
+
 }
 
 const urls = new UrlConstant();
