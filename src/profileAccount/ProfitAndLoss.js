@@ -54,7 +54,7 @@ const ProfitAndLoss = ({
       userName: UserName,
       marketId: marketId,
       limit: profitLossRunnerData.itemPerPage,
-      // searchName: profitLossRunnerData.searchItem,  (by sending blank server is not giving data)
+      searchName: profitLossRunnerData.searchItem,  
     });
     console.log("runner=>>>", response);
     SetProfitLossRunnerData((prevState) => ({

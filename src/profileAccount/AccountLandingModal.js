@@ -33,6 +33,12 @@ const AccountLandingModal = () => {
     totalData: 0,
     currentPage: 1,
     itemPerPage: 10,
+    endDate: new Date(),
+    startDate: (() => {
+      const date = new Date();
+      date.setDate(date.getDate() - 7);
+      return date;
+    })(),
   });
 
   const [profitLossData, SetProfitLossData] = useState({
@@ -84,6 +90,8 @@ const AccountLandingModal = () => {
     betHistoryData.SelectedGameId,
     betHistoryData.currentPage,
     betHistoryData.itemPerPage,
+    betHistoryData.endDate,
+    betHistoryData.startDate,
   ]);
 
   useEffect(() => {
@@ -287,13 +295,13 @@ const AccountLandingModal = () => {
         UserName={userName}
         data={betHistoryData}
         setData={SetBetHistoryData}
-        startDate={state.startDate}
-        endDate={state.endDate}
+        startDate={betHistoryData.startDate}
+        endDate={betHistoryData.endDate}
         setStartDate={(date) =>
-          setState((prevState) => ({ ...prevState, startDate: date }))
+          SetBetHistoryData((prevState) => ({ ...prevState, startDate: date }))
         }
         setEndDate={(date) =>
-          setState((prevState) => ({ ...prevState, endDate: date }))
+          SetBetHistoryData((prevState) => ({ ...prevState, endDate: date }))
         }
         startIndex={startIndexBetHistory}
         endIndex={endIndexBetHistory}
