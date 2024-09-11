@@ -82,19 +82,21 @@ const Card = ({
   };
   let action = "";
   async function takeMeToHierarchy(userName) {
-    if (callingParent === "HierarchyPageView") {
-      action = "store";
-    } else {
-      action = "clearAll";
-    }
+    if (role !== 'user') {
+      if (callingParent === "HierarchyPageView") {
+        action = "store";
+      } else {
+        action = "clearAll";
+      }
 
-    const response = await getHierarchy({
-      adminName: userName,
-      action: action,
-    });
-    if (response.successCode) {
-      console.log(response);
-      navigate(`/hierarchyView/${userName}`);
+      const response = await getHierarchy({
+        adminName: userName,
+        action: action,
+      });
+      if (response.successCode) {
+        console.log(response);
+        navigate(`/hierarchyView/${userName}`);
+      }
     }
   }
 
