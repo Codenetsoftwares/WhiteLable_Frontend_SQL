@@ -4,6 +4,8 @@ import { view_AddCashHistory_InitialState } from '../Utils/service/initiateState
 import { permissionObj } from '../Utils/constant/permission';
 import { getView_AddCash_history_api } from '../Utils/service/apiService';
 import Pagination from '../components/common/Pagination';
+import { toast } from 'react-toastify';
+import { customErrorHandler } from '../Utils/helper';
 
 const View_AddCash_history = () => {
     const { dispatch, store } = useAppContext();
@@ -12,20 +14,25 @@ const View_AddCash_history = () => {
     const [state, setState] = useState(view_AddCashHistory_InitialState());
     console.log('=====>>> stored data', state)
     async function getView_AddCash_history() {
-        const response = await getView_AddCash_history_api({
-            _id: store?.admin?.id,
-            pageNumber: state.currentPage,
-            dataLimit: state.totalEntries,
-        });
-        console.log("======>>>>>> response", response.pagination);
+        try {
+            const response = await getView_AddCash_history_api({
+                _id: store?.admin?.id,
+                pageNumber: state.currentPage,
+                dataLimit: state.totalEntries,
+            });
+            console.log("======>>>>>> response", response.pagination);
 
-        setState((prevState) => ({
-            ...prevState,
-            history: response.data.transactions,
-            totalPages: response.pagination.totalPages,
-            totalData: response.pagination.totalItems,
-        }));
+            setState((prevState) => ({
+                ...prevState,
+                history: response?.data?.transactions,
+                totalPages: response?.pagination?.totalPages,
+                totalData: response?.pagination?.totalItems,
+            }));
+        } catch (error) {
+            toast.error(customErrorHandler(error))
+        }
     }
+
 
     function handlePageChange(page) {
         console.log("========>>>> page change", page);
@@ -94,7 +101,7 @@ const View_AddCash_history = () => {
                                                 </th>
                                             </tr>
                                         </thead>
-                                        {state.history.map((transaction) => (
+                                        {state.history.length > 0 && <>{state.history.map((transaction) => (
                                             <tr key={transaction._id}>
                                                 <th >
                                                     <a href="#" className="question_content">
@@ -105,7 +112,8 @@ const View_AddCash_history = () => {
                                                 <td>{transaction.amount}</td>
 
                                             </tr>
-                                        ))}
+                                        ))}</>}
+
                                     </table>
                                     {state.history.length === 0 && (
                                         <div className="alert text-dark bg-light mt-3" role="alert">
