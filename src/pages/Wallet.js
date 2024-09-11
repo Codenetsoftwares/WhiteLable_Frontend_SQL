@@ -141,7 +141,7 @@ const Wallet = () => {
                 className="btn btn-success ms-2"
                 onClick={() => navigateToAddCash()}
               >
-                ADD CASH HISTORY
+                CASH HISTORY
               </button>
             </div>
             <div className='col-4'></div>
