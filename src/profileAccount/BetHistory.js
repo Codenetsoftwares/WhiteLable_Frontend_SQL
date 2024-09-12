@@ -193,7 +193,7 @@ const BetHistory = ({
                     <tbody>
                       {/* Render the data history if available and a sport is selected */}
                       {data.SelectedGameId !== null &&
-                      data?.dataHistory?.length > 0
+                      data?.dataHistory?.length > 0 
                         ? data?.dataHistory?.map((history, index) => (
                             <tr key={index} align="center">
                               <td>{history?.userName}</td>

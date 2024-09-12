@@ -422,3 +422,31 @@ export async function getProfitLossRunner(body = {}, isToast = false) {
     throw error;
   }
 }
+
+export async function getLiveGames(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.get_Live_BetGame}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getUserGetMarket(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.get_user_BetMarket}/${body.marketId}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

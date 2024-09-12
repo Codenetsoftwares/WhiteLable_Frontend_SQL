@@ -145,3 +145,13 @@ export function view_AddCashHistory_InitialState() {
     totalData: 0,
   };
 }
+export function get_liveGames(body = {}) {
+  return {
+    data: [],
+    currentPage: 1,
+    totalPages: "",
+    totalEntries: 5,
+    name: "",
+    totalData: "",
+  };
+}

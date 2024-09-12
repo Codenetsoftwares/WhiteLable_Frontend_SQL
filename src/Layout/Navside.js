@@ -98,24 +98,11 @@ const Navside = () => {
           </li>
         )}
 
-        
+
 
         {permissionObj.allAdmin.includes(
           store.admin.roles[0].role,
         ) && (
-          <li className="" onClick={takeMeToAdminAccount}>
-            <a className="" href="#" aria-expanded="false">
-              <div>
-                <img src="../img/menu-icon/dashboard.svg" alt="" />
-              </div>
-              <div>
-                <span>Account Statement</span>
-              </div>
-            </a>
-          </li>
-          )}
-
-        {store.admin.roles[0].permission.includes(strings.accountStatement) && (
             <li className="" onClick={takeMeToAdminAccount}>
               <a className="" href="#" aria-expanded="false">
                 <div>
@@ -128,8 +115,21 @@ const Navside = () => {
             </li>
           )}
 
-        {store.admin.roles[0].permission.includes(strings.deleteAdmin) && 
-         (
+        {store.admin.roles[0].permission.includes(strings.accountStatement) && (
+          <li className="" onClick={takeMeToAdminAccount}>
+            <a className="" href="#" aria-expanded="false">
+              <div>
+                <img src="../img/menu-icon/dashboard.svg" alt="" />
+              </div>
+              <div>
+                <span>Account Statement</span>
+              </div>
+            </a>
+          </li>
+        )}
+
+        {store.admin.roles[0].permission.includes(strings.deleteAdmin) &&
+          (
             <>
               {isRequest ? (
                 <li className="" onClick={handleRequestToggle}>
@@ -169,38 +169,38 @@ const Navside = () => {
 
         {permissionObj.allAdmin.includes(
           store.admin.roles[0].role,
-        ) &&  (
-          <>
-            {isRequest ? (
-              <li className="" onClick={handleRequestToggle}>
-                <a className="has-arrow" href="#" aria-expanded="false">
-                  <div className="nav_icon_small">
-                    <img src="../img/menu-icon/dashboard.svg" alt="" />
-                  </div>
-                  <div className="nav_title">
-                    <span>Request </span>
-                  </div>
-                </a>
-              </li>
-            ) : (
-              <li className="" onClick={handleRequestToggle}>
-                <a className="has-arrow" href="#" aria-expanded="false">
-                  <div>
-                    <img src="../img/menu-icon/dashboard.svg" alt="" />
-                  </div>
-                  <div>
-                    <span>Request </span>
-                  </div>
-                </a>
-                <ul>
-                  <li>
-                    <Link to="/agentDelete">Agent Delete</Link>
-                  </li>
-                </ul>
-              </li>
-            )}
-          </>
-        )}
+        ) && (
+            <>
+              {isRequest ? (
+                <li className="" onClick={handleRequestToggle}>
+                  <a className="has-arrow" href="#" aria-expanded="false">
+                    <div className="nav_icon_small">
+                      <img src="../img/menu-icon/dashboard.svg" alt="" />
+                    </div>
+                    <div className="nav_title">
+                      <span>Request </span>
+                    </div>
+                  </a>
+                </li>
+              ) : (
+                <li className="" onClick={handleRequestToggle}>
+                  <a className="has-arrow" href="#" aria-expanded="false">
+                    <div>
+                      <img src="../img/menu-icon/dashboard.svg" alt="" />
+                    </div>
+                    <div>
+                      <span>Request </span>
+                    </div>
+                  </a>
+                  <ul>
+                    <li>
+                      <Link to="/agentDelete">Agent Delete</Link>
+                    </li>
+                  </ul>
+                </li>
+              )}
+            </>
+          )}
 
         {permissionObj.allAdmin.includes(
           store.admin.roles[0].role,
@@ -296,6 +296,16 @@ const Navside = () => {
               )}
             </>
           )}
+        <li >
+          <Link to="/Market_analysis" aria-expanded="false">
+            <div className="nav_icon_small">
+              <img src="../img/menu-icon/dashboard.svg" alt="" />
+            </div>
+            <div className="nav_title">
+              <span>Market Analysis</span>
+            </div>
+          </Link>
+        </li>
       </ul>
     </nav>
   );
