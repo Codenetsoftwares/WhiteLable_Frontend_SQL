@@ -10,7 +10,7 @@ const AdminAccountStatement = () => {
   console.log("========>>> _id", store);
 
   const [state, setState] = useState(adminAccountStatementInitialState());
-console.log('=====>>> stored data',state)
+  console.log("=====>>> stored data", state);
   async function AccountStatement() {
     const response = await getAccountStatement_api({
       _id: store?.admin?.id,
@@ -75,6 +75,25 @@ console.log('=====>>> stored data',state)
         >
           <b>&nbsp;&nbsp;Account Statement</b>
         </div>
+        <select
+          className="form-select form-select-sm w-25 m-1"
+          aria-label=".form-select-sm example"
+          onChange={(e) =>
+            setState((prevState) => ({
+              ...prevState,
+              totalEntries: e.target.value,
+              currentPage: 1,
+            }))
+          }
+        >
+          <option selected value="10">
+            Show 10 entries
+          </option>
+          <option value="25">25 entries</option>
+          <option value="50">50 entries</option>
+          <option value="75">75 entries</option>
+          <option value="100">100 entries</option>
+        </select>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             <div className="white_card_body">
@@ -96,6 +115,9 @@ console.log('=====>>> stored data',state)
                           <b>Withdraw</b>
                         </th>
                         <th scope="col">
+                          <b>Balance</b>
+                        </th>
+                        <th scope="col">
                           <b>Remark</b>
                         </th>
                         <th scope="col">
@@ -110,71 +132,59 @@ console.log('=====>>> stored data',state)
                             {formatDate(transaction.date)}
                           </a>
                         </th>
-                        {transaction.transactionType === "debit" ? (
-                          <>
-                            <td></td>
-                            <td className="text-danger">
+                        <td>
+                          {transaction.transactionType === "credit" ||
+                          transaction.transactionType === "deposit" ? (
+                            <span>{transaction.amount}</span>
+                          ) : null}
+                        </td>
+                        <td>
+                          {transaction.transactionType === "withdrawal" && (
+                            <span className="text-danger">
                               {transaction.amount}
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td>{transaction.amount}</td>
-                            <td></td>
-                          </>
-                        )}
-                        <td></td>
-                        <td> {transaction.hasOwnProperty('transferFromUserAccount') && transaction.hasOwnProperty('transferToUserAccount')
-        ? `${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`
-        : 'Self-Transaction'}</td>
+                            </span>
+                          )}
+                        </td>
+                        <td>{transaction.balance}</td>
+                        <td>{transaction.remarks}</td>
+                        <td>
+                          {" "}
+                          {transaction.hasOwnProperty(
+                            "transferFromUserAccount"
+                          ) &&
+                          transaction.hasOwnProperty("transferToUserAccount")
+                            ? `${transaction.transferFromUserAccount} / ${transaction.transferToUserAccount}`
+                            : "Self-Transaction"}
+                        </td>
                       </tr>
                     ))}
                   </table>
-                    {state.statement.length === 0 && (
-                      <div className="alert text-dark bg-light mt-3" role="alert">
-                        <div className="alert-text d-flex justify-content-center">
-                          <b> &#128680; No Data Found !! </b>
-                        </div>
+                  {state.statement.length === 0 && (
+                    <div className="alert text-dark bg-light mt-3" role="alert">
+                      <div className="alert-text d-flex justify-content-center">
+                        <b> &#128680; No Data Found !! </b>
                       </div>
-                    )}
+                    </div>
+                  )}
                 </div>
               </div>
               {/* End of No Data Found */}
             </div>
           </li>
-          {state.statement.length!=0&&
-          <li className="list-group-item">
-            <select
-              className="form-select form-select-sm w-25"
-              aria-label=".form-select-sm example"
-              onChange={(e) =>
-                setState((prevState) => ({
-                  ...prevState,
-                  totalEntries: e.target.value,
-                  currentPage: 1,
-                }))
-              }
-            >
-              <option selected value="5">
-                Show 5 entries
-              </option>
-              <option value="10">10 entries</option>
-              <option value="15">15 entries</option>
-              <option value="25">25 entries</option>
-              <option value="50">50 entries</option>
-              <option value="75">75 entries</option>
-            </select>
-            {/* Pagination */}
-            <Pagination
-              currentPage={state.currentPage}
-              totalPages={state.totalPages}
-              handlePageChange={handlePageChange}
-              startIndex={startIndex}
-              endIndex={endIndex}
-              totalData={state.totalData}
-            />
-            {/* Pagination */}
-          </li>}
+          {state.statement.length !== 0 && (
+            <li className="list-group-item">
+              {/* Pagination */}
+              <Pagination
+                currentPage={state.currentPage}
+                totalPages={state.totalPages}
+                handlePageChange={handlePageChange}
+                startIndex={startIndex}
+                endIndex={endIndex}
+                totalData={state.totalData}
+              />
+              {/* Pagination */}
+            </li>
+          )}
         </ul>
       </div>
       {/* card */}

@@ -232,7 +232,7 @@ export async function getAllTransactionView(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.allTransactionView}/${body.userName}?page=${body.pageNumber}&startDate=${body.fromDate}&endDate=${body.toDate}`,
+      `${UrlConstant.allTransactionView}/${body.userName}?page=${body.pageNumber}&startDate=${body.fromDate}&endDate=${body.toDate}&limit=${body.limit}`,
       callParams,
       isToast
     );

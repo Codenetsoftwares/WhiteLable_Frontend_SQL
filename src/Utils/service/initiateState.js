@@ -97,7 +97,7 @@ export function accountStatementInitialState(body = {}) {
     profileView: {
       roles: [
         {
-          role: null
+          role: null,
         },
       ],
     },
@@ -112,6 +112,7 @@ export function accountStatementInitialState(body = {}) {
       date.setDate(date.getDate() - 7);
       return date;
     })(),
+    totalEntries : 10
   };
 }
 
@@ -132,7 +133,7 @@ export function adminAccountStatementInitialState() {
     statement: [],
     currentPage: 1,
     totalPages: 0,
-    totalEntries: 5,
+    totalEntries: 10,
     totalData: 0,
   };
 }

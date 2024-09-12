@@ -18,6 +18,7 @@ const AccountStatement = ({
   startIndex,
   endIndex,
   totalData,
+  setState,
 }) => {
   console.log(
     "======>>> user profile data in account statement PAGE",
@@ -53,40 +54,43 @@ const AccountStatement = ({
           <b>&nbsp;&nbsp;Get Account Statement</b>
         </div>
         <div className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-md-between">
-          {/* <div className="form-group mb-3 mb-md-0 px-2">
-            <label>Data Source:</label>
-            <select
-              className="form-control"
-              value={dataSource}
-              onChange={(e) => setDataSource(e.target.value)}
-            >
-              <option value="">Select a data source</option>
-              <option value="source1">Source 1</option>
-              <option value="source2">Source 2</option>
-              Add more options as needed
-            </select>
-          </div> */}
           <div className="form-group mb-3 mb-md-0 px-2">
-            <label>From Date:</label>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
-          </div>
-          <div className="form-group mb-3 mb-md-0 px-2">
-            <label>To Date:</label>
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-            />
-          </div>
-          <div className="form-group mb-0 px-2">
-            <button
-              className="btn btn-primary"
-              // onClick={handleGetStatement}
-            >
-              Get Statement
-            </button>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm">Data Source</div>
+                <div class="col-sm">From</div>
+                <div class="col-sm">To</div>
+              </div>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm">
+                  {" "}
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected>Select</option>
+                    <option value="settle">LIVE DATA</option>
+                    <option value="unsettle">BACKUP DATA</option>
+                    <option value="void">OLD DATA</option>
+                  </select>
+                </div>
+                <div class="col-sm">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                  />
+                </div>
+                <div class="col-sm">
+                  {" "}
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -99,6 +103,25 @@ const AccountStatement = ({
         >
           <b>&nbsp;&nbsp;Account Statement</b>
         </div>
+        <select
+          className="form-select form-select-sm w-25 m-1"
+          aria-label=".form-select-sm example"
+          onChange={(e) =>
+            setState((prevState) => ({
+              ...prevState,
+              totalEntries: e.target.value,
+              // currentPage: 1,
+            }))
+          }
+        >
+          <option selected value="10">
+            Show 10 entries
+          </option>
+          <option value="25">25 entries</option>
+          <option value="50">50 entries</option>
+          <option value="75">75 entries</option>
+          <option value="100">100 entries</option>
+        </select>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="white_card_body">
@@ -140,19 +163,18 @@ const AccountStatement = ({
                             {formatDate(transaction.date)}
                           </a>
                         </th>
-                        {transaction.transactionType === "debit" ? (
-                          <>
-                            <td></td>
-                            <td className="text-danger">
+                        <td>
+                          {transaction.transactionType === "credit" && (
+                            <span>{transaction.amount}</span>
+                          )}
+                        </td>
+                        <td>
+                          {transaction.transactionType === "withdrawal" && (
+                            <span className="text-danger">
                               {transaction.amount}
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td>{transaction.amount}</td>
-                            <td></td>
-                          </>
-                        )}
+                            </span>
+                          )}
+                        </td>
 
                         <td>
                           {transaction.transactionType === "debit"

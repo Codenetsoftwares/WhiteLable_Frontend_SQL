@@ -192,14 +192,7 @@ const ProfitAndLoss = ({
                 </div>
               </div>
             </div>
-            <div className="form-group mb-0 px-2">
-              <button
-                className="btn btn-primary"
-                // onClick={handleGetStatement}
-              >
-                Get P&L
-              </button>
-            </div>
+
           </div>
         </div>
       )}

@@ -87,6 +87,7 @@ const AccountLandingModal = () => {
     state.currentPage,
     state.startDate,
     state.endDate,
+    state.totalEntries,
     betHistoryData.SelectedGameId,
     betHistoryData.currentPage,
     betHistoryData.itemPerPage,
@@ -123,6 +124,7 @@ const AccountLandingModal = () => {
       pageNumber: state.currentPage,
       fromDate: formatDate(state.startDate),
       toDate: formatDate(state.endDate),
+      limit: state.totalEntries,
     });
     console.log("response for transaction view line 67", response);
     setState((prevState) => ({
@@ -188,8 +190,11 @@ const AccountLandingModal = () => {
 
   console.log("getHistoryForBetHistory", betHistoryData);
 
-  const startIndex = Math.min((state.currentPage - 1) * 5 + 1);
-  const endIndex = Math.min(state.currentPage * 5, state.totalData);
+  const startIndex = Math.min((state.currentPage - 1) * state.totalEntries + 1);
+  const endIndex = Math.min(
+    state.currentPage * state.totalEntries,
+    state.totalData
+  );
 
   const startIndexBetHistory = Math.min(
     (betHistoryData.currentPage - 1) * 10 + 1
@@ -276,6 +281,7 @@ const AccountLandingModal = () => {
         startIndex={startIndex}
         endIndex={endIndex}
         totalData={state.totalData}
+        setState={setState}
       />
     );
   } else if (state.toggle === 2) {
