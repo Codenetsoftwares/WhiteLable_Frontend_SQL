@@ -102,8 +102,16 @@ const AccountLandingModal = () => {
     profitLossData.endDate,
     profitLossData.currentPage,
     profitLossData.itemPerPage,
-    profitLossData.searchItem,
+    // profitLossData.searchItem,
   ]);
+
+  // Debounce for search
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      getProfitLossGameWise();
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [profitLossData.searchItem]);
 
   async function getAll_userProfileStatement() {
     const response = await getUserProfileView({ userName });
@@ -130,8 +138,8 @@ const AccountLandingModal = () => {
     setState((prevState) => ({
       ...prevState,
       statementView: response.data,
-      totalPages: response.pagination.totalPages,
-      totalData: response.pagination.totalItems,
+      totalPages: response?.pagination?.totalPages,
+      totalData: response?.pagination?.totalItems,
     }));
   }
 

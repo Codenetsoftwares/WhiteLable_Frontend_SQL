@@ -112,7 +112,7 @@ export function accountStatementInitialState(body = {}) {
       date.setDate(date.getDate() - 7);
       return date;
     })(),
-    totalEntries : 10
+    totalEntries: 10,
   };
 }
 
@@ -135,6 +135,12 @@ export function adminAccountStatementInitialState() {
     totalPages: 0,
     totalEntries: 10,
     totalData: 0,
+    endDate: new Date(),
+    startDate: (() => {
+      const date = new Date();
+      date.setDate(date.getDate() - 7);
+      return date;
+    })(),
   };
 }
 export function view_AddCashHistory_InitialState() {
