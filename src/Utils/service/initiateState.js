@@ -155,3 +155,30 @@ export function get_liveGames(body = {}) {
     totalData: "",
   };
 }
+
+export function getMarketWithRunnerDataInitialState(body = {}) {
+  return {
+    marketId: "",
+    marketName: "",
+    participants: null,
+    timeSpan: "",
+    status: null,
+    runners: [
+      {
+        runnerName: {
+          runnerId: "",
+          name: "",
+        },
+        rate: [
+          {
+            back: null,
+            lay: null,
+            _id: "",
+          },
+        ],
+        _id: "",
+      },
+    ],
+    _id: "",
+  };
+}

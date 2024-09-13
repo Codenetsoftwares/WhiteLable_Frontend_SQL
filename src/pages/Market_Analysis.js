@@ -6,30 +6,24 @@ import { customErrorHandler } from '../Utils/helper';
 import { useAppContext } from '../contextApi/context';
 import { permissionObj } from '../Utils/constant/permission';
 import SingleCard from '../components/common/singleCard';
+import { Link } from 'react-router-dom';
 
 const Market_Analysis = () => {
     const { dispatch, store } = useAppContext();
     const [liveGmes, setLiveGmes] = useState(get_liveGames())
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState("Select User");
+    const [openDropdown, setOpenDropdown] = useState(null); // Store the marketId of the currently open dropdown
+    const [selectedUsers, setSelectedUsers] = useState({}); // Store the selected user for each marketId
 
-    const options = [
-        "User 1",
-        "User 2",
-        "User 3",
-        "User 4",
-        "User 5",
-        "User 6",
-        "User 7",
-        "User 8",
-        "User 9",
-        "User 10"
-    ];
-
-    const handleSelect = (option) => {
-        setSelectedUser(option);
-        setIsOpen(false); // Close the dropdown after selection
+    const handleSelect = (option, marketId) => {
+        setSelectedUsers((prevSelectedUsers) => ({
+            ...prevSelectedUsers,
+            [marketId]: option,
+            marketId: marketId,
+            userName: option // Update the selected user for the specific dropdown
+        }));
+        setOpenDropdown(null); // Close the dropdown after selection
     };
+
 
 
     const handleClearSearch = () => {
@@ -148,7 +142,7 @@ const Market_Analysis = () => {
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 1)",
                         }}
                     >
-                        <div className="table-responsive">
+                        <div className="">
                             <table
                                 className="table table-hover rounded-table"
                                 style={{
@@ -193,20 +187,22 @@ const Market_Analysis = () => {
                                                                 {/* Dropdown toggle */}
                                                                 <div
                                                                     className="dropdown-header"
-                                                                    onClick={() => setIsOpen(!isOpen)}
+                                                                    onClick={() =>
+                                                                        setOpenDropdown((prev) => (prev === data.marketId ? null : data.marketId))
+                                                                    } // Toggle the specific dropdown
                                                                     style={{
                                                                         padding: '10px',
                                                                         border: '1px solid #6c757d',
                                                                         borderRadius: '5px',
                                                                         backgroundColor: '#f8f9fa',
-                                                                        cursor: 'pointer'
+                                                                        cursor: 'pointer',
                                                                     }}
                                                                 >
-                                                                    {selectedUser}
+                                                                    {selectedUsers[data.marketId] || 'Select User'}
                                                                 </div>
 
                                                                 {/* Dropdown list */}
-                                                                {isOpen && (
+                                                                {openDropdown === data.marketId && ( // Open only if this dropdown is selected
                                                                     <ul
                                                                         className="dropdown-list"
                                                                         style={{
@@ -214,7 +210,7 @@ const Market_Analysis = () => {
                                                                             top: '100%',
                                                                             left: 0,
                                                                             width: '100%',
-                                                                            maxHeight: '150px',
+                                                                            maxHeight: '100px',
                                                                             overflowY: 'auto',
                                                                             border: '1px solid #6c757d',
                                                                             borderRadius: '5px',
@@ -225,40 +221,54 @@ const Market_Analysis = () => {
                                                                             margin: '0',
                                                                         }}
                                                                     >
-                                                                        {options.map((option, index) => (
+
+                                                                        {data.userNames.map((option, index) => (
                                                                             <li
                                                                                 key={index}
-                                                                                onClick={() => handleSelect(option)}
+                                                                                onClick={() => handleSelect(option, data.marketId)}
                                                                                 style={{
                                                                                     padding: '10px',
                                                                                     borderBottom: '1px solid #ddd',
                                                                                     cursor: 'pointer',
                                                                                 }}
-                                                                                onMouseOver={(e) => e.target.style.backgroundColor = '#f1f1f1'}
-                                                                                onMouseOut={(e) => e.target.style.backgroundColor = '#fff'}
+                                                                                onMouseOver={(e) => (e.target.style.backgroundColor = '#f1f1f1')}
+                                                                                onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
                                                                             >
                                                                                 {option}
                                                                             </li>
                                                                         ))}
-                                                                      
                                                                     </ul>
                                                                 )}
                                                             </div>
-
                                                         </td>
+
                                                         <td>
-                                                            <button type="button" class="btn btn-outline-info">Go To Bet Market</button>
+                                                            {
+                                                                selectedUsers[data.marketId] ? (
+                                                                    <Link to={`/User_BetMarket/${data.marketId}/${selectedUsers[data.marketId]}`}>
+                                                                        <button type="button" className="btn btn-outline-info">
+                                                                            Go To Bet Market
+                                                                        </button>
+                                                                    </Link>
+                                                                ) : (
+                                                                    <button type="button" className="btn btn-outline-info" disabled>
+                                                                        Go To Bet Market
+                                                                    </button>
+                                                                )
+                                                            }
+
                                                         </td>
 
                                                     </tr>
                                                 )
                                             })}
                                         </>
-                                    ) : (<tr>
-                                        <td colSpan="4" className="text-center">
-                                            No inactive games found.
-                                        </td>
-                                    </tr>)}
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="5" className="text-center">
+                                                No Live bet games found.
+                                            </td>
+                                        </tr>)}
                                 </tbody>
                             </table>
                         </div>

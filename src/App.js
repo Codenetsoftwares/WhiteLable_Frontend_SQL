@@ -71,7 +71,7 @@ function App() {
                 element={<Market_Analysis />}
               />
               <Route
-                path="User_BetMarket"
+                path="/User_BetMarket/:marketId/:userName"
                 element={<User_BetMarket />}
               />
             </Route>

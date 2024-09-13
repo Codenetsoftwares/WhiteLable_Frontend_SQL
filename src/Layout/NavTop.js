@@ -56,11 +56,11 @@ const NavTop = () => {
                 <i className="ti-menu"></i>
               </div>
               <div className="line_icon open_miniSide d-none d-lg-block">
-                <img src="../img/line_img.png" alt="" />
+                <img src="../../img/line_img.png" alt="" />
               </div>
               <div className="header_right d-flex justify-content-between align-items-center">
                 <div className="profile_info">
-                  <img src="../img/client_img.png" alt="#" />
+                  <img src="../../img/client_img.png" alt="#" />
                   <div className="profile_info_iner">
                     <div className="profile_author_name">
                       <p>{store.admin.roles[0].role} </p>
