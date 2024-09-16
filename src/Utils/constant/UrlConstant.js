@@ -42,7 +42,7 @@ class UrlConstant {
   getProfitLossGame = `${this.url_dev}/${this.user}-colorGame-profitLoss`;
   getProfitLossEvent = `${this.url_dev}/${this.user}-colorGame-market_profitLoss`;
   getProfitLossRunner = `${this.url_dev}/${this.user}-colorGame-runner_profitLoss`;
-
+  activeInactive = `${this.url_dev}/activate`;
 }
 
 const urls = new UrlConstant();

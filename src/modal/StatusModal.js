@@ -1,23 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { activeInactiveInitialState } from "../Utils/service/initiateState";
+import { StatusChange } from "../Utils/service/apiService";
+import { toast } from "react-toastify";
+import { customErrorHandler } from "../Utils/helper";
 
 const StatusModal = ({
   show,
   handleClose,
-  statusId,
   name,
   userRole,
-  onStatusChange,
-  setUser,
+  Status,
+  adminIdForStatus,
+  setRefresh,
 }) => {
   const [state, setState] = useState(activeInactiveInitialState());
+
+  // Set modal state based on Status when it opens
+  useEffect(() => {
+    if (show) {
+      if (Status === "Active") {
+        setState({ ...activeInactiveInitialState(), active: true, lock: true });
+      } else if (Status === "Suspended") {
+        setState({
+          ...activeInactiveInitialState(),
+          active: false,
+          lock: true,
+        });
+      } else if (Status === "Locked") {
+        setState({
+          ...activeInactiveInitialState(),
+          active: false,
+          lock: false,
+        });
+      }
+    }
+  }, [Status, show]);
 
   const handleActiveChange = () => {
     setState((prevState) => ({
       ...prevState,
       active: true,
+      lock: true,
       isClicked: true,
       btncolor1: true,
       btncolor2: false,
@@ -29,17 +54,18 @@ const StatusModal = ({
     setState((prevState) => ({
       ...prevState,
       active: false,
+      lock: true,
       isClicked: true,
       btncolor2: true,
       btncolor1: false,
       btncolor3: false,
-      lock: true,
     }));
   };
 
   const handleLockChange = () => {
     setState((prevState) => ({
       ...prevState,
+      active: false,
       lock: false,
       isClicked: true,
       btncolor3: true,
@@ -48,23 +74,44 @@ const StatusModal = ({
     }));
   };
 
-  const handleSubmit = () => {
-    if (state.isClicked) {
-      setTimeout(() => {
-        let status = "";
-        if (state.active && state.lock) {
-          status = "Active";
-        } else if (!state.active && state.lock) {
-          status = "Suspended";
-        } else if (!state.active && !state.lock) {
-          status = "Locked";
-        }
-        onStatusChange(status);
-        handleClose();
-      }, 1000);
-    } else {
-      alert("Please select any status to continue");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const trimmedPassword = state.password.trim(); // Trim password input
+    if (!trimmedPassword) {
+      toast.error("Password is required");
+      return;
     }
+
+    if (state.isClicked) {
+      try {
+        const response = await StatusChange(
+          {
+            id: adminIdForStatus,
+            isActive: state.active,
+            locked: state.lock,
+            password: trimmedPassword,
+          },
+          true
+        );
+
+        if (response) {
+          setRefresh(response);
+          handleClose(); // Close the modal after successful update
+          toast.success(response.message);
+        }
+      } catch (error) {
+        toast.error(customErrorHandler(error));
+      }
+    } else {
+      toast.error("Please select a status to continue");
+    }
+  };
+
+  // Cleanup the state when modal closes
+  const handleModalClose = () => {
+    setState(activeInactiveInitialState());
+    handleClose();
   };
 
   return (
@@ -72,7 +119,7 @@ const StatusModal = ({
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       show={show}
-      onHide={handleClose}
+      onHide={handleModalClose}
       centered
     >
       <Modal.Header
@@ -93,17 +140,12 @@ const StatusModal = ({
             <br />
             <span>{name}</span>
           </div>
-          <span style={{ fontWeight: "bold" }}>
-            {state.active && state.lock
-              ? "Active"
-              : !state.active && state.lock
-              ? "Suspended"
-              : "Locked"}
-          </span>
+          <span style={{ fontWeight: "bold" }}>{Status}</span>
         </div>
         <div className="modal-body d-flex justify-content-between">
           <Button
             variant={state.btncolor1 ? "success" : "outline-success"}
+            disabled={Status === "Active"}
             onClick={handleActiveChange}
             style={{ width: "33.33%", marginRight: "2%" }}
           >
@@ -112,6 +154,7 @@ const StatusModal = ({
           </Button>
           <Button
             variant={state.btncolor2 ? "danger" : "outline-danger"}
+            disabled={Status === "Suspended"}
             onClick={handleInactiveChange}
             style={{ width: "calc(33.33% - 6px)" }}
           >
@@ -120,6 +163,7 @@ const StatusModal = ({
           </Button>
           <Button
             variant={state.btncolor3 ? "secondary" : "outline-secondary"}
+            disabled={Status === "Locked"}
             onClick={handleLockChange}
             style={{ width: "calc(33.33% - 8px)" }}
           >

@@ -195,20 +195,18 @@ const SubAdminView = () => {
                                   </button>
                                 </td>
                                 <td>
-                                  <span className="mx-1">
+                                  {/* <span className="mx-1">
                                     <button
                                       className={`btn border border-2 rounded ${
-                                        store?.admin?.roles[0].permission.some(
-                                          (role) => role === "Status"
+                                        ["Suspended"].includes(
+                                          store?.admin?.Status
                                         )
+                                          ? "disabled"
+                                          : store?.admin?.roles[0].permission.some(
+                                              (role) => role === strings.status
+                                            )
                                           ? ""
-                                          : [
-                                              "superAdmin",
-                                              "WhiteLabel",
-                                              "HyperAgent",
-                                              "SuperAgent",
-                                              "MasterAgent",
-                                            ].includes(
+                                          : permissionObj.allAdmin.includes(
                                               store?.admin?.roles[0].role
                                             )
                                           ? ""
@@ -216,13 +214,14 @@ const SubAdminView = () => {
                                       }`}
                                       title="Setting"
                                       type="button"
-                                      onClick={() => {
-                                        // handleprops(user);
-                                      }}
+                                      onClick={() =>
+                                        handleStatusModalShow(adminId)
+                                      }
                                     >
+                                      {console.log("====a===s", adminId)}
                                       <i className="fa-thin fas fa-gear"></i>
                                     </button>
-                                  </span>
+                                  </span> */}
                                 </td>
                               </tr>
                             ))}
@@ -250,6 +249,16 @@ const SubAdminView = () => {
           endIndex={endIndex}
           totalData={subAdminData.totalData}
         />
+
+        {/* <StatusModal
+          show={showModal}
+          handleClose={handleClose}
+          name={role}
+          userRole={userName}
+          Status={Status}
+          adminIdForStatus={adminIdForStatus}
+          setRefresh={setRefresh}
+        /> */}
 
         {/* Modal */}
 
