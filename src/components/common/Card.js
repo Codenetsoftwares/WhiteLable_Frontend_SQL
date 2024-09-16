@@ -53,7 +53,7 @@ const Card = ({
 
   const handleClose = (adminId) => setShowModal(false);
 
-  const handleStatusModalShow = () => {
+  const handleStatusModalShow = (adminId) => {
     setShowModal(true);
     setAdminIdForStatus(adminId);
   };

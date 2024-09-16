@@ -5,9 +5,17 @@ import { useAppContext } from "../contextApi/context";
 import { getAllSubAdminCreate } from "../Utils/service/apiService";
 import { permissionObj } from "../Utils/constant/permission";
 import { getAllSubAdminCreateState } from "../Utils/service/initiateState";
+import strings from "../Utils/constant/stringConstant";
+import StatusModal from "../modal/StatusModal";
 
 const SubAdminView = () => {
   const [subAdminData, setSubAdminData] = useState(getAllSubAdminCreateState());
+  const [refresh, setRefresh] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [adminIdForStatus, setAdminIdForStatus] = useState("");
+  const [status, setStatus] = useState("");
+  const [role, setRole] = useState("");
+  const [userName, setUserName] = useState("");
 
   const { store, dispatch } = useAppContext();
   console.log("(=====>> store line 15)", store);
@@ -19,6 +27,16 @@ const SubAdminView = () => {
     }));
   };
 
+  const handleStatusModalShow = (adminId, status, userName, role) => {
+    setShowModal(true);
+    setAdminIdForStatus(adminId);
+    setStatus(status);
+    setUserName(userName);
+    setRole(role);
+  };
+
+  const handleClose = (adminId) => setShowModal(false);
+
   useEffect(() => {
     if (store?.admin) {
       permissionObj.allAdmin.includes(store?.admin?.roles[0].role) &&
@@ -29,6 +47,7 @@ const SubAdminView = () => {
     subAdminData.currentPage,
     subAdminData.name,
     subAdminData.totalEntries,
+    refresh,
   ]);
 
   async function getAll_SubAdmin_Create() {
@@ -195,7 +214,7 @@ const SubAdminView = () => {
                                   </button>
                                 </td>
                                 <td>
-                                  {/* <span className="mx-1">
+                                  <span className="mx-1">
                                     <button
                                       className={`btn border border-2 rounded ${
                                         ["Suspended"].includes(
@@ -215,13 +234,18 @@ const SubAdminView = () => {
                                       title="Setting"
                                       type="button"
                                       onClick={() =>
-                                        handleStatusModalShow(adminId)
+                                        handleStatusModalShow(
+                                          user?.adminId,
+                                          user?.status,
+                                          user?.userName,
+                                          user?.roles[0]?.role
+                                        )
                                       }
                                     >
-                                      {console.log("====a===s", adminId)}
+                                      {console.log("====a===s", user)}
                                       <i className="fa-thin fas fa-gear"></i>
                                     </button>
-                                  </span> */}
+                                  </span>
                                 </td>
                               </tr>
                             ))}
@@ -250,15 +274,15 @@ const SubAdminView = () => {
           totalData={subAdminData.totalData}
         />
 
-        {/* <StatusModal
+        <StatusModal
           show={showModal}
           handleClose={handleClose}
           name={role}
           userRole={userName}
-          Status={Status}
+          Status={status}
           adminIdForStatus={adminIdForStatus}
           setRefresh={setRefresh}
-        /> */}
+        />
 
         {/* Modal */}
 
