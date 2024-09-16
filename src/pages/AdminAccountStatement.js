@@ -11,13 +11,17 @@ const AdminAccountStatement = () => {
   console.log("========>>> _id", store);
 
   const [state, setState] = useState(adminAccountStatementInitialState());
+  const [backupDate, setbackupDate] = useState({
+    endDate: null,
+    startDate: null,
+  });
 
   const setStartDate = (date) => {
-    setState((prevState) => ({ ...prevState, startDate: date }));
+    setbackupDate((prevState) => ({ ...prevState, startDate: date }));
   };
 
   const setEndDate = (date) => {
-    setState((prevState) => ({ ...prevState, endDate: date }));
+    setbackupDate((prevState) => ({ ...prevState, endDate: date }));
   };
 
   const formatDate = (dateString) => {
@@ -39,8 +43,9 @@ const AdminAccountStatement = () => {
       _id: store?.admin?.id,
       pageNumber: state.currentPage,
       dataLimit: state.totalEntries,
-      fromDate: formatDate(state.startDate),
-      toDate: formatDate(state.endDate),
+      fromDate: state.startDate,
+      toDate: state.endDate,
+      dataSource: state.dataSource,
     });
     // console.log("======>>>>>> response", response.pagination);
 
@@ -70,7 +75,14 @@ const AdminAccountStatement = () => {
         AccountStatement();
       }
     }
-  }, [store?.admin, state.currentPage, state.totalEntries]);
+  }, [
+    store?.admin,
+    state.currentPage,
+    state.totalEntries,
+    state.dataSource,
+    state.endDate,
+    state.startDate,
+  ]);
 
   // function formatDate(dateString) {
   //   const options = {
@@ -90,6 +102,14 @@ const AdminAccountStatement = () => {
     state.totalData
   );
 
+  const handleGetDate = () => {
+    setState((prevState) => ({
+      ...prevState,
+      startDate: formatDate(backupDate.startDate),
+      endDate: formatDate(backupDate.endDate),
+    }));
+  };
+
   return (
     <div className="d-flex justify-content-center m-5">
       {/* card */}
@@ -108,6 +128,7 @@ const AdminAccountStatement = () => {
               <div class="col-sm">Data Source</div>
               <div class="col-sm">From : </div>
               <div class="col-sm">To : </div>
+              <div class="col-sm"></div>
             </div>
           </div>
           <div class="container">
@@ -138,25 +159,46 @@ const AdminAccountStatement = () => {
                 <select
                   class="form-select form-select-sm w-50 m-1"
                   aria-label="Default select example"
+                  onChange={(e) => {
+                    setState((prevState) => ({
+                      ...prevState,
+                      dataSource: e.target.value,
+                    }));
+                  }}
                 >
-                  <option selected>Select</option>
-                  <option value="settle">LIVE DATA</option>
-                  <option value="unsettle">BACKUP DATA</option>
-                  <option value="void">OLD DATA</option>
+                  <option value="live" selected>LIVE DATA</option>
+                  <option value="backup">BACKUP DATA</option>
+                  <option value="olddata">OLD DATA</option>
                 </select>
               </div>
               <div class="col-sm">
                 <DatePicker
-                  selected={state.startDate}
+                  selected={backupDate.startDate}
                   onChange={(date) => setStartDate(date)}
+                  disabled={state.dataSource === "live"} // Disable if datasource is 'live'
+                  placeholderText={"Select Start Date"}
                 />
               </div>
               <div class="col-sm">
                 {" "}
                 <DatePicker
-                  selected={state.endDate}
+                  selected={backupDate.endDate}
                   onChange={(date) => setEndDate(date)}
+                  disabled={state.dataSource === "live"} // Disable if datasource is 'live'
+                  placeholderText={"Select End Date"}
                 />
+              </div>
+
+              <div class="col-sm">
+                <button
+                  className="btn btn-primary mb-2"
+                  disabled={
+                    backupDate.endDate === null && backupDate.startDate === null
+                  }
+                  onClick={handleGetDate}
+                >
+                  Get Statement
+                </button>
               </div>
             </div>
           </div>

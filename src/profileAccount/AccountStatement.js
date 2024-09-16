@@ -19,6 +19,8 @@ const AccountStatement = ({
   endIndex,
   totalData,
   setState,
+  handleDateStatement,
+  dataSource
 }) => {
   console.log(
     "======>>> user profile data in account statement PAGE",
@@ -26,7 +28,6 @@ const AccountStatement = ({
     currentPage,
     totalPages
   );
-  const [dataSource, setDataSource] = useState("");
 
   function formatDate(dateString) {
     const options = {
@@ -54,44 +55,65 @@ const AccountStatement = ({
           <b>&nbsp;&nbsp;Get Account Statement</b>
         </div>
         <div className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-md-between">
-         <div className="form-group mb-3 mb-md-0 px-2">
-              <div class="container">
-                <div class="row">
-                  <div class="col-sm">Data Source</div>
-                  <div class="col-sm">From</div>
-                  <div class="col-sm">To</div>
-                </div>
+          <div className="form-group mb-3 mb-md-0 px-2">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm">Data Source</div>
+                <div class="col-sm">From</div>
+                <div class="col-sm">To</div>
+                <div class="col-sm"></div>
               </div>
-              <div class="container">
-                <div class="row">
-                  <div class="col-sm">
-                    {" "}
-                    <select
-                      class="form-select"
-                      aria-label="Default select example"
-                    >
-                      <option selected>Select</option>
-                      <option value="settle">LIVE DATA</option>
-                      <option value="unsettle">BACKUP DATA</option>
-                      <option value="void">OLD DATA</option>
-                    </select>
-                  </div>
-                  <div class="col-sm">
-                    <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                    />
-                  </div>
-                  <div class="col-sm">
-                    {" "}
-                    <DatePicker
-                      selected={endDate}
-                      onChange={(date) => setEndDate(date)}
-                    />
-                  </div>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm">
+                  {" "}
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    onChange={(e) => {
+                      setState((prevState) => ({
+                        ...prevState,
+                        dataSource: e.target.value,
+                      }));
+                    }}
+                  >
+                    <option value="live" selected>LIVE DATA</option>
+                    <option value="backup">BACKUP DATA</option>
+                    <option value="olddata">OLD DATA</option>
+                  </select>
+                </div>
+                <div class="col-sm">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    placeholderText={"Select Start Date"}
+                    disabled={dataSource === "live"}
+                  />
+                </div>
+                <div class="col-sm">
+                  {" "}
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    placeholderText={"Select End Date"}
+                    disabled={dataSource === "live"}
+                  />
+                </div>
+                <div class="col-sm">
+                  <button
+                    className="btn btn-primary mb-2"
+                    disabled={
+                      startDate === null && endDate === null
+                    }
+                    onClick={handleDateStatement}
+                  >
+                    Get Statement
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
 

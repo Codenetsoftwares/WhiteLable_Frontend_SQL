@@ -105,14 +105,13 @@ export function accountStatementInitialState(body = {}) {
     activeItem: "statement",
     currentPage: 1,
     totalPages: 0,
-    endDate: new Date(),
+    endDate: '',
     totalData: 0,
-    startDate: (() => {
-      const date = new Date();
-      date.setDate(date.getDate() - 7);
-      return date;
-    })(),
+    startDate: '',
     totalEntries: 10,
+    dataSource:'live',
+    backupStartDate: null,
+    backupEndDate : null,
   };
 }
 
@@ -135,13 +134,11 @@ export function adminAccountStatementInitialState() {
     totalPages: 0,
     totalEntries: 10,
     totalData: 0,
-    endDate: new Date(),
-    startDate: (() => {
-      const date = new Date();
-      date.setDate(date.getDate() - 7);
-      return date;
-    })(),
+    endDate: '',
+    startDate: '',
+    dataSource : 'live'
   };
+ 
 }
 export function view_AddCashHistory_InitialState() {
   return {

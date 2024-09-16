@@ -25,6 +25,10 @@ const AccountLandingModal = () => {
   const { userName } = useParams();
   console.log("======>>> username", userName);
   const [state, setState] = useState(accountStatementInitialState());
+  const [backupDate, setbackupDate] = useState({
+    endDate: null,
+    startDate: null,
+  });
   const [betHistoryData, SetBetHistoryData] = useState({
     gameList: [],
     SelectedGameId: null,
@@ -93,7 +97,10 @@ const AccountLandingModal = () => {
     betHistoryData.itemPerPage,
     betHistoryData.endDate,
     betHistoryData.startDate,
+    state.dataSource,
   ]);
+
+  
 
   useEffect(() => {
     getProfitLossGameWise();
@@ -130,9 +137,10 @@ const AccountLandingModal = () => {
     const response = await getAllTransactionView({
       userName,
       pageNumber: state.currentPage,
-      fromDate: formatDate(state.startDate),
-      toDate: formatDate(state.endDate),
+      fromDate: state.startDate,
+      toDate: state.endDate,
       limit: state.totalEntries,
+      dataSource: state.dataSource
     });
     console.log("response for transaction view line 67", response);
     setState((prevState) => ({
@@ -269,6 +277,14 @@ const AccountLandingModal = () => {
     }));
   };
 
+  const handleDateStatement =()=>{
+    setState((prevState)=>({
+      ...prevState,
+      startDate : formatDate(state.backupStartDate),
+      endDate: formatDate(state.backupEndDate)
+    }))
+   }
+
   let componentToRender;
   if (state.toggle === 1) {
     componentToRender = (
@@ -278,18 +294,20 @@ const AccountLandingModal = () => {
         handlePageChange={handlePageChange}
         currentPage={state.currentPage}
         totalPages={state.totalPages}
-        startDate={state.startDate}
-        endDate={state.endDate}
+        startDate={state.backupStartDate}
+        endDate={state.backupEndDate}
         setStartDate={(date) =>
-          setState((prevState) => ({ ...prevState, startDate: date }))
+          setState((prevState) => ({ ...prevState, backupStartDate: date }))
         }
         setEndDate={(date) =>
-          setState((prevState) => ({ ...prevState, endDate: date }))
+          setState((prevState) => ({ ...prevState, backupEndDate: date }))
         }
         startIndex={startIndex}
         endIndex={endIndex}
         totalData={state.totalData}
         setState={setState}
+        dataSource={state.dataSource}
+        handleDateStatement={handleDateStatement}
       />
     );
   } else if (state.toggle === 2) {
@@ -347,6 +365,7 @@ const AccountLandingModal = () => {
       />
     );
   }
+
 
   console.log("createdByUser", state.profileView.createdById);
   return (
