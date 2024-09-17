@@ -451,3 +451,17 @@ export async function getUserGetMarket(body = {}, isToast = false) {
     throw error;
   }
 }
+
+export async function StatusChange(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.activeInactive}/${body.id}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

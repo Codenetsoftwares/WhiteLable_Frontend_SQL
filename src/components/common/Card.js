@@ -9,11 +9,10 @@ import {
 } from "../../Utils/service/apiService";
 import StatusModal from "../../modal/StatusModal";
 import { moveToTrash_api } from "../../Utils/service/apiService";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import strings from "../../Utils/constant/stringConstant";
 import { permissionObj } from "../../Utils/constant/permission";
 import { toast } from "react-toastify";
-
 
 const Card = ({
   role,
@@ -31,7 +30,7 @@ const Card = ({
   callingParent,
   setRefresh,
   adminDelete,
-  setIsLoading
+  setIsLoading,
 }) => {
   console.log("userrole ======>>>> ", role, userName);
 
@@ -40,6 +39,7 @@ const Card = ({
   const [transactionModalShow, setTransactionModalShow] = useState(false);
   const [viewModalShow, setViewModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState("");
+  const [adminIdForStatus, setAdminIdForStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
   console.log("userId", adminId);
   console.log("name&role", userName, role);
@@ -51,8 +51,12 @@ const Card = ({
     setDifferentiate(differentiateParam);
   };
 
-  const handleClose = () => setShowModal(false);
-  const handleStatusModalShow = () => setShowModal(true);
+  const handleClose = (adminId) => setShowModal(false);
+
+  const handleStatusModalShow = (adminId) => {
+    setShowModal(true);
+    setAdminIdForStatus(adminId);
+  };
 
   const handleStatusChange = (status) => {
     console.log("Status changed to:", status);
@@ -68,9 +72,9 @@ const Card = ({
       const response = await moveToTrash_api({ requestId: adminId });
       console.log("Im here in line 94");
       if (response) {
-        console.log(response)
-        adminDelete(response)
-        toast.info(response.message)
+        console.log(response);
+        adminDelete(response);
+        toast.info(response.message);
       }
     }
   }
@@ -82,7 +86,7 @@ const Card = ({
   };
   let action = "";
   async function takeMeToHierarchy(userName) {
-    if (role !== 'user') {
+    if (role !== "user") {
       if (callingParent === "HierarchyPageView") {
         action = "store";
       } else {
@@ -107,8 +111,7 @@ const Card = ({
   const isAdminOrPartnerView =
     store?.admin?.roles[0].permission.some(
       (role) => role === strings.partnershipView
-    ) ||
-    permissionObj.allAdmin.includes(store?.admin?.roles[0].role);
+    ) || permissionObj.allAdmin.includes(store?.admin?.roles[0].role);
 
   const takeMeToAccount = (userName) => {
     navigate(`/account-landing/${userName}`);
@@ -160,16 +163,19 @@ const Card = ({
             {callingParent === "Wallet" ? (
               <span className="">
                 <button
-                  className={`border border-0 bg-white btn ${["Suspended"].includes(store?.admin?.Status)
-                    ? "disabled"
-                    : store?.admin?.roles[0].permission.some(
-                      (role) => role === strings.creditRefEdit
-                    )
+                  className={`border border-0 bg-white btn ${
+                    ["Suspended"].includes(store?.admin?.Status)
+                      ? "disabled"
+                      : store?.admin?.roles[0].permission.some(
+                          (role) => role === strings.creditRefEdit
+                        )
                       ? ""
-                      : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
-                        ? ""
-                        : "disabled"
-                    }`}
+                      : permissionObj.allAdmin.includes(
+                          store?.admin?.roles[0].role
+                        )
+                      ? ""
+                      : "disabled"
+                  }`}
                   aria-label="Close"
                   onClick={() =>
                     handelOpenTransactionModal(true, "creditRefProvider")
@@ -182,16 +188,19 @@ const Card = ({
 
             <span>
               <button
-                className={`border border-0 bg-white btn ${["Suspended"].includes(store?.admin?.Status)
-                  ? "disabled"
-                  : store?.admin?.roles[0].permission.some(
-                    (role) => role === strings.creditRefView
-                  )
+                className={`border border-0 bg-white btn ${
+                  ["Suspended"].includes(store?.admin?.Status)
+                    ? "disabled"
+                    : store?.admin?.roles[0].permission.some(
+                        (role) => role === strings.creditRefView
+                      )
                     ? ""
-                    : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
-                      ? ""
-                      : "disabled"
-                  }`}
+                    : permissionObj.allAdmin.includes(
+                        store?.admin?.roles[0].role
+                      )
+                    ? ""
+                    : "disabled"
+                }`}
                 onClick={() => handelOpenViewModal(true, "creditRefViewer")}
               >
                 <i class="fa-regular fa-eye" aria-label="Close"></i>
@@ -217,16 +226,19 @@ const Card = ({
             {callingParent === "Wallet" ? (
               <span className="">
                 <button
-                  className={`border border-0 bg-white btn ${["Suspended"].includes(store?.admin?.Status)
-                    ? "disabled"
-                    : store?.admin?.roles[0].permission.some(
-                      (role) => role === strings.partnershipEdit
-                    )
+                  className={`border border-0 bg-white btn ${
+                    ["Suspended"].includes(store?.admin?.Status)
+                      ? "disabled"
+                      : store?.admin?.roles[0].permission.some(
+                          (role) => role === strings.partnershipEdit
+                        )
                       ? ""
-                      : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
-                        ? ""
-                        : "disabled"
-                    }`}
+                      : permissionObj.allAdmin.includes(
+                          store?.admin?.roles[0].role
+                        )
+                      ? ""
+                      : "disabled"
+                  }`}
                 >
                   <i
                     className="fa-solid fa-pen-to-square"
@@ -241,14 +253,17 @@ const Card = ({
 
             <span>
               <button
-                className={`border border-0 bg-white btn ${store?.admin?.roles[0].permission.some(
-                  (role) => role === strings.partnershipView
-                )
-                  ? ""
-                  : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
+                className={`border border-0 bg-white btn ${
+                  store?.admin?.roles[0].permission.some(
+                    (role) => role === strings.partnershipView
+                  )
+                    ? ""
+                    : permissionObj.allAdmin.includes(
+                        store?.admin?.roles[0].role
+                      )
                     ? ""
                     : "disabled"
-                  }`}
+                }`}
                 onClick={() => handelOpenViewModal(true, "partnershipViewer")}
               >
                 <i className="fa-regular fa-eye"></i>
@@ -284,16 +299,19 @@ const Card = ({
                   }
                 >
                   <button
-                    className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
-                      ? "disabled"
-                      : store?.admin?.roles[0].permission.some(
-                        (role) => role === strings.transferBalance
-                      )
+                    className={`btn border border-2 rounded ${
+                      ["Suspended"].includes(store?.admin?.Status)
+                        ? "disabled"
+                        : store?.admin?.roles[0].permission.some(
+                            (role) => role === strings.transferBalance
+                          )
                         ? ""
-                        : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
-                          ? ""
-                          : "disabled"
-                      }`}
+                        : permissionObj.allAdmin.includes(
+                            store?.admin?.roles[0].role
+                          )
+                        ? ""
+                        : "disabled"
+                    }`}
                     title="Addmoney"
                   >
                     <i class="fa-solid fa-circle-dollar-to-slot"></i>
@@ -301,20 +319,24 @@ const Card = ({
                 </span>
                 <span className="mx-1">
                   <button
-                    className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
-                      ? "disabled"
-                      : store?.admin?.roles[0].permission.some(
-                        (role) => role === strings.status
-                      )
+                    className={`btn border border-2 rounded ${
+                      ["Suspended"].includes(store?.admin?.Status)
+                        ? "disabled"
+                        : store?.admin?.roles[0].permission.some(
+                            (role) => role === strings.status
+                          )
                         ? ""
-                        : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
-                          ? ""
-                          : "disabled"
-                      }`}
+                        : permissionObj.allAdmin.includes(
+                            store?.admin?.roles[0].role
+                          )
+                        ? ""
+                        : "disabled"
+                    }`}
                     title="Setting"
                     type="button"
-                    onClick={handleStatusModalShow}
+                    onClick={() => handleStatusModalShow(adminId)}
                   >
+                    {console.log("====a===s", adminId)}
                     <i className="fa-thin fas fa-gear"></i>
                   </button>
                 </span>
@@ -323,14 +345,17 @@ const Card = ({
 
             <span className="mx-1">
               <button
-                className={`btn border border-2 rounded ${store?.admin?.roles[0].permission.some(
-                  (role) => role === strings.profileView
-                )
-                  ? ""
-                  : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
+                className={`btn border border-2 rounded ${
+                  store?.admin?.roles[0].permission.some(
+                    (role) => role === strings.profileView
+                  )
+                    ? ""
+                    : permissionObj.allAdmin.includes(
+                        store?.admin?.roles[0].role
+                      )
                     ? ""
                     : "disabled"
-                  }`}
+                }`}
                 title="Profile"
                 onClick={() => {
                   takeMeToAccount(userName);
@@ -342,16 +367,19 @@ const Card = ({
             {callingParent === "Wallet" ? (
               <span className="mx-1">
                 <button
-                  className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
-                    ? "disabled"
-                    : store?.admin?.roles[0].permission.some(
-                      (role) => role === strings.deleteAdmin
-                    )
+                  className={`btn border border-2 rounded ${
+                    ["Suspended"].includes(store?.admin?.Status)
+                      ? "disabled"
+                      : store?.admin?.roles[0].permission.some(
+                          (role) => role === strings.deleteAdmin
+                        )
                       ? ""
-                      : permissionObj.allAdmin.includes(store?.admin?.roles[0].role)
-                        ? ""
-                        : "disabled"
-                    }`}
+                      : permissionObj.allAdmin.includes(
+                          store?.admin?.roles[0].role
+                        )
+                      ? ""
+                      : "disabled"
+                  }`}
                   title="Delete"
                   onClick={(e) => {
                     handleDelete();
@@ -381,8 +409,7 @@ const Card = ({
         setRefresh={setRefresh}
         setIsLoading={setIsLoading}
       />
-      {
-        adminId != undefined &&
+      {adminId != undefined && (
         <ViewPartnershipAndCreditRefModal
           show={viewModalShow}
           onHide={() => setViewModalShow(false)}
@@ -392,15 +419,15 @@ const Card = ({
           adminName={userName}
           role={role}
         />
-      }
+      )}
       <StatusModal
         show={showModal}
         handleClose={handleClose}
-        statusId="some-status-id"
         name={role}
         userRole={userName}
-        onStatusChange={handleStatusChange}
-        setUser={() => { }}
+        Status={Status}
+        adminIdForStatus={adminIdForStatus}
+        setRefresh={setRefresh}
       />
     </React.Fragment>
   );

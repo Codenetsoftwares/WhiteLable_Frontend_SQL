@@ -281,7 +281,7 @@ const Wallet = () => {
                         partnership={
                           data?.partnerships[partnershipLength - 1]?.value
                         }
-                        Status={data.Status}
+                        Status={data.status}
                         creditRefLength={creditRefLength}
                         partnershipLength={partnershipLength}
                         callingParent="Wallet"

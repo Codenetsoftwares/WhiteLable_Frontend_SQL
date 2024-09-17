@@ -5,9 +5,17 @@ import { useAppContext } from "../contextApi/context";
 import { getAllSubAdminCreate } from "../Utils/service/apiService";
 import { permissionObj } from "../Utils/constant/permission";
 import { getAllSubAdminCreateState } from "../Utils/service/initiateState";
+import strings from "../Utils/constant/stringConstant";
+import StatusModal from "../modal/StatusModal";
 
 const SubAdminView = () => {
   const [subAdminData, setSubAdminData] = useState(getAllSubAdminCreateState());
+  const [refresh, setRefresh] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [adminIdForStatus, setAdminIdForStatus] = useState("");
+  const [status, setStatus] = useState("");
+  const [role, setRole] = useState("");
+  const [userName, setUserName] = useState("");
 
   const { store, dispatch } = useAppContext();
   console.log("(=====>> store line 15)", store);
@@ -19,6 +27,16 @@ const SubAdminView = () => {
     }));
   };
 
+  const handleStatusModalShow = (adminId, status, userName, role) => {
+    setShowModal(true);
+    setAdminIdForStatus(adminId);
+    setStatus(status);
+    setUserName(userName);
+    setRole(role);
+  };
+
+  const handleClose = (adminId) => setShowModal(false);
+
   useEffect(() => {
     if (store?.admin) {
       permissionObj.allAdmin.includes(store?.admin?.roles[0].role) &&
@@ -29,6 +47,7 @@ const SubAdminView = () => {
     subAdminData.currentPage,
     subAdminData.name,
     subAdminData.totalEntries,
+    refresh,
   ]);
 
   async function getAll_SubAdmin_Create() {
@@ -198,17 +217,15 @@ const SubAdminView = () => {
                                   <span className="mx-1">
                                     <button
                                       className={`btn border border-2 rounded ${
-                                        store?.admin?.roles[0].permission.some(
-                                          (role) => role === "Status"
+                                        ["Suspended"].includes(
+                                          store?.admin?.Status
                                         )
+                                          ? "disabled"
+                                          : store?.admin?.roles[0].permission.some(
+                                              (role) => role === strings.status
+                                            )
                                           ? ""
-                                          : [
-                                              "superAdmin",
-                                              "WhiteLabel",
-                                              "HyperAgent",
-                                              "SuperAgent",
-                                              "MasterAgent",
-                                            ].includes(
+                                          : permissionObj.allAdmin.includes(
                                               store?.admin?.roles[0].role
                                             )
                                           ? ""
@@ -216,10 +233,16 @@ const SubAdminView = () => {
                                       }`}
                                       title="Setting"
                                       type="button"
-                                      onClick={() => {
-                                        // handleprops(user);
-                                      }}
+                                      onClick={() =>
+                                        handleStatusModalShow(
+                                          user?.adminId,
+                                          user?.status,
+                                          user?.userName,
+                                          user?.roles[0]?.role
+                                        )
+                                      }
                                     >
+                                      {console.log("====a===s", user)}
                                       <i className="fa-thin fas fa-gear"></i>
                                     </button>
                                   </span>
@@ -249,6 +272,16 @@ const SubAdminView = () => {
           startIndex={startIndex}
           endIndex={endIndex}
           totalData={subAdminData.totalData}
+        />
+
+        <StatusModal
+          show={showModal}
+          handleClose={handleClose}
+          name={role}
+          userRole={userName}
+          Status={status}
+          adminIdForStatus={adminIdForStatus}
+          setRefresh={setRefresh}
         />
 
         {/* Modal */}
