@@ -232,7 +232,7 @@ export async function getAllTransactionView(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.allTransactionView}/${body.userName}?page=${body.pageNumber}&startDate=${body.fromDate}&endDate=${body.toDate}&limit=${body.limit}`,
+      `${UrlConstant.allTransactionView}/${body.userName}?page=${body.pageNumber}&startDate=${body.fromDate}&endDate=${body.toDate}&limit=${body.limit}&dataType=${body.dataSource}`, //&dataType=${body.dataSource}
       callParams,
       isToast
     );
@@ -244,9 +244,10 @@ export async function getAllTransactionView(body = {}, isToast = false) {
 
 export async function getAccountStatement_api(body = {}, isToast = false) {
   try {
+    console.log("dates", body.fromDate, body.toDate)
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.AccountStatement}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}`,
+      `${UrlConstant.AccountStatement}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}&startDate=${body.fromDate}&endDate=${body.toDate}&dataType=${body.dataSource}`, //&startDate=${body.fromDate}&endDate=${body.toDate} work pending by serverside
       callParams,
       isToast
     );
