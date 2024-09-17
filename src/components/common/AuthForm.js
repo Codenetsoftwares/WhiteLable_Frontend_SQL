@@ -17,7 +17,7 @@ const Authform = ({ purpose, authFormApi }) => {
   const roleOptions = {
     superAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
     SubAdmin: ["whiteLabel", "hyperAgent", "superAgent", "masterAgent"],
-    whiteLabel: ["hyperAgent", "masterAgent", "superAgent", "user"],
+    whiteLabel: ["hyperAgent", "superAgent", "masterAgent", "user"],
     hyperAgent: ["superAgent", "masterAgent", "user"],
     superAgent: ["masterAgent", "user"],
     masterAgent: ["user"],
@@ -69,7 +69,7 @@ const Authform = ({ purpose, authFormApi }) => {
       type: strings.isLoading,
       payload: true,
     });
-    setIsLoading(true)
+    setIsLoading(true);
     const response = await authFormApi(values, true);
     console.log("res from login", response);
     if (purpose === "login" && response) {
@@ -85,7 +85,7 @@ const Authform = ({ purpose, authFormApi }) => {
       type: strings.isLoading,
       payload: false,
     });
-    setIsLoading(false)
+    setIsLoading(false);
   }
 
   const handleRoleChange = (event) => {
@@ -159,16 +159,19 @@ const Authform = ({ purpose, authFormApi }) => {
                       </div>
                     )}
 
-                    {console.log('===>> roles ', values.roles)}
-                    {purpose === "create" && values.roles.length > 0 && <a
-                      className="btn_1 full_width text-center"
-                      style={{ cursor: values.roles ? "pointer" : "not-allowed" }}
-                      onClick={values.roles ? handleSubmit : undefined}
-                    >
-                      {purpose === "create" && "Create"}
-                      {purpose === "login" && "Log In"}
-                    </a>}
-
+                    {console.log("===>> roles ", values.roles)}
+                    {purpose === "create" && values.roles.length > 0 && (
+                      <a
+                        className="btn_1 full_width text-center"
+                        style={{
+                          cursor: values.roles ? "pointer" : "not-allowed",
+                        }}
+                        onClick={values.roles ? handleSubmit : undefined}
+                      >
+                        {purpose === "create" && "Create"}
+                        {purpose === "login" && "Log In"}
+                      </a>
+                    )}
 
                     {console.log("===>> roles ", values.roles)}
 

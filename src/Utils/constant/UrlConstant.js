@@ -1,7 +1,7 @@
 // import strings from "./stringConstant";
 
 class UrlConstant {
-  constructor() {}
+  constructor() { }
 
   url_dev = "http://localhost:8000/api";
 
@@ -9,6 +9,7 @@ class UrlConstant {
   admin = "admin";
   view = "view";
   user = "user";
+  get = "get"
 
   login = `${this.url_dev}/${this.admin}-login`;
   Create = `${this.url_dev}/${this.admin}-create`;
@@ -42,6 +43,8 @@ class UrlConstant {
   getProfitLossGame = `${this.url_dev}/${this.user}-colorGame-profitLoss`;
   getProfitLossEvent = `${this.url_dev}/${this.user}-colorGame-market_profitLoss`;
   getProfitLossRunner = `${this.url_dev}/${this.user}-colorGame-runner_profitLoss`;
+  get_Live_BetGame = `${this.url_dev}/${this.get}-live-betGames`;
+  get_user_BetMarket = `${this.url_dev}/${this.get}-userBetMarket`; 
   activeInactive = `${this.url_dev}/activate`;
 }
 

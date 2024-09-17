@@ -16,6 +16,8 @@ import AdminAccountStatement from "./pages/AdminAccountStatement";
 import AgentDelete from "./pages/AgentDelete";
 import WelcomePage from "./pages/welcomepage/WelcomePage";
 import View_AddCash_history from "./pages/View_AddCash_history";
+import Market_Analysis from "./pages/Market_Analysis";
+import User_BetMarket from "./pages/User_BetMarket";
 // import WelcomePage from "./screen/WelcomePage";
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
           <Routes>
             <Route index element={<Login />} />
             <Route path="/" element={<AdminLayout />}>
-              <Route path="welcome" element={<WelcomePage/>} />
+              <Route path="welcome" element={<WelcomePage />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
               <Route
                 path="/adminaccountstatement"
@@ -63,6 +65,14 @@ function App() {
               <Route
                 path="View_AddCash_history"
                 element={<View_AddCash_history />}
+              />
+              <Route
+                path="Market_analysis"
+                element={<Market_Analysis />}
+              />
+              <Route
+                path="/User_BetMarket/:marketId/:userName"
+                element={<User_BetMarket />}
               />
             </Route>
           </Routes>

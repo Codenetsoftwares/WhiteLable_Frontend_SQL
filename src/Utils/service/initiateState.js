@@ -105,14 +105,13 @@ export function accountStatementInitialState(body = {}) {
     activeItem: "statement",
     currentPage: 1,
     totalPages: 0,
-    endDate: new Date(),
+    endDate: '',
     totalData: 0,
-    startDate: (() => {
-      const date = new Date();
-      date.setDate(date.getDate() - 7);
-      return date;
-    })(),
-    totalEntries : 10
+    startDate: '',
+    totalEntries: 10,
+    dataSource:'live',
+    backupStartDate: null,
+    backupEndDate : null,
   };
 }
 
@@ -135,7 +134,11 @@ export function adminAccountStatementInitialState() {
     totalPages: 0,
     totalEntries: 10,
     totalData: 0,
+    endDate: '',
+    startDate: '',
+    dataSource : 'live'
   };
+ 
 }
 export function view_AddCashHistory_InitialState() {
   return {
@@ -144,5 +147,42 @@ export function view_AddCashHistory_InitialState() {
     totalPages: 0,
     totalEntries: 10,
     totalData: 0,
+  };
+}
+export function get_liveGames(body = {}) {
+  return {
+    data: [],
+    currentPage: 1,
+    totalPages: "",
+    totalEntries: 5,
+    name: "",
+    totalData: "",
+  };
+}
+
+export function getMarketWithRunnerDataInitialState(body = {}) {
+  return {
+    marketId: "",
+    marketName: "",
+    participants: null,
+    timeSpan: "",
+    status: null,
+    runners: [
+      {
+        runnerName: {
+          runnerId: "",
+          name: "",
+        },
+        rate: [
+          {
+            back: null,
+            lay: null,
+            _id: "",
+          },
+        ],
+        _id: "",
+      },
+    ],
+    _id: "",
   };
 }
