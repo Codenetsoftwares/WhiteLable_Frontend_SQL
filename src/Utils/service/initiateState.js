@@ -149,3 +149,40 @@ export function view_AddCashHistory_InitialState() {
     totalData: 0,
   };
 }
+export function get_liveGames(body = {}) {
+  return {
+    data: [],
+    currentPage: 1,
+    totalPages: "",
+    totalEntries: 5,
+    name: "",
+    totalData: "",
+  };
+}
+
+export function getMarketWithRunnerDataInitialState(body = {}) {
+  return {
+    marketId: "",
+    marketName: "",
+    participants: null,
+    timeSpan: "",
+    status: null,
+    runners: [
+      {
+        runnerName: {
+          runnerId: "",
+          name: "",
+        },
+        rate: [
+          {
+            back: null,
+            lay: null,
+            _id: "",
+          },
+        ],
+        _id: "",
+      },
+    ],
+    _id: "",
+  };
+}
