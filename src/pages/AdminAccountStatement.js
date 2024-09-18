@@ -84,17 +84,17 @@ const AdminAccountStatement = () => {
     state.startDate,
   ]);
 
-  // function formatDate(dateString) {
-  //   const options = {
-  //     year: "numeric",
-  //     month: "numeric",
-  //     day: "numeric",
-  //     hour: "numeric",
-  //     minute: "numeric",
-  //     second: "numeric",
-  //   };
-  //   return new Date(dateString).toLocaleDateString("en-US", options);
-  // }
+  function formatDateForUi(dateString) {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("en-US", options);
+  }
 
   const startIndex = Math.min((state.currentPage - 1) * state.totalEntries + 1);
   const endIndex = Math.min(
@@ -150,7 +150,6 @@ const AdminAccountStatement = () => {
                   </option>
                   <option value="25">25 entries</option>
                   <option value="50">50 entries</option>
-                  <option value="75">75 entries</option>
                   <option value="100">100 entries</option>
                 </select>
               </div>
@@ -166,7 +165,9 @@ const AdminAccountStatement = () => {
                     }));
                   }}
                 >
-                  <option value="live" selected>LIVE DATA</option>
+                  <option value="live" selected>
+                    LIVE DATA
+                  </option>
                   <option value="backup">BACKUP DATA</option>
                   <option value="olddata">OLD DATA</option>
                 </select>
@@ -193,7 +194,7 @@ const AdminAccountStatement = () => {
                 <button
                   className="btn btn-primary mb-2"
                   disabled={
-                    backupDate.endDate === null && backupDate.startDate === null
+                    backupDate.endDate === null || backupDate.startDate === null
                   }
                   onClick={handleGetDate}
                 >
@@ -238,23 +239,25 @@ const AdminAccountStatement = () => {
                       <tr key={transaction._id}>
                         <th scope="row">
                           <a href="#" className="question_content">
-                            {formatDate(transaction.date)}
+                            {formatDateForUi(transaction.date)}
                           </a>
                         </th>
                         <td>
                           {transaction.transactionType === "credit" ||
                           transaction.transactionType === "deposit" ? (
-                            <span>{transaction.amount}</span>
+                            <span className="fw-bold">
+                              {transaction.amount}
+                            </span>
                           ) : null}
                         </td>
                         <td>
                           {transaction.transactionType === "withdrawal" && (
-                            <span className="text-danger">
+                            <span className="text-danger fw-bold">
                               {transaction.amount}
                             </span>
                           )}
                         </td>
-                        <td>{transaction.balance}</td>
+                        <td className="fw-bold">{transaction.balance}</td>
                         <td>{transaction.remarks}</td>
                         <td>
                           {transaction.hasOwnProperty(

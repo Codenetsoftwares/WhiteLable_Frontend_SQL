@@ -20,7 +20,7 @@ const AccountStatement = ({
   totalData,
   setState,
   handleDateStatement,
-  dataSource
+  dataSource,
 }) => {
   console.log(
     "======>>> user profile data in account statement PAGE",
@@ -78,7 +78,9 @@ const AccountStatement = ({
                       }));
                     }}
                   >
-                    <option value="live" selected>LIVE DATA</option>
+                    <option value="live" selected>
+                      LIVE DATA
+                    </option>
                     <option value="backup">BACKUP DATA</option>
                     <option value="olddata">OLD DATA</option>
                   </select>
@@ -103,9 +105,7 @@ const AccountStatement = ({
                 <div class="col-sm">
                   <button
                     className="btn btn-primary mb-2"
-                    disabled={
-                      startDate === null && endDate === null
-                    }
+                    disabled={startDate === null || endDate === null}
                     onClick={handleDateStatement}
                   >
                     Get Statement
@@ -141,7 +141,6 @@ const AccountStatement = ({
           </option>
           <option value="25">25 entries</option>
           <option value="50">50 entries</option>
-          <option value="75">75 entries</option>
           <option value="100">100 entries</option>
         </select>
         <ul class="list-group list-group-flush">
@@ -187,18 +186,20 @@ const AccountStatement = ({
                         </th>
                         <td>
                           {transaction.transactionType === "credit" && (
-                            <span>{transaction.amount}</span>
+                            <span className="fw-bold">
+                              {transaction.amount}
+                            </span>
                           )}
                         </td>
                         <td>
                           {transaction.transactionType === "withdrawal" && (
-                            <span className="text-danger">
+                            <span className="text-danger fw-bold">
                               {transaction.amount}
                             </span>
                           )}
                         </td>
 
-                        <td>
+                        <td className="fw-bold">
                           {transaction.transactionType === "debit"
                             ? transaction.debitBalance
                             : transaction.balance}
