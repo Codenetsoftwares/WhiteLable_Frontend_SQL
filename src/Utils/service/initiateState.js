@@ -22,7 +22,7 @@ export function getAllCreateState(body = {}) {
     userList: [],
     currentPage: 1,
     totalPages: "",
-    totalEntries: 5,
+    totalEntries: 10,
     name: "",
     totalData: "",
   };
@@ -56,7 +56,7 @@ export function getAllSubAdminCreateState(body = {}) {
     userList: [],
     currentPage: 1,
     totalPages: "",
-    totalEntries: 5,
+    totalEntries: 10,
     name: "",
     totalData: "",
   };
@@ -84,7 +84,7 @@ export function adminAccountStatement(body = {}) {
     accountDetails: [],
     currentPage: 1,
     totalPages: "",
-    totalEntries: 5,
+    totalEntries: 10,
     name: "",
     totalData: "",
   };
