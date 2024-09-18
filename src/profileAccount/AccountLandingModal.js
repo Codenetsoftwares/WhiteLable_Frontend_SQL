@@ -170,8 +170,8 @@ const AccountLandingModal = () => {
     const response = await getBetHistory({
       userName,
       gameId: betHistoryData.SelectedGameId,
-      fromDate: formatDate(state.startDate),
-      toDate: formatDate(state.endDate),
+      fromDate: formatDate(betHistoryData.startDate),
+      toDate: formatDate(betHistoryData.endDate),
       page: betHistoryData.currentPage,
       limit: betHistoryData.itemPerPage,
     });
