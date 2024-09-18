@@ -53,13 +53,12 @@ const AccountLandingModal = () => {
     totalData: 0,
     currentPage: 1,
     itemPerPage: 10,
-    endDate: new Date(),
-    startDate: (() => {
-      const date = new Date();
-      date.setDate(date.getDate() - 7);
-      return date;
-    })(),
+    endDate: "",
+    startDate: "",
     searchItem: "",
+    dataSource: "live",
+    backupStartDate: null,
+    backupEndDate: null,
   });
 
   const formatDate = (dateString) => {
@@ -100,8 +99,6 @@ const AccountLandingModal = () => {
     state.dataSource,
   ]);
 
-  
-
   useEffect(() => {
     getProfitLossGameWise();
   }, [
@@ -110,6 +107,7 @@ const AccountLandingModal = () => {
     profitLossData.currentPage,
     profitLossData.itemPerPage,
     // profitLossData.searchItem,
+    profitLossData.dataSource,
   ]);
 
   // Debounce for search
@@ -140,7 +138,7 @@ const AccountLandingModal = () => {
       fromDate: state.startDate,
       toDate: state.endDate,
       limit: state.totalEntries,
-      dataSource: state.dataSource
+      dataSource: state.dataSource,
     });
     console.log("response for transaction view line 67", response);
     setState((prevState) => ({
@@ -189,10 +187,11 @@ const AccountLandingModal = () => {
   async function getProfitLossGameWise() {
     const response = await getProfitLossGame({
       userName,
-      fromDate: formatDate(profitLossData.startDate),
-      toDate: formatDate(profitLossData.endDate),
+      fromDate: profitLossData.startDate,
+      toDate: profitLossData.endDate,
       limit: profitLossData.itemPerPage,
       searchName: profitLossData.searchItem,
+      dataSource: profitLossData.dataSource,
     });
     console.log("getProfitLossGameWise", response);
     SetProfitLossData((prevState) => ({
@@ -277,13 +276,21 @@ const AccountLandingModal = () => {
     }));
   };
 
-  const handleDateStatement =()=>{
-    setState((prevState)=>({
+  const handleDateStatement = () => {
+    setState((prevState) => ({
       ...prevState,
-      startDate : formatDate(state.backupStartDate),
-      endDate: formatDate(state.backupEndDate)
-    }))
-   }
+      startDate: formatDate(state.backupStartDate),
+      endDate: formatDate(state.backupEndDate),
+    }));
+  };
+
+  const handleDateForProfitLoss = () => {
+    SetProfitLossData((prevState) => ({
+      ...prevState,
+      startDate: formatDate(profitLossData.backupStartDate),
+      endDate: formatDate(profitLossData.backupEndDate),
+    }));
+  };
 
   let componentToRender;
   if (state.toggle === 1) {
@@ -349,23 +356,29 @@ const AccountLandingModal = () => {
         props={state.profileView}
         UserName={userName}
         dataGameWise={profitLossData.dataGameWise}
-        startDate={profitLossData.startDate}
-        endDate={profitLossData.endDate}
+        startDate={profitLossData.backupStartDate}
+        endDate={profitLossData.backupEndDate}
         setStartDate={(date) =>
-          SetProfitLossData((prevState) => ({ ...prevState, startDate: date }))
+          SetProfitLossData((prevState) => ({
+            ...prevState,
+            backupStartDate: date,
+          }))
         }
         setEndDate={(date) =>
-          SetProfitLossData((prevState) => ({ ...prevState, endDate: date }))
+          SetProfitLossData((prevState) => ({
+            ...prevState,
+            backupEndDate: date,
+          }))
         }
         currentPage={profitLossData.currentPage}
         totalData={profitLossData.totalData}
         totalPages={profitLossData.totalPages}
         handlePageChange={handlePageChange}
         SetProfitLossData={SetProfitLossData}
+        handleDateForProfitLoss={handleDateForProfitLoss}
       />
     );
   }
-
 
   console.log("createdByUser", state.profileView.createdById);
   return (

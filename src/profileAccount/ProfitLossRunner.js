@@ -54,11 +54,12 @@ const ProfitAndLossRunner = ({
             className="form-select w-auto m-1"
             onChange={handelItemPerPage}
           >
-            <option defaultValue>Data Range</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
+            <option value="10" selected>
+              10 Entries
+            </option>
+            <option value="25">25 Entries</option>
+            <option value="50">50 Entries</option>
+            <option value="100">100 Entries</option>
           </select>
           <input
             type="search"
@@ -135,7 +136,15 @@ const ProfitAndLossRunner = ({
                                 {"NDS"}
                               </td>
                               <td>{"NDS"}</td>
-                              <td>{data?.profitLoss}</td>
+                              <td
+                                className={`fw-bold ${
+                                  data?.profitLoss > 0
+                                    ? "text-success"
+                                    : "text-danger"
+                                }`}
+                              >
+                                {data?.profitLoss}
+                              </td>
                               <td>{"NDS"}</td>
                               <td>{"NDS"}</td>
                             </tr>

@@ -61,11 +61,12 @@ const ProfitAndLossEvent = ({
             className="form-select w-auto m-1"
             onChange={handelItemPerPage}
           >
-            <option defaultValue>Data Range</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
+            <option value="10" selected>
+              10 Entries
+            </option>
+            <option value="25">25 Entries</option>
+            <option value="50">50 Entries</option>
+            <option value="100">100 Entries</option>
           </select>
           <input
             type="search"
@@ -134,7 +135,15 @@ const ProfitAndLossEvent = ({
                               </td>
                               <td>{data?.commission || "NDS"}</td>
                               <td>{data?.profitLoss || "NDS"}</td>
-                              <td>{data?.totalProfitLoss}</td>
+                              <td
+                                className={`fw-bold ${
+                                  data?.totalProfitLoss > 0
+                                    ? "text-success"
+                                    : "text-danger"
+                                }`}
+                              >
+                                {data?.totalProfitLoss}
+                              </td>
                             </tr>
                           ))
                         ) : (

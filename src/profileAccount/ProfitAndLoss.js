@@ -21,6 +21,7 @@ const ProfitAndLoss = ({
   handlePageChange,
   totalPages,
   SetProfitLossData,
+  handleDateForProfitLoss,
 }) => {
   //Pagination
   const startIndex = Math.min((currentPage - 1) * 10 + 1);
@@ -54,7 +55,7 @@ const ProfitAndLoss = ({
       userName: UserName,
       marketId: marketId,
       limit: profitLossRunnerData.itemPerPage,
-      searchName: profitLossRunnerData.searchItem,  
+      searchName: profitLossRunnerData.searchItem,
     });
     console.log("runner=>>>", response);
     SetProfitLossRunnerData((prevState) => ({
@@ -160,6 +161,7 @@ const ProfitAndLoss = ({
                   <div class="col-sm">Data Source</div>
                   <div class="col-sm">From</div>
                   <div class="col-sm">To</div>
+                  <div class="col-sm"></div>
                 </div>
               </div>
               <div class="container">
@@ -169,17 +171,25 @@ const ProfitAndLoss = ({
                     <select
                       class="form-select"
                       aria-label="Default select example"
+                      onChange={(e) => {
+                        SetProfitLossData((prevState) => ({
+                          ...prevState,
+                          dataSource: e.target.value,
+                        }));
+                      }}
                     >
-                      <option selected>Select</option>
-                      <option value="settle">LIVE DATA</option>
-                      <option value="unsettle">BACKUP DATA</option>
-                      <option value="void">OLD DATA</option>
+                      <option value="live" selected>
+                        LIVE DATA
+                      </option>
+                      <option value="backup">BACKUP DATA</option>
+                      <option value="olddata">OLD DATA</option>
                     </select>
                   </div>
                   <div class="col-sm">
                     <DatePicker
                       selected={startDate}
                       onChange={(date) => setStartDate(date)}
+                      placeholderText={"Select Start Date"}
                     />
                   </div>
                   <div class="col-sm">
@@ -187,12 +197,21 @@ const ProfitAndLoss = ({
                     <DatePicker
                       selected={endDate}
                       onChange={(date) => setEndDate(date)}
+                      placeholderText={"Select End Date"}
                     />
+                  </div>
+                  <div class="col-sm">
+                    <button
+                      className="btn btn-primary mb-2"
+                      disabled={startDate === null || endDate === null}
+                      onClick={handleDateForProfitLoss}
+                    >
+                      Get Statement
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       )}
@@ -212,11 +231,12 @@ const ProfitAndLoss = ({
               className="form-select w-auto m-1"
               onChange={handelItemPerPage}
             >
-              <option defaultValue>Data Range</option>
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
+              <option value="10" selected>
+                10 Entries
+              </option>
+              <option value="25">25 Entries</option>
+              <option value="50">50 Entries</option>
+              <option value="100">100 Entries</option>
             </select>
             <input
               type="search"
@@ -271,7 +291,17 @@ const ProfitAndLoss = ({
                               </td>
                               <td>{data?.profitLoss || "NDS"}</td>
                               <td>{data?.commission || "NDS"}</td>
-                              <td>{data?.totalProfitLoss}</td>
+                              <td>
+                                <span
+                                  className={`fw-bold ${
+                                    data?.totalProfitLoss > 0
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                >
+                                  {data?.totalProfitLoss}
+                                </span>
+                              </td>
                             </tr>
                           ))
                         ) : (
