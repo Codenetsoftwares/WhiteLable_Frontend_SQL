@@ -289,7 +289,15 @@ const ProfitAndLoss = ({
                               >
                                 {data?.gameName}
                               </td>
-                              <td>{data?.profitLoss || "NDS"}</td>
+                              <td
+                                className={`fw-bold ${
+                                  data?.totalProfitLoss > 0
+                                    ? "text-success"
+                                    : "text-danger"
+                                }`}
+                              >
+                                {data?.totalProfitLoss || "NDS"}
+                              </td>
                               <td>{data?.commission || "NDS"}</td>
                               <td>
                                 <span
