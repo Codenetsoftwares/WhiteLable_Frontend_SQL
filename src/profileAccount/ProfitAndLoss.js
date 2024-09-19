@@ -74,7 +74,7 @@ const ProfitAndLoss = ({
     profitLossRunnerData.searchItem,
   ]);
 
-  async function getProfitLossEventWise(gameId, componentName) {
+  async function  getProfitLossEventWise(gameId, componentName) {
     // if useEffcet  added give condition toggle must be false for end point to hit
     SetToggle(false);
     SetComponent(componentName);

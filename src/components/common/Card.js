@@ -163,7 +163,7 @@ const Card = ({
             {callingParent === "Wallet" ? (
               <span className="">
                 <button
-                  className={`border border-0 bg-white btn ${["Suspended"].includes(store?.admin?.Status)
+                  className={`border border-0 bg-white btn ${["suspended"].includes(store?.admin?.status)
                     ? "disabled"
                     : store?.admin?.roles[0].permission.some(
                       (role) => role === strings.creditRefEdit
@@ -187,7 +187,7 @@ const Card = ({
 
             <span>
               <button
-                className={`border border-0 bg-white btn ${["Suspended"].includes(store?.admin?.Status)
+                className={`border border-0 bg-white btn ${["suspended"].includes(store?.admin?.status)
                   ? "disabled"
                   : store?.admin?.roles[0].permission.some(
                     (role) => role === strings.creditRefView
@@ -224,7 +224,7 @@ const Card = ({
             {callingParent === "Wallet" ? (
               <span className="">
                 <button
-                  className={`border border-0 bg-white btn ${["Suspended"].includes(store?.admin?.Status)
+                  className={`border border-0 bg-white btn ${["suspended"].includes(store?.admin?.status)
                     ? "disabled"
                     : store?.admin?.roles[0].permission.some(
                       (role) => role === strings.partnershipEdit
@@ -250,15 +250,17 @@ const Card = ({
 
             <span>
               <button
-                className={`border border-0 bg-white btn ${store?.admin?.roles[0].permission.some(
-                  (role) => role === strings.partnershipView
-                )
-                  ? ""
-                  : permissionObj.allAdmin.includes(
-                    store?.admin?.roles[0].role
+                className={`border border-0 bg-white btn ${["suspended"].includes(store?.admin?.status)
+                  ? "disabled"
+                  : store?.admin?.roles[0].permission.some(
+                    (role) => role === strings.partnershipEdit
                   )
                     ? ""
-                    : "disabled"
+                    : permissionObj.allAdmin.includes(
+                      store?.admin?.roles[0].role
+                    )
+                      ? ""
+                      : "disabled"
                   }`}
                 onClick={() => handelOpenViewModal(true, "partnershipViewer")}
               >
@@ -295,7 +297,7 @@ const Card = ({
                   }
                 >
                   <button
-                    className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
+                    className={`btn border border-2 rounded ${["suspended"].includes(store?.admin?.status)
                       ? "disabled"
                       : store?.admin?.roles[0].permission.some(
                         (role) => role === strings.transferBalance
@@ -314,7 +316,7 @@ const Card = ({
                 </span>
                 <span className="mx-1">
                   <button
-                    className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
+                    className={`btn border border-2 rounded ${["suspended"].includes(store?.admin?.status)
                       ? "disabled"
                       : store?.admin?.roles[0].permission.some(
                         (role) => role === strings.status
@@ -360,7 +362,7 @@ const Card = ({
             {callingParent === "Wallet" ? (
               <span className="mx-1">
                 <button
-                  className={`btn border border-2 rounded ${["Suspended"].includes(store?.admin?.Status)
+                  className={`btn border border-2 rounded ${["suspended"].includes(store?.admin?.status)
                     ? "disabled"
                     : store?.admin?.roles[0].permission.some(
                       (role) => role === strings.deleteAdmin

@@ -154,7 +154,7 @@ const StatusModal = ({
           </Button>
           <Button
             variant={state.btncolor2 ? "danger" : "outline-danger"}
-            disabled={Status === "Suspended"}
+            disabled={Status === "Suspended" || Status === "Locked"}
             onClick={handleInactiveChange}
             style={{ width: "calc(33.33% - 6px)" }}
           >
