@@ -372,7 +372,7 @@ export async function getBetHistory(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.getBetHistory}/${body.userName}/${body.gameId}?startDate=${body.fromDate}&endDate=${body.toDate}&page=${body.page}&limit=${body.limit}`,
+      `${UrlConstant.getBetHistory}/${body.userName}/${body.gameId}?startDate=${body.fromDate}&endDate=${body.toDate}&page=${body.page}&limit=${body.limit}&dataType=${body.dataSource}`,
       callParams,
       isToast
     );

@@ -16,6 +16,7 @@ const BetHistory = ({
   currentPage,
   totalPages,
   handlePageChange,
+  SetBetHistoryData,
 }) => {
   const handelGameId = (event) => {
     setData((prevState) => ({
@@ -57,58 +58,79 @@ const BetHistory = ({
             <div class="container">
               <div class="row">
                 <div class="col-sm">Choose Sport</div>
+                {data.SelectedGameId !== null ? (
+                  <div class="col-sm">Data Source</div>
+                ) : null}
                 <div class="col-sm">Choose Type</div>
                 <div class="col-sm">From</div>
                 <div class="col-sm">To</div>
               </div>
             </div>
-            <div class="container">
-              <div class="row">
+
+            <div class="row">
+              <div class="col-sm">
+                {" "}
+                <select
+                  className={`form-select ${
+                    data.SelectedGameId === null ? "bounce" : ""
+                  }`}
+                  aria-label="Default select example"
+                  onChange={handelGameId}
+                >
+                  <option selected>Select</option>
+                  {data?.gameList.length &&
+                    data?.gameList?.map((game) => (
+                      <option value={game.gameId}>{game.gameName}</option>
+                    ))}
+                </select>
+              </div>
+              {data.SelectedGameId !== null ? (
                 <div class="col-sm">
                   {" "}
                   <select
-                    className={`form-select ${
-                      data.SelectedGameId === null ? "bounce" : ""
-                    }`}
+                    class="form-select form-select-sm w-100 m-1"
                     aria-label="Default select example"
-                    onChange={handelGameId}
+                    onChange={(e) => {
+                      SetBetHistoryData((prevState) => ({
+                        ...prevState,
+                        dataSource: e.target.value,
+                      }));
+                    }}
                   >
-                    <option selected>Select</option>
-                    {data?.gameList.length &&
-                      data?.gameList?.map((game) => (
-                        <option value={game.gameId}>{game.gameName}</option>
-                      ))}
+                    <option value="live" selected>
+                      LIVE DATA
+                    </option>
+                    <option value="backup">BACKUP DATA</option>
+                    <option value="olddata">OLD DATA</option>
                   </select>
                 </div>
-                <div class="col-sm">
-                  {" "}
-                  <select
-                    class="form-select"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Select</option>
-                    <option value="settle">Settle</option>
-                    <option value="unsettle">UnSettle</option>
-                    <option value="void">void</option>
-                  </select>
-                </div>
-                <div class="col-sm">
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                  />
-                </div>
-                <div class="col-sm">
-                  {" "}
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                  />
-                </div>
+              ) : null}
+
+              <div class="col-sm">
+                {" "}
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Select</option>
+                  <option value="settle">Settle</option>
+                  <option value="unsettle">UnSettle</option>
+                  <option value="void">void</option>
+                </select>
+              </div>
+
+              <div class="col-sm">
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+              </div>
+              <div class="col-sm">
+                {" "}
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                />
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -121,11 +143,12 @@ const BetHistory = ({
           <b>&nbsp;&nbsp;Bet History</b>
         </div>
         <select className="w-25 m-1" onChange={handelItemPerPage}>
-          <option selected>Data Range</option>
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
+          <option value="10" selected>
+            Showing 10 Entries
+          </option>
+          <option value="25">25 Entries</option>
+          <option value="50">50 Entries</option>
+          <option value="100">100 Entries</option>
         </select>
         <ul class="list-group list-group-flush">
           <li class="list-group-item  p-0 m-1">
@@ -186,19 +209,19 @@ const BetHistory = ({
                     <tbody>
                       {/* Render the data history if available and a sport is selected */}
                       {data.SelectedGameId !== null &&
-                      data?.dataHistory?.length > 0 
+                      data?.dataHistory?.length > 0
                         ? data?.dataHistory?.map((history, index) => (
                             <tr key={index} align="center">
                               <td>{history?.userName}</td>
                               <td>{history?.gameName}</td>
-                              <td>{history?.event || "NA"}</td>
+                              <td>{history?.event || "NDS"}</td>
                               <td>{history?.marketName}</td>
-                              <td>{history?.selection || "NA"}</td>
+                              <td>{history?.selection || "NDS"}</td>
                               <td>{history?.type}</td>
                               <td>{history?.rate}</td>
-                              <td>{history?.value}</td>
-                              <td>{history?.placeTime || "NA"}</td>
-                              <td>{history?.settleTime || "NA"}</td>
+                              <td className="fw-bold">{history?.value}</td>
+                              <td>{history?.placeTime || "NDS"}</td>
+                              <td>{history?.settleTime || "NDS"}</td>
                             </tr>
                           ))
                         : // Render No Data Found message only if a sport is selected and there's no data

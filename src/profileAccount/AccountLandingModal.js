@@ -43,6 +43,7 @@ const AccountLandingModal = () => {
       date.setDate(date.getDate() - 7);
       return date;
     })(),
+    dataSource: "live",
   });
 
   const [profitLossData, SetProfitLossData] = useState({
@@ -97,6 +98,7 @@ const AccountLandingModal = () => {
     betHistoryData.endDate,
     betHistoryData.startDate,
     state.dataSource,
+    betHistoryData.dataSource,
   ]);
 
   useEffect(() => {
@@ -174,6 +176,7 @@ const AccountLandingModal = () => {
       toDate: formatDate(betHistoryData.endDate),
       page: betHistoryData.currentPage,
       limit: betHistoryData.itemPerPage,
+      dataSource: betHistoryData.dataSource,
     });
     console.log("res->>", response);
     SetBetHistoryData((prevState) => ({
@@ -212,10 +215,10 @@ const AccountLandingModal = () => {
   );
 
   const startIndexBetHistory = Math.min(
-    (betHistoryData.currentPage - 1) * 10 + 1
+    (betHistoryData.currentPage - 1) * betHistoryData.itemPerPage + 1
   );
   const endIndexBetHistory = Math.min(
-    betHistoryData.currentPage * 10,
+    betHistoryData.currentPage * betHistoryData.itemPerPage,
     betHistoryData.totalData
   );
 
@@ -348,6 +351,7 @@ const AccountLandingModal = () => {
         currentPage={betHistoryData.currentPage}
         totalPages={betHistoryData.totalPages}
         handlePageChange={handlePageChange}
+        SetBetHistoryData={SetBetHistoryData}
       />
     );
   } else if (state.toggle === 5) {
