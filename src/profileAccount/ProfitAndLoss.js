@@ -8,6 +8,7 @@ import {
 } from "../Utils/service/apiService";
 import ProfitAndLossEvent from "./ProfitAndLossEvent";
 import ProfitAndLossRunner from "./ProfitLossRunner";
+import BetHistoryForPl from "./BetHistoryForPl";
 
 const ProfitAndLoss = ({
   UserName,
@@ -74,7 +75,7 @@ const ProfitAndLoss = ({
     profitLossRunnerData.searchItem,
   ]);
 
-  async function  getProfitLossEventWise(gameId, componentName) {
+  async function getProfitLossEventWise(gameId, componentName) {
     // if useEffcet  added give condition toggle must be false for end point to hit
     SetToggle(false);
     SetComponent(componentName);
@@ -106,7 +107,7 @@ const ProfitAndLoss = ({
         totalItems={profitLossEventData.totalData}
       />
     );
-  } else {
+  } else if (component === "ProfitAndLossRunner") {
     componentToRender = (
       <ProfitAndLossRunner
         data={profitLossRunnerData}
@@ -114,8 +115,10 @@ const ProfitAndLoss = ({
         SetProfitLossRunnerData={SetProfitLossRunnerData}
         currentPage={profitLossRunnerData.currentPage}
         totalItems={profitLossRunnerData.totalData}
+        UserName={UserName}
       />
     );
+  } else {
   }
 
   const handelItemPerPage = (event) => {
