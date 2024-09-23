@@ -1,6 +1,7 @@
 import React from "react";
 import Pagination from "../components/common/Pagination";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ProfitAndLossRunner = ({
   data,
@@ -8,6 +9,7 @@ const ProfitAndLossRunner = ({
   SetProfitLossRunnerData,
   currentPage,
   totalItems,
+  UserName,
 }) => {
   console.log("data", data);
   const startIndex = Math.min((data.currentPage - 1) * 10 + 1);
@@ -28,6 +30,7 @@ const ProfitAndLossRunner = ({
       searchItem: e.target.value,
     }));
   };
+  const nav = useNavigate();
 
   return (
     <>
@@ -130,10 +133,12 @@ const ProfitAndLossRunner = ({
                                 className="text-primary fw-bold"
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {
-                                  toast.error("Work Pending From ServerSide");
+                                  nav(
+                                    `/betHistForPL/${UserName}/${data.runnerId}`
+                                  );
                                 }}
                               >
-                                {'WINNER'}
+                                {"WINNER"}
                               </td>
                               <td>{data?.runnerName}</td>
                               <td

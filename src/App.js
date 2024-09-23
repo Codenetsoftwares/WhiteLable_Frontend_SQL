@@ -18,6 +18,7 @@ import WelcomePage from "./pages/welcomepage/WelcomePage";
 import View_AddCash_history from "./pages/View_AddCash_history";
 import Market_Analysis from "./pages/Market_Analysis";
 import User_BetMarket from "./pages/User_BetMarket";
+import BetHistoryForPl from "./profileAccount/BetHistoryForPl";
 // import WelcomePage from "./screen/WelcomePage";
 
 function App() {
@@ -66,9 +67,10 @@ function App() {
                 path="View_AddCash_history"
                 element={<View_AddCash_history />}
               />
+              <Route path="Market_analysis" element={<Market_Analysis />} />
               <Route
-                path="Market_analysis"
-                element={<Market_Analysis />}
+                path="betHistForPL/:userName/:runnerId"
+                element={<BetHistoryForPl />}
               />
               <Route
                 path="/User_BetMarket/:marketId/:userName"
