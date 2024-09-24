@@ -17,6 +17,7 @@ const BetHistory = ({
   totalPages,
   handlePageChange,
   SetBetHistoryData,
+  formatDateForUi,
 }) => {
   const handelGameId = (event) => {
     setData((prevState) => ({
@@ -214,14 +215,14 @@ const BetHistory = ({
                             <tr key={index} align="center">
                               <td>{history?.userName}</td>
                               <td>{history?.gameName}</td>
-                              <td>{history?.event || "NDS"}</td>
                               <td>{history?.marketName}</td>
-                              <td>{history?.selection || "NDS"}</td>
+                              <td>{"WINNER"}</td>
+                              <td>{history?.runnerName}</td>
                               <td>{history?.type}</td>
                               <td>{history?.rate}</td>
                               <td className="fw-bold">{history?.value}</td>
-                              <td>{history?.placeTime || "NDS"}</td>
-                              <td>{history?.settleTime || "NDS"}</td>
+                              <td>{formatDateForUi(history?.placeDate)}</td>
+                              <td>{formatDateForUi(history?.date)}</td>
                             </tr>
                           ))
                         : // Render No Data Found message only if a sport is selected and there's no data

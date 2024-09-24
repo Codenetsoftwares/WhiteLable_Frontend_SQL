@@ -295,6 +295,18 @@ const AccountLandingModal = () => {
     }));
   };
 
+    function formatDateForUi(dateString) {
+      const options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      };
+      return new Date(dateString).toLocaleDateString("en-US", options);
+    }
+
   let componentToRender;
   if (state.toggle === 1) {
     componentToRender = (
@@ -352,6 +364,7 @@ const AccountLandingModal = () => {
         totalPages={betHistoryData.totalPages}
         handlePageChange={handlePageChange}
         SetBetHistoryData={SetBetHistoryData}
+        formatDateForUi={formatDateForUi}
       />
     );
   } else if (state.toggle === 5) {
