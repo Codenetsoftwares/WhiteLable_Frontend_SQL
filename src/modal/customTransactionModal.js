@@ -11,9 +11,9 @@ import {
 import { useAppContext } from "../contextApi/context";
 import { toast } from "react-toastify";
 const CustomTransactionModal = (props) => {
-  const { setIsLoading } = props
+  const { setIsLoading } = props;
   const [formData, setFormData] = useState({
-    amount: 0,
+    amount: null,
     password: "",
     remarks: "",
   });
@@ -41,19 +41,23 @@ const CustomTransactionModal = (props) => {
       amount: 0,
       password: "",
       remarks: "",
-    })
-  }
+    });
+  };
   // API Hitting for creditRef and Partnership provider
   async function handelSave() {
     switch (props.differentiate) {
       case "creditRefProvider":
-        if (formData.amount >= 0 && formData.password !== "") {
+        if (
+          formData.amount >= 0 &&
+          formData.password !== "" &&
+          formData.amount !== null
+        ) {
           const creditRefData = {
             creditRef: formData.amount,
             password: formData.password,
           };
 
-          setIsLoading(true)
+          setIsLoading(true);
           const creditRefResponse = await updateCreditRef(
             {
               id: props?.adminId,
@@ -67,7 +71,7 @@ const CustomTransactionModal = (props) => {
             resetForm();
             props.setRefresh(creditRefResponse);
           }
-          setIsLoading(false)
+          setIsLoading(false);
           break;
         } else {
           toast.info(
@@ -77,12 +81,14 @@ const CustomTransactionModal = (props) => {
         }
 
       case "partnershipProvider":
-        if (formData.amount >= 0 && formData.password !== "") {
+        if (formData.amount >= 0 &&
+          formData.password !== "" &&
+          formData.amount !== null) {
           const partnershipData = {
             partnership: formData.amount,
             password: formData.password,
           };
-          setIsLoading(true)
+          setIsLoading(true);
           const partnershipResponse = await updatePartnership(
             {
               id: props?.adminId,
@@ -96,7 +102,7 @@ const CustomTransactionModal = (props) => {
             resetForm();
             props.setRefresh(partnershipResponse);
           }
-          setIsLoading(false)
+          setIsLoading(false);
           break;
         } else {
           toast.info(
@@ -120,7 +126,7 @@ const CustomTransactionModal = (props) => {
           if (addCashResponse) {
             props.onHide();
             console.log(addCashResponse);
-            resetForm()
+            resetForm();
             props.setRefresh(addCashResponse);
           }
 
@@ -147,7 +153,7 @@ const CustomTransactionModal = (props) => {
         remarks: formData.remarks,
         receiveUserId: props?.adminId,
       };
-      setIsLoading(true)
+      setIsLoading(true);
       const creditRefResponse = await transferAmount(
         {
           adminId: store.admin.id,
@@ -158,11 +164,10 @@ const CustomTransactionModal = (props) => {
       if (creditRefResponse) {
         props.onHide();
         console.log(creditRefResponse);
-        resetForm()
+        resetForm();
         props.setRefresh(creditRefResponse);
       }
-      setIsLoading(false)
-
+      setIsLoading(false);
     } else {
       const DepositData = {
         transferAmount: formData.amount,
@@ -170,7 +175,7 @@ const CustomTransactionModal = (props) => {
         remarks: formData.remarks,
         receiveUserId: props?.adminId,
       };
-      setIsLoading(true)
+      setIsLoading(true);
       const creditRefResponse = await transferAmount(
         {
           adminId: store.admin.id,
@@ -181,12 +186,10 @@ const CustomTransactionModal = (props) => {
       if (creditRefResponse) {
         props.onHide();
         console.log(creditRefResponse);
-        resetForm()
+        resetForm();
         props.setRefresh(creditRefResponse);
       }
-      setIsLoading(false)
-
-
+      setIsLoading(false);
     }
   }
 
@@ -211,9 +214,7 @@ const CustomTransactionModal = (props) => {
         <div className="my-2">
           {props?.differentiate !== "addCashProvider" ? (
             <React.Fragment>
-              <span style={{ fontWeight: "bold" }}>
-                {props?.role}
-              </span>
+              <span style={{ fontWeight: "bold" }}>{props?.role}</span>
               <br />
               <span>{props?.adminName}</span>
             </React.Fragment>
