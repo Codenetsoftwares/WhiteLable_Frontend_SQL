@@ -44,6 +44,7 @@ const AccountLandingModal = () => {
       return date;
     })(),
     dataSource: "live",
+    dataType: "",
   });
 
   const [profitLossData, SetProfitLossData] = useState({
@@ -99,6 +100,7 @@ const AccountLandingModal = () => {
     betHistoryData.startDate,
     state.dataSource,
     betHistoryData.dataSource,
+    betHistoryData.dataType,
   ]);
 
   useEffect(() => {
@@ -177,6 +179,7 @@ const AccountLandingModal = () => {
       page: betHistoryData.currentPage,
       limit: betHistoryData.itemPerPage,
       dataSource: betHistoryData.dataSource,
+      dataType: betHistoryData.dataType,
     });
     console.log("res->>", response);
     SetBetHistoryData((prevState) => ({
@@ -295,17 +298,17 @@ const AccountLandingModal = () => {
     }));
   };
 
-    function formatDateForUi(dateString) {
-      const options = {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      };
-      return new Date(dateString).toLocaleDateString("en-US", options);
-    }
+  function formatDateForUi(dateString) {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("en-US", options);
+  }
 
   let componentToRender;
   if (state.toggle === 1) {
@@ -365,6 +368,7 @@ const AccountLandingModal = () => {
         handlePageChange={handlePageChange}
         SetBetHistoryData={SetBetHistoryData}
         formatDateForUi={formatDateForUi}
+        dataType={betHistoryData.dataType}
       />
     );
   } else if (state.toggle === 5) {
