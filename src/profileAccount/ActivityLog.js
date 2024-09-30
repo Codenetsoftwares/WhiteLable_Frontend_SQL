@@ -11,7 +11,6 @@ const ActivityLog = ({ props }) => {
     iP: "Loading..",
     region: "Loading..",
     country: "Loading..",
-    
   }); // Set initial state to null
 
   useEffect(() => {
@@ -22,9 +21,8 @@ const ActivityLog = ({ props }) => {
     };
 
     fetchData();
-    
   }, [props]);
-  console.log('====>>> IP ',activityLog.iP)
+  console.log("====>>> IP ", activityLog.iP);
   // Render null if activityLog is still null
   if (activityLog === null) {
     return null;
@@ -44,7 +42,7 @@ const ActivityLog = ({ props }) => {
             <table className="table table-bordered table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
               <thead>
                 <tr className="table-active">
-                  <th scope="col">Login Date & Time</th>
+                  <th scope="col"> Date & Time</th>
                   <th scope="col">Login Status</th>
                   <th scope="col">IP Address</th>
                   <th scope="col">ISP</th>
@@ -53,9 +51,9 @@ const ActivityLog = ({ props }) => {
               </thead>
               <tbody>
                 <tr>
-                <td scope="row">{lastLoginTimeLocal}</td>
+                  <td scope="row">{lastLoginTimeLocal}</td>
                   <td>No Data From Serverside</td>
-     
+
                   <td>{activityLog.iP}</td>
                   <td>No Data From Serverside</td>
                   <td>

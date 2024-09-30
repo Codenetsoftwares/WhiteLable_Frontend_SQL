@@ -18,6 +18,7 @@ const BetHistory = ({
   handlePageChange,
   SetBetHistoryData,
   formatDateForUi,
+  dataType,
 }) => {
   const handelGameId = (event) => {
     setData((prevState) => ({
@@ -109,10 +110,19 @@ const BetHistory = ({
 
               <div class="col-sm">
                 {" "}
-                <select class="form-select" aria-label="Default select example">
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => {
+                    SetBetHistoryData((prevState) => ({
+                      ...prevState,
+                      dataType: e.target.value,
+                    }));
+                  }}
+                >
                   <option selected>Select</option>
-                  <option value="settle">Settle</option>
-                  <option value="unsettle">UnSettle</option>
+                  {/* <option value="settle">Settle</option> */}
+                  {/* <option value="unsettle">UnSettle</option> */}
                   <option value="void">void</option>
                 </select>
               </div>
