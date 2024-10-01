@@ -100,12 +100,12 @@ const User_BetMarket = () => {
 
                       <span className="mx-3 my-1">
                         {runnerData?.runnerName?.bal > 0 ? (
-                          <span className="text-success">
-                            {runnerData?.runnerName?.bal}
+                          <span className="text-danger">
+                            -{Math.abs(runnerData?.runnerName?.bal)}
                           </span>
                         ) : (
-                          <span className="text-danger">
-                            {runnerData?.runnerName?.bal}
+                          <span className="text-success">
+                            {Math.abs(runnerData?.runnerName?.bal)}
                           </span>
                         )}
                       </span>
