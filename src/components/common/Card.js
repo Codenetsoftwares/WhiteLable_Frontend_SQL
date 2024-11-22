@@ -31,6 +31,7 @@ const Card = ({
   setRefresh,
   adminDelete,
   setIsLoading,
+  exposure
 }) => {
   console.log("userrole ======>>>> ", role, userName);
 
@@ -273,7 +274,7 @@ const Card = ({
             {loadBalance}
           </td>
           <td scope="row" className="fs-6 text-center text-danger">
-            0
+            {exposure}
           </td>
           <td scope="row" className="fs-6 text-center">
             {balance}
