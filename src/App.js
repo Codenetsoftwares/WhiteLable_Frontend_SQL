@@ -73,7 +73,7 @@ function App() {
                 element={<BetHistoryForPl />}
               />
               <Route
-                path="/User_BetMarket/:marketId/:userName"
+                path="/User_BetMarket/:marketId"
                 element={<User_BetMarket />}
               />
             </Route>

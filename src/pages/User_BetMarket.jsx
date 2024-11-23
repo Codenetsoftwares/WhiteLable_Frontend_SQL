@@ -20,7 +20,7 @@ const User_BetMarket = () => {
     try {
       const response = await getUserGetMarket({
         marketId: marketId,
-        userName: userName,
+        // userName: userName,
       });
       console.log("======>>>>>> response", response.data);
 
@@ -55,9 +55,9 @@ const User_BetMarket = () => {
         </div>
         <div className="card-body">
           {/* User Name */}
-          <div className="row mb-4">
+          {/* <div className="row mb-4">
             <p className="mx-2">User Name: {userName.toUpperCase()}</p>
-          </div>
+          </div> */}
 
           {/* Table */}
           <SingleCard
