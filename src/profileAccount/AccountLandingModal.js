@@ -13,6 +13,7 @@ import {
   getAllTransactionView,
   getBetHistory,
   getGameNames,
+  getLotteryBetHistory,
   getProfitLossGame,
   getUserProfileView,
 } from "../Utils/service/apiService";
@@ -40,11 +41,12 @@ const AccountLandingModal = () => {
     endDate: new Date(),
     startDate: (() => {
       const date = new Date();
-      date.setDate(date.getDate() - 7);
+      date.setDate(date.getDate() - 1);
       return date;
     })(),
     dataSource: "live",
     dataType: "",
+    dropdownOpen: null
   });
 
   const [profitLossData, SetProfitLossData] = useState({
@@ -84,7 +86,9 @@ const AccountLandingModal = () => {
   useEffect(() => {
     getAll_transactionView();
     getActivityLog();
-    if (betHistoryData.SelectedGameId) {
+    if (betHistoryData.SelectedGameId === "lottery") {
+      getHistoryForLotteryBetHistory();
+    } else {
       getHistoryForBetHistory();
     }
   }, [
@@ -171,24 +175,47 @@ const AccountLandingModal = () => {
   }
   // For Bet History Data to show
   async function getHistoryForBetHistory() {
+    console.log("page info", betHistoryData.currentPage)
     const response = await getBetHistory({
       userName,
       gameId: betHistoryData.SelectedGameId,
       fromDate: formatDate(betHistoryData.startDate),
       toDate: formatDate(betHistoryData.endDate),
-      page: betHistoryData.currentPage,
-      limit: betHistoryData.itemPerPage,
+      page: betHistoryData.currentPage || "1",
+      limit: betHistoryData.itemPerPage || "10",
       dataSource: betHistoryData.dataSource,
       dataType: betHistoryData.dataType,
     });
     console.log("res->>", response);
     SetBetHistoryData((prevState) => ({
       ...prevState,
-      dataHistory: response.data,
-      totalPages: response.pagination.totalPages,
-      totalData: response.pagination.totalItems,
+      dataHistory: response?.data,
+      totalPages: response?.pagination?.totalPages,
+      totalData: response?.pagination?.totalItems,
     }));
   }
+
+  async function getHistoryForLotteryBetHistory() {
+    console.log("page info", betHistoryData.currentPage)
+    const response = await getLotteryBetHistory({
+      userName,
+      gameId: betHistoryData.SelectedGameId,
+      fromDate: formatDate(betHistoryData.startDate),
+      toDate: formatDate(betHistoryData.endDate),
+      page: betHistoryData.currentPage || "1",
+      limit: betHistoryData.itemPerPage || "10",
+      dataSource: betHistoryData.dataSource,
+      dataType: betHistoryData.dataType,
+    });
+    console.log("res->>", response);
+    SetBetHistoryData((prevState) => ({
+      ...prevState,
+      dataHistory: response?.data,
+      totalPages: response?.pagination?.totalPages,
+      totalData: response?.pagination?.totalItems,
+    }));
+  }
+
   // For Game wise Profit Loss Data to show
   async function getProfitLossGameWise() {
     const response = await getProfitLossGame({
@@ -369,6 +396,7 @@ const AccountLandingModal = () => {
         SetBetHistoryData={SetBetHistoryData}
         formatDateForUi={formatDateForUi}
         dataType={betHistoryData.dataType}
+        dropdownOpen={betHistoryData.dropdownOpen}
       />
     );
   } else if (state.toggle === 5) {

@@ -479,3 +479,31 @@ export async function StatusChange(body = {}, isToast = false) {
     throw error;
   }
 }
+
+export async function getLotteryBetHistory(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.getLotteryBetHistory}/${body.userName}?page=${body.page}&limit=${body.limit}&startDate=${body.fromDate}&endDate=${body.toDate}&dataType=${body.dataSource}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getlotteryProfitLossEvent(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.getLotteryProfitLossEvent}/${body.userName}`, 
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
