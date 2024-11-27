@@ -217,7 +217,7 @@ export async function getUserProfileView(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
 
-    const response = await makeCall(
+    const response =   await makeCall(
       `${UrlConstant.UserProfileView}/${body.userName}`,
       callParams,
       isToast
