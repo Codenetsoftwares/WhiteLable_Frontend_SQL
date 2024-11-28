@@ -19,6 +19,7 @@ import View_AddCash_history from "./pages/View_AddCash_history";
 import Market_Analysis from "./pages/Market_Analysis";
 import User_BetMarket from "./pages/User_BetMarket";
 import BetHistoryForPl from "./profileAccount/BetHistoryForPl";
+import { DemoMarket_Analysis } from "./pages/DemoMarket_Analysis";
 // import WelcomePage from "./screen/WelcomePage";
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
               />
               <Route path="wallet" element={<Wallet />} />
               <Route path="CreateSubAdmin" element={<CreateSubAdmin />} />
+              <Route path="Demo" element={<DemoMarket_Analysis />} />
               <Route path="ViewAllSubAdmin" element={<SubAdminView />} />
               <Route
                 path="ViewSubAdminPermission/:id"
