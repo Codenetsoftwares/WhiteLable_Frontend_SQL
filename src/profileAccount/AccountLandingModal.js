@@ -21,6 +21,7 @@ import { accountStatementInitialState } from "../Utils/service/initiateState";
 import BetHistory from "./BetHistory";
 import ProfitAndLoss from "./ProfitAndLoss";
 import strings from "../Utils/constant/stringConstant";
+import Profit_Loss from "./Profit_loss";
 
 const AccountLandingModal = () => {
   const { userName } = useParams();
@@ -401,7 +402,7 @@ const AccountLandingModal = () => {
     );
   } else if (state.toggle === 5) {
     componentToRender = (
-      <ProfitAndLoss
+      <Profit_Loss
         props={state.profileView}
         UserName={userName}
         dataGameWise={profitLossData.dataGameWise}
