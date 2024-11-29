@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import Pagination from "../components/common/Pagination";
-import { Link } from "react-router-dom";
 import {
   getlotteryProfitLossEvent,
   getProfitLossEvent,
@@ -9,7 +8,7 @@ import {
 } from "../Utils/service/apiService";
 import ProfitAndLossEvent from "./ProfitAndLossEvent";
 import ProfitAndLossRunner from "./ProfitLossRunner";
-import BetHistoryForPl from "./BetHistoryForPl";
+import ProfitAndLossLotteryEvent from "./ProfitAndLossLotteryEvent"
 
 const ProfitAndLoss = ({
   UserName,
@@ -112,15 +111,16 @@ const ProfitAndLoss = ({
     const response = await getlotteryProfitLossEvent({
       userName: UserName,
       // gameId: gameId,
-      // limit: profitLossEventData.itemPerPage,  //Work pending by serverSide
-      searchName: profitLossEventData.searchItem,
+      pageNumber: profitLossLotteryEventData.currentPage,
+      dataLimit: profitLossLotteryEventData.itemPerPage, 
+      searchName: profitLossLotteryEventData.searchItem,
     });
     console.log("event=>>>", response);
     SetProfitLossLotteryEventData((prevState) => ({
       ...prevState,
-      data: response.data,
-      totalPages: response.pagination.totalPages,
-      totalData: response.pagination.totalItems,
+      data: response?.data,
+      totalPages: response?.pagination?.totalPages,
+      totalData: response?.pagination?.totalItems,
     }));
   }
 
@@ -150,7 +150,8 @@ const ProfitAndLoss = ({
       />
     );
   } else if (component === "ProfitAndLossLotteryEvent") {
-    <ProfitAndLossEvent
+    componentToRender = (
+    <ProfitAndLossLotteryEvent
       data={profitLossLotteryEventData}
       SetComponent={SetComponent}
       SetMarketId={SetMarketId}
@@ -158,7 +159,9 @@ const ProfitAndLoss = ({
       currentPage={profitLossLotteryEventData.currentPage}
       SetToggle={SetToggle}
       totalItems={profitLossLotteryEventData.totalData}
+        UserName={UserName}
     />
+    )
   } else {
 
   }

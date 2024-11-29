@@ -49,6 +49,7 @@ class UrlConstant {
   betList = `${this.url_dev}/get-colorGame-user-betList`;
   getLotteryBetHistory = `${this.url_dev}/${this.get}-lottery-bet-history`;
   getLotteryProfitLossEvent = `${this.url_dev}/lottery-profit-loss`;
+  betLotteryList = `${this.url_dev}/get-lottery-bet-history`;
 }
 
 const urls = new UrlConstant();

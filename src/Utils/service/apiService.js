@@ -498,7 +498,21 @@ export async function getlotteryProfitLossEvent(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.getLotteryProfitLossEvent}/${body.userName}`, 
+      `${UrlConstant.getLotteryProfitLossEvent}/${body.userName}?page=${body.pageNumber}&limit=${body.dataLimit}`, 
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getLotteryBetList(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.betLotteryList}/${body.userName}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
       callParams,
       isToast
     );

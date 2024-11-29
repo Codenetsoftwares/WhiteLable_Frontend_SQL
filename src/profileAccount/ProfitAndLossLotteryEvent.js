@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/common/Pagination";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ProfitAndLossLotteryEvent = ({
     data,
@@ -10,15 +11,14 @@ const ProfitAndLossLotteryEvent = ({
     currentPage,
     SetToggle,
     totalItems,
+    UserName
 }) => {
-    console.log("data", data);
+
+    const nav = useNavigate()
     const startIndex = Math.min((data.currentPage - 1) * 10 + 1);
     const endIndex = Math.min(data.currentPage * 10, data.totalData);
 
-    const handelGotoRunnerWiseProfitLoss = (marketId, componentName) => {
-        SetComponent(componentName);
-        SetMarketId(marketId);
-    };
+
     const handelItemPerPage = (event) => {
         console.log("event.target.value", event.target.value);
         SetProfitLossEventData((prevState) => ({
@@ -125,30 +125,29 @@ const ProfitAndLossLotteryEvent = ({
                                                                 className="text-primary fw-bold"
                                                                 style={{ cursor: "pointer" }}
                                                                 onClick={() => {
-                                                                    handelGotoRunnerWiseProfitLoss(
-                                                                        data.marketId,
-                                                                        "ProfitAndLossRunner"
+                                                                    nav(
+                                                                        `/betHistLotteryForPL/${UserName}`
                                                                     );
                                                                 }}
                                                             >
                                                                 {data?.marketName}
                                                             </td>
-                                                            <td>{data?.commission || "NDS"}</td>
+                                                            <td>{data?.commission || "0"}</td>
                                                             <td
-                                                                className={`fw-bold ${data?.totalProfitLoss > 0
-                                                                        ? "text-success"
-                                                                        : "text-danger"
+                                                                className={`fw-bold ${data?.profitLoss > 0
+                                                                    ? "text-success"
+                                                                    : "text-danger"
                                                                     }`}
                                                             >
-                                                                {data?.totalProfitLoss || "NDS"}
+                                                                {data?.profitLoss || "0"}
                                                             </td>
                                                             <td
-                                                                className={`fw-bold ${data?.totalProfitLoss > 0
-                                                                        ? "text-success"
-                                                                        : "text-danger"
+                                                                className={`fw-bold ${data?.profitLoss > 0
+                                                                    ? "text-success"
+                                                                    : "text-danger"
                                                                     }`}
                                                             >
-                                                                {data?.totalProfitLoss}
+                                                                {data?.profitLoss}
                                                             </td>
                                                         </tr>
                                                     ))
