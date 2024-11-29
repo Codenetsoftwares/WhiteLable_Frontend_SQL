@@ -479,3 +479,19 @@ export async function StatusChange(body = {}, isToast = false) {
     throw error;
   }
 }
+
+
+export async function GetLiveUsers(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.getLiveUsers}/${body.marketId}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
