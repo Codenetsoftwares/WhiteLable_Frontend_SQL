@@ -19,6 +19,7 @@ import View_AddCash_history from "./pages/View_AddCash_history";
 import Market_Analysis from "./pages/Market_Analysis";
 import User_BetMarket from "./pages/User_BetMarket";
 import BetHistoryForPl from "./profileAccount/BetHistoryForPl";
+import BetHistoryLotteryForPl from "./profileAccount/BetHistoryLotteryForPl";
 import { DemoMarket_Analysis } from "./pages/DemoMarket_Analysis";
 // import WelcomePage from "./screen/WelcomePage";
 
@@ -78,7 +79,12 @@ function App() {
                 path="/User_BetMarket/:marketId"
                 element={<User_BetMarket />}
               />
+              <Route
+                path="betHistLotteryForPL/:userName"
+                element={<BetHistoryLotteryForPl/>}
+              />
             </Route>
+            
           </Routes>
         </BrowserRouter>
       </AppProvider>

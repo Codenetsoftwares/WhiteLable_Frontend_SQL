@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import Pagination from "../components/common/Pagination";
-import { Link } from "react-router-dom";
 import {
+  getlotteryProfitLossEvent,
   getProfitLossEvent,
   getProfitLossRunner,
 } from "../Utils/service/apiService";
 import ProfitAndLossEvent from "./ProfitAndLossEvent";
 import ProfitAndLossRunner from "./ProfitLossRunner";
-import BetHistoryForPl from "./BetHistoryForPl";
+import ProfitAndLossLotteryEvent from "./ProfitAndLossLotteryEvent"
 
 const ProfitAndLoss = ({
   UserName,
@@ -46,6 +46,15 @@ const ProfitAndLoss = ({
     searchItem: "",
   });
 
+  const [profitLossLotteryEventData, SetProfitLossLotteryEventData] = useState({
+    data: [],
+    totalPages: 0,
+    totalData: 0,
+    currentPage: 1,
+    itemPerPage: 10,
+    searchItem: "",
+  });
+
   const [toggle, SetToggle] = useState(true);
   const [component, SetComponent] = useState(null);
   const [marketId, SetMarketId] = useState(null);
@@ -66,6 +75,7 @@ const ProfitAndLoss = ({
       totalData: response.pagination.totalItems,
     }));
   }
+
 
   useEffect(() => {
     if (marketId) getProfitLossRunnerWise();
@@ -93,6 +103,27 @@ const ProfitAndLoss = ({
       totalData: response.pagination.totalItems,
     }));
   }
+
+  async function getLotteryProfitLossEventWise(gameId, componentName) {
+    // if useEffcet  added give condition toggle must be false for end point to hit
+    SetToggle(false);
+    SetComponent(componentName);
+    const response = await getlotteryProfitLossEvent({
+      userName: UserName,
+      // gameId: gameId,
+      pageNumber: profitLossLotteryEventData.currentPage,
+      dataLimit: profitLossLotteryEventData.itemPerPage, 
+      searchName: profitLossLotteryEventData.searchItem,
+    });
+    console.log("event=>>>", response);
+    SetProfitLossLotteryEventData((prevState) => ({
+      ...prevState,
+      data: response?.data,
+      totalPages: response?.pagination?.totalPages,
+      totalData: response?.pagination?.totalItems,
+    }));
+  }
+
   console.log("component", component);
   let componentToRender;
   if (component === "ProfitAndLossEvent") {
@@ -118,7 +149,21 @@ const ProfitAndLoss = ({
         UserName={UserName}
       />
     );
+  } else if (component === "ProfitAndLossLotteryEvent") {
+    componentToRender = (
+    <ProfitAndLossLotteryEvent
+      data={profitLossLotteryEventData}
+      SetComponent={SetComponent}
+      SetMarketId={SetMarketId}
+      SetProfitLossEventData={SetProfitLossLotteryEventData}
+      currentPage={profitLossLotteryEventData.currentPage}
+      SetToggle={SetToggle}
+      totalItems={profitLossLotteryEventData.totalData}
+        UserName={UserName}
+    />
+    )
   } else {
+
   }
 
   const handelItemPerPage = (event) => {
@@ -282,10 +327,11 @@ const ProfitAndLoss = ({
                               {" "}
                               <td
                                 onClick={() =>
-                                  getProfitLossEventWise(
-                                    data?.gameId,
-                                    "ProfitAndLossEvent"
-                                  )
+                                  data?.gameName === "Lottery" ? getLotteryProfitLossEventWise(data?.gameId,
+                                    "ProfitAndLossLotteryEvent") : getProfitLossEventWise(
+                                      data?.gameId,
+                                      "ProfitAndLossEvent"
+                                    )
                                 }
                                 className="text-primary fw-bold"
                                 style={{ cursor: "pointer" }}
@@ -293,22 +339,20 @@ const ProfitAndLoss = ({
                                 {data?.gameName}
                               </td>
                               <td
-                                className={`fw-bold ${
-                                  data?.totalProfitLoss > 0
-                                    ? "text-success"
-                                    : "text-danger"
-                                }`}
+                                className={`fw-bold ${data?.totalProfitLoss > 0
+                                  ? "text-success"
+                                  : "text-danger"
+                                  }`}
                               >
                                 {data?.totalProfitLoss || "NDS"}
                               </td>
                               <td>{data?.commission || "NDS"}</td>
                               <td>
                                 <span
-                                  className={`fw-bold ${
-                                    data?.totalProfitLoss > 0
-                                      ? "text-success"
-                                      : "text-danger"
-                                  }`}
+                                  className={`fw-bold ${data?.totalProfitLoss > 0
+                                    ? "text-success"
+                                    : "text-danger"
+                                    }`}
                                 >
                                   {data?.totalProfitLoss}
                                 </span>
