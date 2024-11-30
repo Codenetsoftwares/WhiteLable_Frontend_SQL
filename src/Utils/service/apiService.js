@@ -217,7 +217,7 @@ export async function getUserProfileView(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
 
-    const response = await makeCall(
+    const response =   await makeCall(
       `${UrlConstant.UserProfileView}/${body.userName}`,
       callParams,
       isToast
@@ -442,7 +442,7 @@ export async function getUserGetMarket(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.get_user_BetMarket}/${body.marketId}/${body.userName}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
+      `${UrlConstant.get_user_BetMarket}/${body.marketId}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
       callParams,
       isToast
     );
@@ -479,3 +479,34 @@ export async function StatusChange(body = {}, isToast = false) {
     throw error;
   }
 }
+
+
+export async function GetLiveUsers(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.getLiveUsers}/${body.marketId}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function GetUsersBook(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.usersBook}/${body.marketId}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
