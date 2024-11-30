@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SingleCard from "../components/common/singleCard";
 import { getMarketWithRunnerDataInitialState } from "../Utils/service/initiateState";
-import { GetLiveUsers, getUserGetMarket } from "../Utils/service/apiService";
+import { GetLiveUsers, getUserGetMarket, GetUsersBook } from "../Utils/service/apiService";
 import { toast } from "react-toastify";
 import { customErrorHandler } from "../Utils/helper";
 import { useAppContext } from "../contextApi/context";
@@ -21,6 +21,9 @@ const User_BetMarket = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [nestedModalOpen, setNestedModalOpen] = useState(false);
   const [hierarchyData, setHierarchyData] = useState([]);
+  const [userBookModalOpen, setUserBookModalOpen] = useState(false);
+  const [userBookData, setUserBookData] = useState([]);
+
   console.log("====>>> response from line 24", hierarchyData);
 
   // Function to open the modal
@@ -34,6 +37,9 @@ const User_BetMarket = () => {
 
   // Function to close the nested modal
   const handleCloseNestedModal = () => setNestedModalOpen(false);
+
+  const handleOpenUserBookModal = () => setUserBookModalOpen(true);
+  const handleCloseUserBookModal = () => setUserBookModalOpen(false);
 
   useEffect(() => {
     const fetchLiveUsers = async () => {
@@ -55,6 +61,21 @@ const User_BetMarket = () => {
         marketId: marketId,
       });
       setUser_marketWithRunnerData(response.data);
+    } catch (error) {
+      toast.error(customErrorHandler(error));
+    }
+  }
+
+
+  async function fetchUserBookData() {
+    try {
+      const response = await GetUsersBook({ marketId });
+      if (response?.success) {
+        setUserBookData(response.data);
+        handleOpenUserBookModal();
+      } else {
+        toast.error("Failed to fetch user book data.");
+      }
     } catch (error) {
       toast.error(customErrorHandler(error));
     }
@@ -256,6 +277,7 @@ const User_BetMarket = () => {
                     <button
                       className="btn text-white fw-bolder px-5"
                       style={{ background: "#1D5E6C" }}
+                      onClick={fetchUserBookData}
                     >
                       User Book
                     </button>
@@ -353,6 +375,42 @@ const User_BetMarket = () => {
                   </a>
                 </p>
               </div>
+            </div>
+          }
+        />
+
+<ReusableModal
+          isOpen={userBookModalOpen}
+          onClose={handleCloseUserBookModal}
+          title="User Book Data"
+          bodyContent={
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>Bet Amount</th>
+                    <th>Profit/Loss</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userBookData?.length > 0 ? (
+                    userBookData.map((user, index) => (
+                      <tr key={index}>
+                        <td>{user.userName}</td>
+                        <td>{user.betAmount}</td>
+                        <td>{user.profitOrLoss}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="text-center">
+                        No data available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           }
         />

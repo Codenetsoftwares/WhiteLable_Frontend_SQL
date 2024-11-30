@@ -495,3 +495,18 @@ export async function GetLiveUsers(body = {}, isToast = false) {
   }
 }
 
+
+export async function GetUsersBook(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.usersBook}/${body.marketId}`,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
