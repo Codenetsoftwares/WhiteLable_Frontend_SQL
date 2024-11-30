@@ -3,11 +3,16 @@ import { Link, useParams } from "react-router-dom";
 import { getLotteryBetList } from "../Utils/service/apiService";
 
 const BetHistoryLotteryForPl = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(null);
   const [betList, SetBetList] = useState([]);
   const { userName, runnerId } = useParams();
   console.log("userName", userName, runnerId);
-
+  
+  const toggleDropdown = (id) => {
+    setDropdownOpen(dropdownOpen === id ? null : id);
+  };
   const fetchBetList = async () => {
+
     const response = await getLotteryBetList({
       userName: userName,
     });
@@ -18,18 +23,20 @@ const BetHistoryLotteryForPl = () => {
     fetchBetList();
   }, []);
 
+
+
   console.log("betList", betList);
 
   return (
     <div className="m-4">
       <div className="d-flex justify-content-end gap-1">
-        <button style={{ background: "#51c1e0", border: "1px solid black" }}>
+        {/* <button style={{ background: "#51c1e0", border: "1px solid black" }}>
           Back
         </button>
         <button style={{ background: "#f5b8eb", border: "1px solid black" }}>
           Lay
         </button>
-        <button style={{ border: "1px solid black" }}>Void</button>
+        <button style={{ border: "1px solid black" }}>Void</button> */}
       </div>
       <div className="card w-100 mt-3">
         <div
@@ -56,37 +63,34 @@ const BetHistoryLotteryForPl = () => {
                         className="fw-bold"
                       >
                         <th scope="col">
+                          <b>User Name</b>
+                        </th>
+                        <th scope="col">
                           <b>Sport Name</b>
                         </th>
                         <th scope="col">
-                          <b>Event Name</b>
+                          <b>Event</b>
                         </th>
                         <th scope="col">
-                          <b>Market Name</b>
+                          <b>Market</b>
                         </th>
                         <th scope="col">
-                          <b>Runner Name</b>
+                          <b>Ticket</b>
                         </th>
                         <th scope="col">
-                          <b>Bet Type</b>
+                          <b>Sem</b>
                         </th>
                         <th scope="col">
-                          <b>User Price</b>
+                          <b>Ticket Price</b>
                         </th>
                         <th scope="col">
                           <b>Amount</b>
                         </th>
                         <th scope="col">
-                          <b>PL</b>
+                          <b>Place Time</b>
                         </th>
                         <th scope="col">
-                          <b>Place Date</b>
-                        </th>
-                        <th scope="col">
-                          <b>Match Date</b>
-                        </th>
-                        <th scope="col">
-                          <b>Details</b>
+                          <b>Settle Time</b>
                         </th>
                       </tr>
                       {betList.length > 0 ? (
@@ -96,26 +100,74 @@ const BetHistoryLotteryForPl = () => {
                             align="center"
                             style={{ backgroundColor: "#accafa" }}
                           >
-                            <td>{data.gameName}</td>
-                            <td>{data.marketName}</td>
+                            <td>{data?.userName}</td>
+                            <td>{data?.gameName}</td>
+                            <td>{data?.marketName}</td>
                             <td>{"WINNER"}</td>
-                            <td>{data.runnerName}</td>
-                            <td>{data.type}</td>
-                            <td className="fw-bold">{data.rate}</td>
-                            <td className="fw-bold">{data.value}</td>
                             <td>
-                              <span className="text-success fw-bold">
-                                {Math.round(data.bidAmount)}
-                              </span>
-                              <span className="text-danger fw-bold">
-                                (-{Math.round(data.value)})
-                              </span>
+                              <div className="dropdown" style={{ position: "relative" }}>
+                                <button
+                                  className="btn btn-link dropdown-toggle"
+                                  type="button"
+                                  onClick={() => toggleDropdown(index)}
+                                >
+                                  View Tickets
+                                </button>
+                                <div
+                                  className="custom-dropdown-content"
+                                  style={{
+                                    height: dropdownOpen === index ? "200px" : "0",
+                                    overflow: dropdownOpen === index ? "auto" : "hidden",
+                                    transition: "height 0.3s ease",
+                                    background: "white",
+                                    border: "1px solid #ccc",
+                                    borderRadius: "4px",
+                                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                                  }}
+                                >
+                                  {dropdownOpen === index && (
+                                    <div
+                                      style={{
+                                        maxHeight: "200px", // Sets the maximum height
+                                        // overflowY: "auto", // Enables scrolling if necessary
+                                        padding: "10px", // Optional: Space inside the dropdown
+                                      }}
+                                    >
+                                      <span style={{ fontWeight: "bold", display: "block", marginBottom: "5px" }}>
+                                        Ticket Numbers:
+                                      </span>
+                                      <hr style={{ margin: "5px 0", borderColor: "#ddd" }} />
+                                      {data?.tickets?.length > 0 ? (
+                                        data?.tickets?.map((number, i) => (
+                                          <span
+                                            key={i}
+                                            style={{
+                                              display: "block",
+                                              padding: "5px 10px",
+                                              borderBottom: "1px solid #eee",
+                                              color: "#333",
+                                            }}
+                                          >
+                                            {number}
+                                          </span>
+                                        ))
+                                      ) : (
+                                        <span style={{ color: "#999", fontStyle: "italic" }}>
+                                          No ticket numbers available
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+
+                              </div>
                             </td>
-                            <td>{"NDS"}</td>
-                            <td>{"NDS"}</td>
-                            <td>
-                              <Link>Info</Link>
-                            </td>
+                            <td>{data?.sem}</td>
+                            <td>{data?.ticketPrice}</td>
+                            <td className="fw-bold">{data?.amount}</td>
+                            {/* <td>{formatDateForUi(data?.placeDate)}</td>
+                            <td>{formatDateForUi(data?.date)}</td> */}
+                            <Link>Info</Link>
                           </tr>
                         ))
                       ) : (

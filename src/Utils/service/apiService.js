@@ -510,7 +510,7 @@ export async function getlotteryProfitLossEvent(body = {}, isToast = false) {
 
 export async function getLotteryBetList(body = {}, isToast = false) {
   try {
-    const callParams = await getAuthCallParams(strings.POST, body, isToast);
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
       `${UrlConstant.betLotteryList}/${body.userName}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
       callParams,

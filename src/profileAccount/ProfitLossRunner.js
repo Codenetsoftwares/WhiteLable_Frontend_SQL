@@ -81,9 +81,13 @@ const ProfitAndLossRunner = ({
                   className="d-flex justify-content-center align-items-center"
                   style={{ height: "100px" }}
                 >
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+                  <tr align="center">
+                    <td colSpan="10"> {/* Fixed typo from colspan="10" to colSpan="10" */}
+                      <div className="alert alert-info fw-bold" role="alert">
+                        No Data Found !!
+                      </div>
+                    </td>
+                  </tr>
                 </div>
               ) : (
                 // Table

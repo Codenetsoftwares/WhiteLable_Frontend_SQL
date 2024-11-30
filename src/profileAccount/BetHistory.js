@@ -21,6 +21,9 @@ const BetHistory = ({
   dataType,
   dropdownOpen,
 }) => {
+
+  
+
   const handelGameId = (event) => {
     setData((prevState) => ({
       ...prevState,
