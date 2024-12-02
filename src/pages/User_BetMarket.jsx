@@ -386,31 +386,36 @@ const User_BetMarket = () => {
           bodyContent={
             <div className="table-responsive">
               <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>User Name</th>
-                    <th>Bet Amount</th>
-                    <th>Profit/Loss</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userBookData?.length > 0 ? (
-                    userBookData.map((user, index) => (
-                      <tr key={index}>
-                        <td>{user.userName}</td>
-                        <td>{user.betAmount}</td>
-                        <td>{user.profitOrLoss}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="3" className="text-center">
-                        No data available
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Role</th>
+      <th>{userBookData?.length > 0 && userBookData[0].runnerBalance?.[0]?.runnerName}</th> {/* Dynamically get the runnerName A */}
+      {/* <th> The Draw</th> */}
+      <th>{userBookData?.length > 0 && userBookData[0].runnerBalance?.[1]?.runnerName}</th> {/* Dynamically get the runnerName B */}
+    </tr>
+  </thead>
+  <tbody>
+    {userBookData?.length > 0 ? (
+      userBookData.map((user, index) => (
+        <tr key={index}>
+          <td>{user.userName}</td>
+          <td>USER</td>
+          <td>{user.runnerBalance?.[0]?.bal}</td> 
+          {/* <td>{user.runnerBalance?.[0]?.bal + user.runnerBalance?.[1]?.bal}</td>  */}
+          <td>{user.runnerBalance?.[1]?.bal}</td> 
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="5" className="text-center">
+          No data available
+        </td>
+      </tr>
+    )}
+  </tbody>
+</table>
+
             </div>
           }
         />
