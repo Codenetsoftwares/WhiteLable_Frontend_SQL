@@ -12,7 +12,7 @@ const BetHistoryForPl = () => {
       userName: userName,
       runnerId: runnerId,
     });
-    SetBetList(response.data);
+    SetBetList(response?.data);
   };
 
   useEffect(() => {
@@ -90,8 +90,8 @@ const BetHistoryForPl = () => {
                           <b>Details</b>
                         </th>
                       </tr>
-                      {betList.length > 0 ? (
-                        betList.map((data, index) => (
+                      {betList?.length > 0 ? (
+                        betList?.map((data, index) => (
                           <tr
                             key={index}
                             align="center"
