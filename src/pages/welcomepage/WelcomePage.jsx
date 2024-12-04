@@ -10,7 +10,7 @@ const WelcomePage = () => {
     <div>
       <div className="WelcomePage">
         <header className="App-header">
-          <h1 className="animated-header">Welcome to Whitelabel Application</h1>
+          <h1 className="animated-header">Welcome to WhiteLabel Application</h1>
           <p className="text-dark">
             Manage your transactions efficiently and effectively.
           </p>

@@ -99,7 +99,7 @@ const Card = ({
         action: action,
       });
       if (response.successCode) {
-        console.log(response);
+        console.log("response", response);
         navigate(`/hierarchyView/${userName}`);
       }
     }
@@ -385,11 +385,11 @@ const Card = ({
               </span>
             ) : null}
 
-            <span className="mx-1">
+            {/* <span className="mx-1">
               <button className="btn border border-2 rounded" title="Wallet">
                 <i class="fa-regular fas fa-wallet"></i>
               </button>
-            </span>
+            </span> */}
           </td>
         </tr>
       </tbody>

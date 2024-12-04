@@ -20,7 +20,7 @@ const Wallet = () => {
   const [modalShow, setModalShow] = useState(false);
   const [differentiate, setDifferentiate] = useState('');
   const [refresh, setRefresh] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [adminDelete, setAdminDelete] = useState('');
 
   //  debounced search handler
@@ -84,6 +84,7 @@ const Wallet = () => {
         totalPages: response?.pagination?.totalPages,
         totalData: response?.pagination?.totalRecords,
       }));
+      setIsLoading(false);
     }
   }
 
@@ -110,7 +111,7 @@ const Wallet = () => {
 
   return (
     <div >
-      <FullScreenLoader show={isLoading} />
+      
       <div className="row ">
         <h2
           className="text-center font-weight-bold mb-4"
@@ -188,128 +189,100 @@ const Wallet = () => {
             </div>
           </div>
           <div className="QA_table mb_30" style={{ overflow: 'y-scroll' }}>
-            {walletCard?.userList?.length > 0 ? (
-              <>
-                <table className="table lms_table_active3 table-bordered table-sm">
-                  <thead
-                    style={{
-                      height: '10px',
-                      backgroundColor: '#006699',
-                      color: 'white',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    <tr>
-                      <th scope="col" className="text-bolder fs-6" style={{ fontWeight: 'bold', color: 'white' }}>
-                        Username
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                      >
-                        Credit Ref.
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                      >
-                        Partnership
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                      >
-                        Balance
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                      >
-                        Exposure
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                      >
-                        Avail. Bal.
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                      >
-                        Ref. P/L
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                      >
-                        Status
-                      </th>
-                      <th
-                        scope="col"
-                        className="text-bolder fs-6 text-center"
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                      >
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  {walletCard.userList.map((data, i) => {
-                    console.log("dtttta", data)
-                    const creditRefLength = data.creditRefs.length;
-                    const partnershipLength = data.partnerships.length;
-                    return (
-                      <Card
-                        userName={data.userName}
-                        role={data.roles[0].role}
-                        key={data.id}
-                        creditRef={data?.creditRefs[creditRefLength - 1]?.value}
-                        balance={data.balance}
-                        loadBalance={data.loadBalance}
-                        refProfitLoss={data.refProfitLoss}
-                        adminId={data.adminId}
-                        userId={data.adminId} // pending for decision TOM
-                        exposure={data.exposure}
-                        partnership={
-                          data?.partnerships[partnershipLength - 1]?.value
-                        }
-                        Status={data.status}
-                        creditRefLength={creditRefLength}
-                        partnershipLength={partnershipLength}
-                        callingParent="Wallet"
-                        setRefresh={setRefresh}
-                        adminDelete={setAdminDelete}
-                        setIsLoading={setIsLoading}
-                      />
-                    );
-                  })}
-                </table>
-                <div>
-                  <Pagination
-                    currentPage={walletCard.currentPage}
-                    totalPages={walletCard.totalPages}
-                    handlePageChange={handlePageChange}
-                    startIndex={startIndex}
-                    endIndex={endIndex}
-                    totalData={walletCard.totalData}
-                  />
-                </div>
-              </>
-            ) : (
-              <div className="alert text-dark bg-light" role="alert">
-                <div className="alert-text d-flex justify-content-center">
-                  <b> &#128680; No Data Found !! </b>
-                </div>
-              </div>
-            )}
-          </div>
+  <table className="table lms_table_active3 table-bordered table-sm">
+    <thead
+      style={{
+        height: '10px',
+        backgroundColor: '#006699',
+        color: 'white',
+        fontWeight: 'bold',
+      }}
+    >
+      <tr>
+        <th scope="col" className="text-bolder fs-6" style={{ fontWeight: 'bold', color: 'white' }}>
+          Username
+        </th>
+        <th scope="col" className="text-bolder fs-6 text-center" style={{ fontWeight: 'bold', color: 'white' }}>
+          Credit Ref.
+        </th>
+        <th scope="col" className="text-bolder fs-6 text-center" style={{ fontWeight: 'bold', color: 'white' }}>
+          Partnership
+        </th>
+        <th scope="col" className="text-bolder fs-6 text-center" style={{ fontWeight: 'bold', color: 'white' }}>
+          Balance
+        </th>
+        <th scope="col" className="text-bolder fs-6 text-center" style={{ fontWeight: 'bold', color: 'white' }}>
+          Exposure
+        </th>
+        <th scope="col" className="text-bolder fs-6 text-center" style={{ fontWeight: 'bold', color: 'white' }}>
+          Avail. Bal.
+        </th>
+        <th scope="col" className="text-bolder fs-6 text-center" style={{ fontWeight: 'bold', color: 'white' }}>
+          Ref. P/L
+        </th>
+        <th scope="col" className="text-bolder fs-6 text-center" style={{ fontWeight: 'bold', color: 'white' }}>
+          Status
+        </th>
+        <th scope="col" className="text-bolder fs-6 text-center" style={{ fontWeight: 'bold', color: 'white' }}>
+          Actions
+        </th>
+      </tr>
+    </thead>
+    {isLoading ? (<tr>
+        <td colSpan="9" className="text-center" >
+          Loading...
+        </td>
+      </tr>) : walletCard?.userList?.length > 0 ? (
+      <>
+        { walletCard.userList.map((data, i) => {
+          const creditRefLength = data.creditRefs.length;
+          const partnershipLength = data.partnerships.length;
+          return (
+            <Card
+              key={data.id}
+              userName={data.userName}
+              role={data.roles[0].role}
+              creditRef={data?.creditRefs[creditRefLength - 1]?.value}
+              balance={data.balance}
+              loadBalance={data.loadBalance}
+              refProfitLoss={data.refProfitLoss}
+              adminId={data.adminId}
+              userId={data.adminId} // pending for decision TOM
+              exposure={data.exposure}
+              partnership={data?.partnerships[partnershipLength - 1]?.value}
+              Status={data.status}
+              creditRefLength={creditRefLength}
+              partnershipLength={partnershipLength}
+              callingParent="Wallet"
+              setRefresh={setRefresh}
+              adminDelete={setAdminDelete}
+              setIsLoading={setIsLoading}
+            />
+          );
+        })}
+      </>
+    ) : (
+      <div className="alert text-dark bg-light" role="alert">
+        <div className="alert-text d-flex justify-content-center">
+          <b> &#128680; No Data Found !! </b>
+        </div>
+      </div>
+    )}
+  </table>
+  {walletCard?.userList?.length > 0 && (
+    <div>
+      <Pagination
+        currentPage={walletCard.currentPage}
+        totalPages={walletCard.totalPages}
+        handlePageChange={handlePageChange}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        totalData={walletCard.totalData}
+      />
+    </div>
+  )}
+</div>
+
         </div>
       </div>
       <CustomTransactionModal
