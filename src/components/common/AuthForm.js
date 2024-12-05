@@ -72,6 +72,7 @@ const Authform = ({ purpose, authFormApi }) => {
     setIsLoading(true);
     const response = await authFormApi(values, true);
     console.log("res from login", response);
+
     if (purpose === "login" && response) {
       dispatch({
         type: strings.LOG_IN,
@@ -188,20 +189,6 @@ const Authform = ({ purpose, authFormApi }) => {
                       </a>
                     )}
 
-                    {purpose === "login" && (
-                      <div className="text-center">
-                        <p></p>
-                        <a
-                          href="#"
-                          data-toggle="modal"
-                          data-target="#forgot_password"
-                          data-dismiss="modal"
-                          className="pass_forget_btn"
-                        >
-                          Forget Password?
-                        </a>
-                      </div>
-                    )}
                   </form>
                 </div>
               </div>

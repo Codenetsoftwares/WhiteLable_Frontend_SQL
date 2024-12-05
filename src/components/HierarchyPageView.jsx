@@ -14,7 +14,7 @@ const HierarchyPageView = () => {
   const { store } = useAppContext();
   const [hierarchyData, setHierarchyData] = useState([]);
   const [pathData, setPathData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState('');
   const [demoData, setDemoData] = useState(getHierarchyState);
   const [totalData, setTotalData] = useState(0);
@@ -61,7 +61,7 @@ const HierarchyPageView = () => {
       console.log('Response=>> HIERECHY', res.data);
       setHierarchyData(res.data.userDetails.createdUsers);
       setPathData(res.data.path);
-      setIsLoading(true);
+      setIsLoading(false);
       setPaginationData({
         ...paginationData,
         currentPage: res.data.page,
@@ -200,7 +200,7 @@ const HierarchyPageView = () => {
                   </div>
 
                   <div class="QA_table mb_30">
-                    {hierarchyData?.length > 0 ? (
+                    {isLoading ? (<div className='text-center'>Loading...</div>) : hierarchyData?.length > 0 ? (
                       <>
                         {' '}
                         <table class="table lms_table_active table-bordered">

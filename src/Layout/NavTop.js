@@ -55,7 +55,7 @@ const NavTop = () => {
               <div className="sidebar_icon d-lg-none">
                 <i className="ti-menu"></i>
               </div>
-              <div className="line_icon open_miniSide d-none d-lg-block">
+              <div className="line_icon open_miniSide d-none d-lg-block" style={{cursor : "pointer"}} onClick={() => navigate(-1)}>
                 <img src="../../img/line_img.png" alt="" />
               </div>
               <div className="header_right d-flex justify-content-between align-items-center">
