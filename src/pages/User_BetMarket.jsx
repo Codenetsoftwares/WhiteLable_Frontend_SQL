@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import SingleCard from "../components/common/singleCard";
 import { getMarketWithRunnerDataInitialState } from "../Utils/service/initiateState";
-import { GetLiveUsers, getUserGetMarket, GetUsersBook } from "../Utils/service/apiService";
+import {
+  GetLiveUsers,
+  getUserGetMarket,
+  GetUsersBook,
+} from "../Utils/service/apiService";
 import { toast } from "react-toastify";
 import { customErrorHandler } from "../Utils/helper";
 import { useAppContext } from "../contextApi/context";
@@ -23,8 +27,9 @@ const User_BetMarket = () => {
   const [hierarchyData, setHierarchyData] = useState([]);
   const [userBookModalOpen, setUserBookModalOpen] = useState(false);
   const [userBookData, setUserBookData] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
-  console.log("====>>> response from line 24", hierarchyData);
+  console.log("====>>> response from line 24", selectedUsers);
 
   // Function to open the modal
   const handleOpenModal = () => setModalOpen(true);
@@ -32,14 +37,55 @@ const User_BetMarket = () => {
   // Function to close the modal
   const handleCloseModal = () => setModalOpen(false);
 
-  // Function to open the nested modal
-  const handleOpenNestedModal = () => setNestedModalOpen(true);
+  // Function to open the nested modal 
+  const handleOpenNestedModal = (subAdminIndex) => {
+    const selectedSubAdmins = hierarchyData?.subAdminsAndUsers?.slice(0, 2); // Get both the 0 and 1 index
+    console.log("====>>>> response line 43", selectedSubAdmins);
+
+    if (selectedSubAdmins && selectedSubAdmins.length > 0) {
+      const userInfoList = selectedSubAdmins.map((selectedSubAdmin) => {
+        if (selectedSubAdmin?.createdById === store?.admin.id) {
+          const usersData = selectedSubAdmin.users || [];
+
+          if (usersData.length > 0) {
+            const selectedUser = usersData[0];
+
+            // Extract the runnerBalance
+            const runnerBalance = selectedUser?.runnerBalance || [];
+
+            // Return the userInfo for the sub-admin
+            return {
+              userName: selectedUser?.userName || "N/A",
+              runnerBalance: runnerBalance,
+              adminName: selectedSubAdmin.subAdmins || "N/A",
+            };
+          }
+        }
+        return null;
+      });
+
+      // Filter out null values (in case some subAdmins don't have valid users)
+      const filteredUserInfo = userInfoList.filter((info) => info !== null);
+
+      if (filteredUserInfo.length > 0) {
+        setSelectedUsers(filteredUserInfo);
+      } else {
+        setSelectedUsers([]);
+      }
+    } else {
+      setSelectedUsers([]);
+    }
+
+    setNestedModalOpen(true);
+  };
 
   // Function to close the nested modal
   const handleCloseNestedModal = () => setNestedModalOpen(false);
 
   const handleOpenUserBookModal = () => setUserBookModalOpen(true);
   const handleCloseUserBookModal = () => setUserBookModalOpen(false);
+
+  // this is the data from masterBook
 
   useEffect(() => {
     const fetchLiveUsers = async () => {
@@ -65,7 +111,6 @@ const User_BetMarket = () => {
       toast.error(customErrorHandler(error));
     }
   }
-
 
   async function fetchUserBookData() {
     try {
@@ -97,7 +142,7 @@ const User_BetMarket = () => {
     let nextUser = null;
 
     // Iterate over the createdByHierarchy data
-    hierarchyData?.[0]?.createdByHierarchy.forEach((user, index) => {
+    hierarchyData?.[0]?.subAdminsAndUsers.forEach((user, index) => {
       if (
         store?.admin?.id === adminId &&
         hierarchyData?.[0]?.createdByHierarchy[index + 1]
@@ -361,61 +406,90 @@ const User_BetMarket = () => {
         <ReusableModal
           isOpen={nestedModalOpen}
           onClose={handleCloseNestedModal}
-          title="Live Users Data"
+          title="User Details"
           bodyContent={
             <div className="table-responsive">
-              <div>
-                <p>
-                  Next User:{" "}
-                  <a
-                    href="#!"
-                    onClick={() => alert(`Navigating to ${nextUserName}`)}
-                  >
-                    {nextUserName}
-                  </a>
-                </p>
-              </div>
+              {/* Display data for both sub-admins */}
+              {selectedUsers?.map((userInfo, index) => (
+                <div key={index}>
+                  {/* Display adminName (testhyper) above the table */}
+                  <h5>{userInfo.adminName}</h5>
+
+                  {/* Display user table for runnerBalance */}
+                  <table className="table table-bordered text-center">
+                    <thead>
+                      <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        {userInfo.runnerBalance.map((runner, runnerIndex) => (
+                          <th key={runnerIndex}>{runner.runnerName}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        {/* Display the userName */}
+                        <td>{userInfo.userName}</td>
+                        {/* You can dynamically assign role if available */}
+                        <td>user</td>
+                        {userInfo.runnerBalance.map((balance, balanceIndex) => (
+                          <td key={balanceIndex}>{balance.bal}</td>
+                        ))}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+
+              {/* Optionally, add an "Open Next Nested Modal" button here */}
             </div>
           }
         />
 
-<ReusableModal
+        <ReusableModal
           isOpen={userBookModalOpen}
           onClose={handleCloseUserBookModal}
           title="User Book Data"
           bodyContent={
             <div className="table-responsive">
               <table className="table table-bordered">
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Role</th>
-      <th>{userBookData?.length > 0 && userBookData[0].runnerBalance?.[0]?.runnerName}</th> {/* Dynamically get the runnerName A */}
-      {/* <th> The Draw</th> */}
-      <th>{userBookData?.length > 0 && userBookData[0].runnerBalance?.[1]?.runnerName}</th> {/* Dynamically get the runnerName B */}
-    </tr>
-  </thead>
-  <tbody>
-    {userBookData?.length > 0 ? (
-      userBookData.map((user, index) => (
-        <tr key={index}>
-          <td>{user.userName}</td>
-          <td>USER</td>
-          <td>{user.runnerBalance?.[0]?.bal}</td> 
-          {/* <td>{user.runnerBalance?.[0]?.bal + user.runnerBalance?.[1]?.bal}</td>  */}
-          <td>{user.runnerBalance?.[1]?.bal}</td> 
-        </tr>
-      ))
-    ) : (
-      <tr>
-        <td colSpan="5" className="text-center">
-          No data available
-        </td>
-      </tr>
-    )}
-  </tbody>
-</table>
-
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>
+                      {userBookData?.length > 0 &&
+                        userBookData[0].runnerBalance?.[0]?.runnerName}
+                    </th>{" "}
+                    {/* Dynamically get the runnerName A */}
+                    {/* <th> The Draw</th> */}
+                    <th>
+                      {userBookData?.length > 0 &&
+                        userBookData[0].runnerBalance?.[1]?.runnerName}
+                    </th>{" "}
+                    {/* Dynamically get the runnerName B */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {userBookData?.length > 0 ? (
+                    userBookData.map((user, index) => (
+                      <tr key={index}>
+                        <td>{user.userName}</td>
+                        <td>USER</td>
+                        <td>{user.runnerBalance?.[0]?.bal}</td>
+                        {/* <td>{user.runnerBalance?.[0]?.bal + user.runnerBalance?.[1]?.bal}</td>  */}
+                        <td>{user.runnerBalance?.[1]?.bal}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center">
+                        No data available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           }
         />
