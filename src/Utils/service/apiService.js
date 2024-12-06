@@ -156,15 +156,13 @@ export async function createSubAdmin(body = {}, isToast = false) {
   }
 }
 
-export async function getAllSubAdminCreate(body = {}, isToast = false) {
+export async function getAllSubAdminCreate(body = {}) {
   try {
-    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const callParams = await getAuthCallParams(strings.GET, body);
     const response = await makeCall(
       `${UrlConstant.allSubAdmin}/${body._id}?page=${body.pageNumber}&pageSize=${body.dataLimit}&userName=${body.name}`,
       callParams,
-      isToast
-    );
-
+      );
     return response;
   } catch (error) {
     throw error;

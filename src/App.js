@@ -21,6 +21,8 @@ import User_BetMarket from "./pages/User_BetMarket";
 import BetHistoryForPl from "./profileAccount/BetHistoryForPl";
 import BetHistoryLotteryForPl from "./profileAccount/BetHistoryLotteryForPl";
 import { DemoMarket_Analysis } from "./pages/DemoMarket_Analysis";
+import PrivateRoute from "./components/common/privateRoute";
+import NotFound from "./components/common/notFound";
 // import WelcomePage from "./screen/WelcomePage";
 
 function App() {
@@ -43,7 +45,7 @@ function App() {
           <Routes>
             <Route index path="/" element={<Navigate to="/login" />} />
             <Route path = "/login" element={<Login/>} />
-            <Route path="/" element={<AdminLayout />}>
+            <Route path="/" element={<PrivateRoute><AdminLayout /></PrivateRoute>}>
               <Route path="welcome" element={<WelcomePage />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
               <Route
@@ -59,33 +61,33 @@ function App() {
                 path="/account-landing/:userName"
                 element={<AccountLandingModal />}
               />
-              <Route path="wallet" element={<Wallet />} />
-              <Route path="CreateSubAdmin" element={<CreateSubAdmin />} />
-              <Route path="Demo" element={<DemoMarket_Analysis />} />
-              <Route path="ViewAllSubAdmin" element={<SubAdminView />} />
+              <Route path="wallet" element={<PrivateRoute><Wallet /></PrivateRoute>} />
+              <Route path="CreateSubAdmin" element={<PrivateRoute><CreateSubAdmin /></PrivateRoute>} />
+              <Route path="Demo" element={<PrivateRoute><DemoMarket_Analysis /></PrivateRoute>} />
+              <Route path="ViewAllSubAdmin" element={<PrivateRoute><SubAdminView /></PrivateRoute>} />
               <Route
                 path="ViewSubAdminPermission/:id"
-                element={<ViewSubAdminPermission />}
+                element={<PrivateRoute><ViewSubAdminPermission /></PrivateRoute>}
               />
               <Route
                 path="View_AddCash_history"
-                element={<View_AddCash_history />}
+                element={<PrivateRoute><View_AddCash_history /></PrivateRoute>}
               />
-              <Route path="Market_analysis" element={<Market_Analysis />} />
+              <Route path="Market_analysis" element={<PrivateRoute><Market_Analysis /></PrivateRoute>} />
               <Route
                 path="betHistForPL/:userName/:runnerId"
-                element={<BetHistoryForPl />}
+                element={<PrivateRoute><BetHistoryForPl /></PrivateRoute>}
               />
               <Route
                 path="/User_BetMarket/:marketId"
-                element={<User_BetMarket />}
+                element={<PrivateRoute><User_BetMarket /></PrivateRoute>}
               />
               <Route
                 path="betHistLotteryForPL/:userName"
-                element={<BetHistoryLotteryForPl/>}
+                element={<PrivateRoute><BetHistoryLotteryForPl/></PrivateRoute>}
               />
             </Route>
-            
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </AppProvider>

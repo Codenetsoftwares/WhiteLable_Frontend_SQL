@@ -213,7 +213,7 @@ const Navside = () => {
                       <img src="../../img/menu-icon/dashboard.svg" alt="" />
                     </div>
                     <div className="nav_title">
-                      <span>User Role</span>
+                      <span>Sub Admin</span>
                     </div>
                   </a>
                 </li>
@@ -224,7 +224,7 @@ const Navside = () => {
                       <img src="../../img/menu-icon/dashboard.svg" alt="" />
                     </div>
                     <div>
-                      <span>User Role</span>
+                      <span>Sub Admin</span>
                     </div>
                   </a>
                   <ul className="d-flex flex-column ml-0">

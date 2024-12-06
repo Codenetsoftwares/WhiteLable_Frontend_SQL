@@ -62,8 +62,8 @@ const SubAdminView = () => {
       setSubAdminData({
         ...subAdminData,
         userList: response.data,
-        totalPages: response.pagination.totalPages,
-        totalData: response.pagination.totalRecords,
+        totalPages: response?.pagination?.totalPages,
+        totalData: response?.pagination?.totalRecords,
       });
     }
   }
@@ -247,6 +247,14 @@ const SubAdminView = () => {
                             ))}
                           </tbody>
                         </table>
+                        <Pagination
+          currentPage={subAdminData.currentPage}
+          totalPages={subAdminData.totalPages}
+          handlePageChange={handlePageChange}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          totalData={subAdminData.totalData}
+        />
                       </React.Fragment>
                     ) : (
                       <div className="alert text-dark bg-light" role="alert">
@@ -261,14 +269,7 @@ const SubAdminView = () => {
             </div>
           </div>
         </div>
-        <Pagination
-          currentPage={subAdminData.currentPage}
-          totalPages={subAdminData.totalPages}
-          handlePageChange={handlePageChange}
-          startIndex={startIndex}
-          endIndex={endIndex}
-          totalData={subAdminData.totalData}
-        />
+        
 
         <StatusModal
           show={showModal}

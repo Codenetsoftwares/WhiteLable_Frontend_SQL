@@ -1,6 +1,7 @@
 export function getAdminInitialState(body = {}) {
   return {
     accessToken: body?.accessToken ?? "",
+    isLogin: body.isLogin ?? false,
     status: body?.status ?? "",
     adminName: body?.userName ?? "",
     id: body?.adminId ?? "",
