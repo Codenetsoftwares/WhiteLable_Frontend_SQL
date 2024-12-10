@@ -28,6 +28,7 @@ const User_BetMarket = () => {
   const [userBookModalOpen, setUserBookModalOpen] = useState(false);
   const [userBookData, setUserBookData] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedAdmin, setSelectedAdmin] = useState([]);
 
   console.log("====>>> response from line 24", selectedUsers);
 
@@ -37,7 +38,7 @@ const User_BetMarket = () => {
   // Function to close the modal
   const handleCloseModal = () => setModalOpen(false);
 
-  // Function to open the nested modal 
+  // Function to open the nested modal
   const handleOpenNestedModal = (subAdminIndex) => {
     const selectedSubAdmins = hierarchyData?.subAdminsAndUsers?.slice(0, 2); // Get both the 0 and 1 index
     console.log("====>>>> response line 43", selectedSubAdmins);
@@ -46,9 +47,11 @@ const User_BetMarket = () => {
       const userInfoList = selectedSubAdmins.map((selectedSubAdmin) => {
         if (selectedSubAdmin?.createdById === store?.admin.id) {
           const usersData = selectedSubAdmin.users || [];
+          const subAdminData = selectedSubAdmin.subAdmins || [];
 
-          if (usersData.length > 0) {
+          if (usersData.length > 0 || subAdminData.length > 0) {
             const selectedUser = usersData[0];
+            const selectedAdmin = subAdminData[0]?.createdByUser;
 
             // Extract the runnerBalance
             const runnerBalance = selectedUser?.runnerBalance || [];
@@ -57,7 +60,7 @@ const User_BetMarket = () => {
             return {
               userName: selectedUser?.userName || "N/A",
               runnerBalance: runnerBalance,
-              adminName: selectedSubAdmin.subAdmins || "N/A",
+              adminName: selectedAdmin || "N/A",
             };
           }
         }
@@ -65,7 +68,7 @@ const User_BetMarket = () => {
       });
 
       // Filter out null values (in case some subAdmins don't have valid users)
-      const filteredUserInfo = userInfoList.filter((info) => info !== null);
+      const filteredUserInfo = userInfoList .filter((info) => info !== null);
 
       if (filteredUserInfo.length > 0) {
         setSelectedUsers(filteredUserInfo);
@@ -412,8 +415,8 @@ const User_BetMarket = () => {
               {/* Display data for both sub-admins */}
               {selectedUsers?.map((userInfo, index) => (
                 <div key={index}>
-                  {/* Display adminName (testhyper) above the table */}
-                  <h5>{userInfo.adminName}</h5>
+              
+                  <h5>{userInfo.adminName || "N/A"}</h5>  
 
                   {/* Display user table for runnerBalance */}
                   <table className="table table-bordered text-center">
@@ -428,9 +431,7 @@ const User_BetMarket = () => {
                     </thead>
                     <tbody>
                       <tr>
-                        {/* Display the userName */}
                         <td>{userInfo.userName}</td>
-                        {/* You can dynamically assign role if available */}
                         <td>user</td>
                         {userInfo.runnerBalance.map((balance, balanceIndex) => (
                           <td key={balanceIndex}>{balance.bal}</td>
