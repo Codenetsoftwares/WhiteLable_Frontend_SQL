@@ -228,6 +228,7 @@ const HierarchyPageView = () => {
                                 userName={data.userName}
                                 role={data.roles[0].role}
                                 key={data.id}
+                                exposure={data.exposure}
                                 // creditRef={data.creditRef[creditRefLength - 1]?.value}
                                 balance={data.balance}
                                 loadBalance={data.loadBalance}
