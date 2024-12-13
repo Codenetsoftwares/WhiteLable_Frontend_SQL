@@ -63,6 +63,31 @@ const Authform = ({ purpose, authFormApi }) => {
     },
     enableReinitialize: true,
   });
+  // async function authFormHandler(values) {
+  //   console.log(values);
+  //   dispatch({
+  //     type: strings.isLoading,
+  //     payload: true,
+  //   });
+  //   setIsLoading(true);
+  //   const response = await authFormApi(values, true);
+  //   console.log("res from login", response);
+
+  //   if (purpose === "login" && response) {
+  //     dispatch({
+  //       type: strings.LOG_IN,
+  //       payload: { isLogin: true, ...response.data },
+  //     });
+  //     navigate("/welcome");
+
+  //     // setShowLogin(!showLogin);
+  //   }
+  //   dispatch({
+  //     type: strings.isLoading,
+  //     payload: false,
+  //   });
+  //   setIsLoading(false);
+  // }
   async function authFormHandler(values) {
     console.log(values);
     dispatch({
@@ -70,18 +95,32 @@ const Authform = ({ purpose, authFormApi }) => {
       payload: true,
     });
     setIsLoading(true);
+
+    // API call to authenticate
     const response = await authFormApi(values, true);
     console.log("res from login", response);
 
-    if (purpose === "login" && response) {
-      dispatch({
-        type: strings.LOG_IN,
-        payload: { isLogin: true, ...response.data },
-      });
-      navigate("/welcome");
-
-      // setShowLogin(!showLogin);
+    if (response && response.data) {
+      if (purpose === "login") {
+        // Check if password reset is required
+        if (response.data.isReset) {
+          dispatch({
+            type: strings.LOG_IN,
+            payload: { ...response.data },
+          });
+          navigate("/reset-password", { state: values });
+        } else {
+          // Otherwise, proceed to the welcome page
+          dispatch({
+            type: strings.LOG_IN,
+            payload: { isLogin: true, ...response.data },
+          });
+          navigate("/welcome");
+        }
+      }
     }
+
+    // Reset loading state
     dispatch({
       type: strings.isLoading,
       payload: false,
@@ -188,7 +227,6 @@ const Authform = ({ purpose, authFormApi }) => {
                         {purpose === "login" && "Log In"}
                       </a>
                     )}
-
                   </form>
                 </div>
               </div>

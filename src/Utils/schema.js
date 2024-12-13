@@ -42,3 +42,12 @@ export const AddWalletBalanceSchema = Yup.object().shape({
 export const AddCashSchema = Yup.object().shape({
   amount: Yup.number().required("Amount is required"),
 });
+
+export const resetPasswordSchema = Yup.object().shape({
+  newPassword: Yup.string()
+    .required("New password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
+    .required("Confirm password is required"),
+});
+
