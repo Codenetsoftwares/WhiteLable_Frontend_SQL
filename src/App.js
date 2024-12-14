@@ -21,6 +21,7 @@ import User_BetMarket from "./pages/User_BetMarket";
 import BetHistoryForPl from "./profileAccount/BetHistoryForPl";
 import BetHistoryLotteryForPl from "./profileAccount/BetHistoryLotteryForPl";
 import { DemoMarket_Analysis } from "./pages/DemoMarket_Analysis";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 // import WelcomePage from "./screen/WelcomePage";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
       <AppProvider>
         <BrowserRouter>
           <Routes>
+          <Route path = "/reset-password" element={<ResetPassword/>} />
             <Route index path="/" element={<Navigate to="/login" />} />
             <Route path = "/login" element={<Login/>} />
             <Route path="/" element={<AdminLayout />}>

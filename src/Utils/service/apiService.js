@@ -552,3 +552,14 @@ export async function getLotteryBetList(body = {}, isToast = false) {
     throw error;
   }
 }
+
+
+export async function ResetAdminPassword(body = {}, isToast = false) {
+  try {
+    const callParams = getNoAuthCallParams(strings.POST, body, isToast);
+    const response = await makeCall(UrlConstant.resetPassword, callParams, isToast);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

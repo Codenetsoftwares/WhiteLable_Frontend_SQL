@@ -22,7 +22,7 @@ const Wallet = () => {
   const [refresh, setRefresh] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [adminDelete, setAdminDelete] = useState('');
-
+console.log('====>>> response from api',walletCard)
   //  debounced search handler
   const debouncedGetAllCreate = useCallback(
     debounce((searchName) => {
