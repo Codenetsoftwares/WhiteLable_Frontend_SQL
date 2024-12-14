@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import SingleCard from "../components/common/singleCard";
-import { getMarketWithRunnerDataInitialState } from "../Utils/service/initiateState";
-import { GetLiveUsers, getUserGetMarket, GetUsersBook } from "../Utils/service/apiService";
+import {
+  get_betBook,
+  getMarketWithRunnerDataInitialState,
+} from "../Utils/service/initiateState";
+import {
+  GetBetBook,
+  GetLiveUsers,
+  getUserGetMarket,
+  GetUsersBook,
+} from "../Utils/service/apiService";
 import { toast } from "react-toastify";
 import { customErrorHandler } from "../Utils/helper";
 import { useAppContext } from "../contextApi/context";
@@ -13,7 +21,6 @@ import ReusableModal from "../components/common/ReusableModal";
 
 const User_BetMarket = () => {
   const { dispatch, store } = useAppContext();
-  console.log("=====>>> id from store", store);
   const [user_marketWithRunnerData, setUser_marketWithRunnerData] = useState(
     getMarketWithRunnerDataInitialState()
   );
@@ -22,23 +29,53 @@ const User_BetMarket = () => {
   const [nestedModalOpen, setNestedModalOpen] = useState(false);
   const [hierarchyData, setHierarchyData] = useState([]);
   const [userBookModalOpen, setUserBookModalOpen] = useState(false);
-  const [userBookData, setUserBookData] = useState([]);
+  const [betBookData, setBetBookData] = useState([]);
+  const [bodyData, setBodyData] = useState(get_betBook());
 
-  console.log("====>>> response from line 24", hierarchyData);
+  console.log("====>>> response from line 24", bodyData);
+
+  // useEffect(()=>{fetch_BetBookData()},[bodyData])
 
   // Function to open the modal
-  const handleOpenModal = () => setModalOpen(true);
+  const handleOpenModal = () => {
+    setModalOpen(true);
+    setBodyData({
+      marketId: marketId,
+      adminId: store?.admin?.id,
+      role: store?.admin?.roles[0]?.role,
+      type: "master-book",
+    });
+  };
 
   // Function to close the modal
   const handleCloseModal = () => setModalOpen(false);
 
   // Function to open the nested modal
-  const handleOpenNestedModal = () => setNestedModalOpen(true);
+  const handleOpenNestedModal = () => {
+    setNestedModalOpen(true);
+    fetch_BetBookData();
+  };
 
   // Function to close the nested modal
-  const handleCloseNestedModal = () => setNestedModalOpen(false);
+  const handleCloseNestedModal = () => {
+    setNestedModalOpen(false);
+    setBodyData({
+      marketId: marketId,
+      adminId: store?.admin?.id,
+      role: store?.admin?.roles[0]?.role,
+      type: "master-book",
+    });
+  };
 
-  const handleOpenUserBookModal = () => setUserBookModalOpen(true);
+  const handleOpenUserBookModal = () => {
+    setUserBookModalOpen(true);
+     setBodyData({
+       marketId: marketId,
+       adminId: store?.admin?.id,
+       role: store?.admin?.roles[0]?.role,
+       type: "user-book",
+     });
+  };
   const handleCloseUserBookModal = () => setUserBookModalOpen(false);
 
   useEffect(() => {
@@ -66,13 +103,11 @@ const User_BetMarket = () => {
     }
   }
 
-
-  async function fetchUserBookData() {
+  async function fetch_BetBookData() {
     try {
-      const response = await GetUsersBook({ marketId });
+      const response = await GetBetBook(bodyData);
       if (response?.success) {
-        setUserBookData(response.data);
-        handleOpenUserBookModal();
+        setBetBookData(response.data);
       } else {
         toast.error("Failed to fetch user book data.");
       }
@@ -110,6 +145,26 @@ const User_BetMarket = () => {
   };
 
   const nextUserName = getNextUserName(store?.admin?.id);
+
+  const handleClick_To_InnerHierarcy = async (id, role) => {
+    console.log("role---id", id, role);
+
+    setBodyData((prevData) => ({
+      ...prevData,
+      adminId: id,
+      role: role,
+    }));
+  };
+
+  useEffect(() => {
+    if (bodyData?.adminId && bodyData?.role) {
+      const fetchData = async () => {
+        await fetch_BetBookData();
+      };
+
+      fetchData();
+    }
+  }, [bodyData]);
 
   return (
     <div className="container-fluid my-5">
@@ -277,7 +332,8 @@ const User_BetMarket = () => {
                     <button
                       className="btn text-white fw-bolder px-5"
                       style={{ background: "#1D5E6C" }}
-                      onClick={fetchUserBookData}
+                      disabled={store?.admin?.roles[0]?.role === "superAdmin"}
+                      onClick={handleOpenUserBookModal}
                     >
                       User Book
                     </button>
@@ -364,58 +420,168 @@ const User_BetMarket = () => {
           title="Live Users Data"
           bodyContent={
             <div className="table-responsive">
-              <div>
-                <p>
-                  Next User:{" "}
-                  <a
-                    href="#!"
-                    onClick={() => alert(`Navigating to ${nextUserName}`)}
-                  >
-                    {nextUserName}
-                  </a>
-                </p>
-              </div>
+              <table
+                className="table"
+                style={{ border: "1px solid #ddd", borderCollapse: "collapse" }}
+              >
+                <thead>
+                  <tr>
+                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      Username
+                    </th>
+                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      Role
+                    </th>
+                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {betBookData?.length > 0 &&
+                        betBookData[0].runnerBalance?.[0]?.runnerName}
+                    </th>
+                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {betBookData?.length > 0 &&
+                        betBookData[0].runnerBalance?.[1]?.runnerName}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {betBookData?.length > 0 ? (
+                    betBookData.map((master, index) => {
+                      // console.log("master====", master?.runnerBalance);
+                      return (
+                        <tr key={index}>
+                          {permissionObj.allAdmin.includes(master?.roles) ? (
+                            <td
+                              style={{
+                                border: "1px solid #ddd",
+                                padding: "8px",
+                              }}
+                              onClick={() =>
+                                handleClick_To_InnerHierarcy(
+                                  master?.adminId,
+                                  master?.roles
+                                )
+                              }
+                            >
+                              {master?.userName}
+                            </td>
+                          ) : (
+                            <td
+                              style={{
+                                border: "1px solid #ddd",
+                                padding: "8px",
+                              }}
+                            >
+                              {master?.userName}
+                            </td>
+                          )}
+
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            {master?.roles}
+                          </td>
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            {master?.runnerBalance?.[0]?.bal || 0}
+                          </td>
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            {master?.runnerBalance?.[1]?.bal || 0}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="text-center"
+                        style={{ border: "1px solid #ddd", padding: "8px" }}
+                      >
+                        No data available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           }
         />
 
-<ReusableModal
+        <ReusableModal
           isOpen={userBookModalOpen}
           onClose={handleCloseUserBookModal}
           title="User Book Data"
           bodyContent={
             <div className="table-responsive">
-              <table className="table table-bordered">
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Role</th>
-      <th>{userBookData?.length > 0 && userBookData[0].runnerBalance?.[0]?.runnerName}</th> {/* Dynamically get the runnerName A */}
-      {/* <th> The Draw</th> */}
-      <th>{userBookData?.length > 0 && userBookData[0].runnerBalance?.[1]?.runnerName}</th> {/* Dynamically get the runnerName B */}
-    </tr>
-  </thead>
-  <tbody>
-    {userBookData?.length > 0 ? (
-      userBookData.map((user, index) => (
-        <tr key={index}>
-          <td>{user.userName}</td>
-          <td>USER</td>
-          <td>{user.runnerBalance?.[0]?.bal}</td> 
-          {/* <td>{user.runnerBalance?.[0]?.bal + user.runnerBalance?.[1]?.bal}</td>  */}
-          <td>{user.runnerBalance?.[1]?.bal}</td> 
-        </tr>
-      ))
-    ) : (
-      <tr>
-        <td colSpan="5" className="text-center">
-          No data available
-        </td>
-      </tr>
-    )}
-  </tbody>
-</table>
+              <table
+                className="table"
+                style={{ border: "1px solid #ddd", borderCollapse: "collapse" }}
+              >
+                <thead>
+                  <tr>
+                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      Username
+                    </th>
+                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      Role
+                    </th>
+                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {betBookData?.length > 0 &&
+                        betBookData[0].runnerBalance?.[0]?.runnerName}
+                    </th>
+                    <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+                      {betBookData?.length > 0 &&
+                        betBookData[0].runnerBalance?.[1]?.runnerName}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {betBookData?.length > 0 ? (
+                    betBookData.map((master, index) => {
+                      return (
+                        <tr key={index}>
+                          <td
+                            style={{
+                              border: "1px solid #ddd",
+                              padding: "8px",
+                            }}
+                          >
+                            {master?.userName}
+                          </td>
 
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            User
+                          </td>
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            {master?.runnerBalance?.[0]?.bal || 0}
+                          </td>
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            {master?.runnerBalance?.[1]?.bal || 0}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="text-center"
+                        style={{ border: "1px solid #ddd", padding: "8px" }}
+                      >
+                        No data available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           }
         />

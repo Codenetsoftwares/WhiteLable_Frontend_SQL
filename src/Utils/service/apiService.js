@@ -496,11 +496,11 @@ export async function GetLiveUsers(body = {}, isToast = false) {
 }
 
 
-export async function GetUsersBook(body = {}, isToast = false) {
+export async function GetBetBook(body = {}, isToast = false) {
   try {
-    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const callParams = await getAuthCallParams(strings.POST, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.usersBook}/${body.marketId}`,
+      `${UrlConstant.getBetBook}`,
       callParams,
       isToast
     );

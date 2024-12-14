@@ -51,7 +51,7 @@ class UrlConstant {
   getLotteryProfitLossEvent = `${this.url_dev}/lottery-profit-loss`;
   betLotteryList = `${this.url_dev}/lottery-betHistory-profitLoss`;
   getLiveUsers = `${this.url_dev}/get-live-users`;
-  usersBook = `${this.url_dev}/get-live-users-marketUser`;
+  getBetBook = `${this.url_dev}/${this.get}-user-master-book`;
   resetPassword = `${this.url_dev}/login-reset-password`; // api needs to be changed
 }
 

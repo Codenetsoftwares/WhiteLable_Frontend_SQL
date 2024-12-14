@@ -11,7 +11,7 @@ import strings from "../Utils/constant/stringConstant";
 const NavTop = () => {
   const navigate = useNavigate();
   const { store, dispatch } = useAppContext();
-  console.log("store=>>>", store);
+  // console.log("store=>>>", store);
 
   useEffect(() => {
     let logoutPerformed = false;
