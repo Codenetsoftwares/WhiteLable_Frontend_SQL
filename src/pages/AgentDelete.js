@@ -15,8 +15,7 @@ const AgentDelete = () => {
   const id = store?.admin?.id;
 
   async function viewApprovedDelete() {
-    const response = await viewTrash_api({adminId:id 
-    });
+    const response = await viewTrash_api({ adminId: id });
     console.log("======>>> response", response);
     setViewAgentDelete(response.data);
   }
@@ -48,14 +47,14 @@ const AgentDelete = () => {
   return (
     <>
       {viewAgentDelete.length > 0 ? (
-        <div className="container d-flex justify-content-center">
+        <div className="container d-flex justify-content-center mt-5">
           <div className="p-2">
             <div>
               <table className="table m-2">
                 <thead
                   style={{
                     height: "10px",
-                    backgroundColor: "#006699",
+                    backgroundColor: "#1E2761",
                     color: "white",
                     fontWeight: "bold",
                   }}
@@ -75,21 +74,21 @@ const AgentDelete = () => {
                 {viewAgentDelete.map((data, index) => (
                   <tr key={data.id}>
                     <th scope="row">{index + 1}</th>
-                    <td>{data.userName}</td>
+                    <td className="h6 fw-bold">{data.userName}</td>
                     <td>
                       <button
-                        className="btn btn-danger text-dark rounded"
+                        className="btn text-dark fw-bold" style={{background:"#ED5E68"}}
                         onClick={() => handleDeleteAgent(data.trashId)}
                       >
-                        Delete
+                        Delete <i class="fa-solid fa-trash text-dark"></i>
                       </button>
                     </td>
                     <td>
                       <button
-                        className="btn btn-info text-dark rounded"
+                        className="btn text-dark rounded fw-bold" style={{background:"#F5C93A"}}
                         onClick={() => handleRestore(data.adminId)}
                       >
-                        Restore
+                        Restore  <i class="fa-solid fa-arrow-rotate-left"></i>
                       </button>
                     </td>
                   </tr>
@@ -99,10 +98,18 @@ const AgentDelete = () => {
           </div>
         </div>
       ) : (
-        <div className="container alert alert-warning mt-1" role="alert">
-          <p className="d-flex justify-content-center">
-            No Delete Request Found
-          </p>
+        <div
+          className="container alert mt-5 p-5 w-25 text-center"
+          style={{
+            background: "#1E2761",
+            position: "absolute",
+            top: "45%",
+            left: "55%",
+            transform: "translate(-50%, -50%)",
+          }}
+          role="alert"
+        >
+          <p className="h4 text-white p-4">No Delete Request Found</p>
         </div>
       )}
     </>

@@ -29,9 +29,9 @@ const Authform = ({ purpose, authFormApi }) => {
 
       return (
         <>
-          <option selected>Open This Select Role</option>
+          <option selected style={{textTransform:"uppercase"}}>Open This Select Role</option>
           {availableRoles.map((option) => (
-            <option key={option} value={option}>
+            <option key={option} value={option} style={{textTransform:"uppercase"}}>
               {option}
             </option>
           ))}
@@ -103,7 +103,7 @@ const Authform = ({ purpose, authFormApi }) => {
             <div className="col-lg-6">
               <div className="modal-content cs_modal">
                 <div className="modal-header justify-content-center theme_bg_1">
-                  <h5 className="modal-title text_white">
+                  <h5 className="modal-title text_white text-uppercase">
                     {purpose === "create" && "Create"}
                     {purpose === "login" && "Log In"}
                   </h5>

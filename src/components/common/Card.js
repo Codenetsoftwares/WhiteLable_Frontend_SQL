@@ -123,19 +123,19 @@ const Card = ({
         <tr>
           <th scope="row" className="">
             <button
-              className="border border-1 w-75 text-center bg-success rounded-pill "
+              className="border border-1 text-center rounded-pill fw-bold p-1"
               // data-bs-toggle="modal"
               // data-bs-target={`#hierarchyview-${userId}`}
-              style={{ cursor: "auto" }}
+              style={{ cursor: "auto", background:"#F5C93A", width:"90px"}}
             >
               {role}
             </button>
 
-            <p
+            <p className="fw-bold text-dark"
               onClick={() => {
                 takeMeToHierarchy(userName);
               }}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer"}}
             >
               <b>{userName}</b>
             </p>
@@ -298,7 +298,7 @@ const Card = ({
                   }
                 >
                   <button
-                    className={`btn border border-2 rounded ${["suspended"].includes(store?.admin?.status)
+                    className={`btn border border-1 rounded ${["suspended"].includes(store?.admin?.status)
                       ? "disabled"
                       : store?.admin?.roles[0].permission.some(
                         (role) => role === strings.transferBalance
@@ -310,6 +310,7 @@ const Card = ({
                           ? ""
                           : "disabled"
                       }`}
+                      style={{background:"#84B9DF"}}
                     title="Addmoney"
                   >
                     <i class="fa-solid fa-circle-dollar-to-slot"></i>
@@ -329,6 +330,7 @@ const Card = ({
                           ? ""
                           : "disabled"
                       }`}
+                      style={{background:"#25F1F7"}}
                     title="Setting"
                     type="button"
                     onClick={() => handleStatusModalShow(adminId)}
@@ -352,6 +354,7 @@ const Card = ({
                     ? ""
                     : "disabled"
                   }`}
+                  style={{background:"#F5C93A"}}
                 title="Profile"
                 onClick={() => {
                   takeMeToAccount(userName);
@@ -363,7 +366,7 @@ const Card = ({
             {callingParent === "Wallet" ? (
               <span className="mx-1">
                 <button
-                  className={`btn border border-2 rounded ${["suspended"].includes(store?.admin?.status)
+                  className={`btn border border-2 rounded  ${["suspended"].includes(store?.admin?.status)
                     ? "disabled"
                     : store?.admin?.roles[0].permission.some(
                       (role) => role === strings.deleteAdmin
@@ -375,6 +378,7 @@ const Card = ({
                         ? ""
                         : "disabled"
                     }`}
+                    style={{background:"#ED5E68"}}
                   title="Delete"
                   onClick={(e) => {
                     handleDelete();
