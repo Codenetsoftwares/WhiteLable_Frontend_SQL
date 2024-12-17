@@ -50,7 +50,8 @@ const AgentDelete = () => {
         <div className="container d-flex justify-content-center mt-5">
           <div className="p-2">
             <div>
-              <table className="table m-2">
+              <h3 className="text-center text-uppercase fw-bold" style={{color:"#1E2761", textDecoration:"underline"}}>Deleted Agents</h3>
+              <table className="table m-2 mt-4">
                 <thead
                   style={{
                     height: "10px",
@@ -59,7 +60,7 @@ const AgentDelete = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  <tr>
+                  <tr align='center'>
                     <th scope="col">SL. NO.</th>
                     <th
                       scope="col"
@@ -67,30 +68,29 @@ const AgentDelete = () => {
                     >
                       AGENT NAME
                     </th>
-                    <th></th>
-                    <th></th>
+                    <th >Action</th>
+
                   </tr>
                 </thead>
                 {viewAgentDelete.map((data, index) => (
-                  <tr key={data.id}>
+                  <tr key={data.id} className="bg-light text-dark" align='center'>
                     <th scope="row">{index + 1}</th>
                     <td className="h6 fw-bold">{data.userName}</td>
                     <td>
                       <button
-                        className="btn text-dark fw-bold" style={{background:"#ED5E68"}}
+                        className="btn text-dark fw-bold mx-2" style={{background:"#ED5E68"}}
                         onClick={() => handleDeleteAgent(data.trashId)}
                       >
                         Delete <i class="fa-solid fa-trash text-dark"></i>
-                      </button>
-                    </td>
-                    <td>
-                      <button
+                      </button> 
+                       <button
                         className="btn text-dark rounded fw-bold" style={{background:"#F5C93A"}}
                         onClick={() => handleRestore(data.adminId)}
                       >
                         Restore  <i class="fa-solid fa-arrow-rotate-left"></i>
                       </button>
                     </td>
+                  
                   </tr>
                 ))}
               </table>
@@ -106,6 +106,7 @@ const AgentDelete = () => {
             top: "45%",
             left: "55%",
             transform: "translate(-50%, -50%)",
+            border:"2px solid #fff"
           }}
           role="alert"
         >

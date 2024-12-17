@@ -59,7 +59,7 @@ const Market_Analysis = () => {
                         color: "#fff"
                     }}
                 >
-                    <h3 className="mb-0 fw-bold fs-5 text-light text-center">Live Bet Game</h3>
+                    <h3 className="mb-0 fw-bold fs-5 text-light text-center text-uppercase p-3">Live Bet Game</h3>
                 </div>
                 <div className="card-body">
                     {/* Table */}
@@ -102,7 +102,7 @@ const Market_Analysis = () => {
                                                 <td>{data.marketName}</td>
                                                 <td>
                                                     <Link to={`/User_BetMarket/${data.marketId}`}>
-                                                        <button type="button" className="text-white p-2 border-0 rounded-3 betMarket_btn" style={{background:"#1E2761"}}>
+                                                        <button type="button" className="text-white p-2 border-0 rounded-3 betMarket_btn " style={{background:"#1E2761"}}>
                                                             Go To Bet Market
                                                         </button>
                                                     </Link>

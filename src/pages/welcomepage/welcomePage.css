@@ -11,7 +11,7 @@ html, body {
 .WelcomePage {
   text-align: center;
   font-family: 'Arial', sans-serif;
-  background: #408EC6;
+  /* background: #408EC6; */
   color: white;
   padding: 20px;
   min-height: 100vh;
@@ -109,7 +109,7 @@ h1 {
 }
 
 .p1 {
-  text-shadow: 1px 1px 1px black, -1px -1px 1px black;
+  /* text-shadow: 1px 1px 1px black, -1px -1px 1px black; */
   color: #1E2761;
 }
 
@@ -253,13 +253,15 @@ h1 {
 }
 
 .feature-item {
-  background: rgba(255, 255, 255, 0.2);
+  /* background: rgba(168, 43, 43, 0.2); */
+  background: linear-gradient(135deg, rgba(132, 185, 223, 0.7), rgba(30, 39, 97, 0.9));
   border-radius: 10px;
   padding: 20px;
   width: 150px;
   text-align: center;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid #1E2761;
+  /* backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); */
   /* border: 2px solid #1E2761; */
 }
 

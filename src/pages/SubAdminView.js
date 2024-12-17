@@ -249,9 +249,9 @@ const SubAdminView = () => {
                       <div
                         className="alert text-dark p-4"
                         role="alert"
-                        style={{ background: "#1E2761" }}
+                        style={{ background: "#1E2761",border:"2px solid #84B9DF" }}
                       >
-                        <div className="alert-text d-flex justify-content-center text-light">
+                        <div className="alert-text d-flex justify-content-center text-light" style={{}}>
                           <b> &#128680; No Data Found !! </b>
                         </div>
                       </div>

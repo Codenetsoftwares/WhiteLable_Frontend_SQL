@@ -2,6 +2,7 @@
 /* Normal desktop :992px. */
 /* Tablet desktop :768px. */
 /* small mobile :320px. */
+
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400&display=swap');
 /* line 1, G:/admin_project/8 admin/management_html/scss/_extends.scss */
 .CRM_dropdown.dropdown .dropdown-toggle:hover,
@@ -2259,7 +2260,7 @@ span > .bg-secondary {
 
 /* line 1641, G:/admin_project/8 admin/management_html/scss/_reset.scss */
 .bg-success {
-  background-color: #80cf00 !important;
+  background-color:#b3e95d !important;
   color: #000;
   font-weight: bold;
 }
@@ -3548,15 +3549,13 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child::befor
   position: fixed;
   top: 0;
   z-index: 99;
-  padding: 20px 30px;
+  padding: 18px 30px;
   position: relative;
   border-radius: 0px;
   margin: 0;
-  background: #f6f7fb;
-  border-radius: 0;
-  margin: 0;
-  border-radius: 0px;
+  background: linear-gradient(135deg, rgba(132, 185, 223, 0.7), rgba(30, 39, 97, 0.9));
   border-bottom: 2px solid #e8e8e8;
+  padding-left: 600px;
 }
 
 /* line 29, G:/admin_project/8 admin/management_html/scss/_header.scss */
@@ -3687,7 +3686,22 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child::befor
   background-color: #2e4765;
   border-radius: 50%;
 }
-
+/* .WhiteLabel_heading{
+  text-transform: uppercase;
+	background-image: linear-gradient(to right top, #ffff34, #ffc812, #ff8f2f, #ff554d, #eb1267);
+   background-size: 50% auto;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  animation: gradientAnim 7.5s ease  alternate infinite;
+}
+@keyframes gradientAnim {
+  to {
+    background-position: 100% top;
+  }
+} */
 /* line 135, G:/admin_project/8 admin/management_html/scss/_header.scss */
 .header_iner .serach_field-area {
   margin-right: auto;
@@ -4342,17 +4356,17 @@ table.dataTable {
 }
 
 /* line 40, G:/admin_project/8 admin/management_html/scss/_sidebar.scss */
-.sidebar .logo {
+/* .sidebar .logo {
   margin: 0px;
   background: #f3f6f9;
   padding: 24px;
   margin-bottom: 20px;
-}
+} */
 
 /* line 46, G:/admin_project/8 admin/management_html/scss/_sidebar.scss */
-.sidebar .logo .large_logo img {
+/* .sidebar .logo .large_logo img {
   width: 100%;
-}
+} */
 
 @media (max-width: 991px) {
   /* line 40, G:/admin_project/8 admin/management_html/scss/_sidebar.scss */
@@ -4652,7 +4666,7 @@ table.dataTable {
 /* line 278, G:/admin_project/8 admin/management_html/scss/_sidebar.scss */
 .sidebar #sidebar_menu > li a {
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 800;
   color: #144339;
   padding: 0px 25px 0px 0px;
   background: #fff;
@@ -4669,15 +4683,20 @@ table.dataTable {
   font-family: 'Mulish', sans-serif;
   padding: 10px 10px 10px 26px;
   background: #fff;
-  border-radius: 0 30px 30px 0;
-  border-radius: 15px;
+  /* border-radius: 0 30px 30px 0;
+  border-radius: 15px; */
   margin:10px;
+  border: 3px solid #84B9DF;
 }
 
 /* line 299, G:/admin_project/8 admin/management_html/scss/_sidebar.scss */
 .sidebar #sidebar_menu > li a:hover {
-  color: #f65365 !important;
-  background: #f6f7fb;
+  color: #1E2761 !important;
+  background: #84B9DF;
+  font-weight: bold;
+  border: 3px solid #fff;
+
+  /* border-radius: 20px; */
 }
 
 /* line 303, G:/admin_project/8 admin/management_html/scss/_sidebar.scss */
@@ -4761,7 +4780,9 @@ table.dataTable {
   background: transparent;
   /* border-radius: 0 0 4px 4px; */
   margin-left: 10px;
-  background: #fff;
+  /* margin-right: 10px; */
+  margin-top: 10px;
+  /* background: #fff; */
 }
 
 /* line 403, G:/admin_project/8 admin/management_html/scss/_sidebar.scss */
@@ -4772,8 +4793,8 @@ table.dataTable {
 /* line 407, G:/admin_project/8 admin/management_html/scss/_sidebar.scss */
 .sidebar #sidebar_menu > li ul li a {
   font-size: 14px;
-  color: #8890b5;
-  font-weight: 400;
+  color: #1E2761;
+  font-weight: 800;
   padding: 0;
   white-space: nowrap;
   padding: 0;
@@ -5231,7 +5252,7 @@ body::-webkit-scrollbar {
   min-height: 100vh;
   padding-bottom: 70px;
   overflow: hidden;
-  background-color: #84b9df;
+  background-color: #84B9DF;
 }
 
 /* line 13, G:/admin_project/8 admin/management_html/scss/_main_content.scss */
@@ -5717,12 +5738,14 @@ font-size: large;
   -moz-border-radius: 15px;
   border-radius: 15px;
   text-align: center;
-
+  border: 2px solid #1E2761;
+  border-radius: 10px;
 }
 
 /* line 45, G:/admin_project/8 admin/management_html/scss/_dashboard_part.scss */
 .white_card .white_card_header {
   padding: 22px 30px;
+  
 }
 
 /* line 53, G:/admin_project/8 admin/management_html/scss/_dashboard_part.scss */

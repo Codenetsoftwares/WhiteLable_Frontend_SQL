@@ -37,11 +37,11 @@ const WelcomePage = () => {
           </div>
         </div>
         <section className="welcome-message mt-5">
-          <h5 className="text-white mt-4">We're glad to have you back. Here’s what you can do today:</h5>
+          <h5 className="text-white mt-5">We're glad to have you back. Here’s what you can do today:</h5>
           <h2 className="mt-5 welcome_msg">Welcome,<span> [{store.admin.adminName}!]</span></h2>
         </section>
-        <section className="features">
-          <h2>Key Features</h2>
+        <section className="features ">
+          <h2 className="text-uppercase mt-5 fw-bold" style={{color:"#1E2761", textDecoration:"underline"}}>Key Features</h2>
           <div className="features-list">
             <div className="feature-item">
               <i className="icon fa fa-chart-line"></i>

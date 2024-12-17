@@ -215,7 +215,7 @@ const AccountStatement = ({
 
               {/* No Data Found */}
               {props.length === 0 && (
-                <div className="alert text-dark bg-light mt-3" role="alert">
+                <div className="alert text-dark mt-3" role="alert">
                   <div className="alert-text d-flex justify-content-center">
                     <b> &#128680; No Data Found !! </b>
                   </div>

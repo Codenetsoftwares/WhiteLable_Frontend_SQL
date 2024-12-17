@@ -52,19 +52,21 @@ const NavTop = () => {
         <div className="row">
           <div className="col-lg-12 p-0 ">
             <div className="header_iner d-flex justify-content-between align-items-center">
-              <div className="sidebar_icon d-lg-none">
+              <div className="sidebar_icon d-lg-none" >
                 <i className="ti-menu"></i>
               </div>
-              <div className="line_icon open_miniSide d-none d-lg-block" style={{cursor : "pointer"}} onClick={() => navigate(-1)}>
+              {/* <div className="line_icon open_miniSide d-none d-lg-block" style={{cursor : "pointer"}} onClick={() => navigate(-1)}>
                 <img src="../../img/line_img.png" alt="" />
-              </div>
+              </div> */}
+                <h2 className="WhiteLabel_heading text-uppercase" style={{color:"#1E2761", fontWeight:"800",}}><span style={{color:"#F5C93A"}}>WhiteLabel</span> Admin <span style={{color:"#F5C93A"}}>Panel</span> </h2>
+            
               <div className="header_right d-flex justify-content-between align-items-center">
                 <div className="profile_info">
                   <img src="../../img/client_img.png" alt="#" />
                   <div className="profile_info_iner">
                     <div className="profile_author_name">
-                      <p>{store.admin.roles[0].role} </p>
-                      <h5>{store.admin.adminName}</h5>
+                      <p>{store?.admin?.roles[0]?.role} </p>
+                      <h5>{store?.admin?.adminName}</h5>
                     </div>
                     <div className="profile_info_details">
                       <a style={{ cursor: "pointer" }} onClick={handleLogout}>
