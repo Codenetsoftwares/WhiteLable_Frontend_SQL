@@ -166,13 +166,36 @@ const AccountLandingModal = () => {
   }
 
   // For Bet History Page DropDown
+  // async function getGameForBetHistory() {
+  //   const response = await getGameNames();
+  //   SetBetHistoryData((betHistoryData) => ({
+  //     ...betHistoryData,
+  //     gameList: response.data || [] ,
+  //   }));
+  // }
   async function getGameForBetHistory() {
-    const response = await getGameNames();
-    SetBetHistoryData((betHistoryData) => ({
-      ...betHistoryData,
-      gameList: response.data,
-    }));
+    try {
+      const response = await getGameNames();
+  
+      // Validate response and fallback if data is null
+      const gameList = response?.data || []; // Fallback to an empty array if data is null
+  
+      // Update state with validated data
+      SetBetHistoryData((betHistoryData) => ({
+        ...betHistoryData,
+        gameList: gameList,
+      }));
+    } catch (error) {
+      console.error("Error fetching game names:", error);
+  
+      // Handle the error by setting a default value
+      SetBetHistoryData((betHistoryData) => ({
+        ...betHistoryData,
+        gameList: [], // Fallback to an empty array
+      }));
+    }
   }
+  
   // For Bet History Data to show
   async function getHistoryForBetHistory() {
     console.log("page info", betHistoryData.currentPage)

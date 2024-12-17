@@ -21,6 +21,7 @@ import User_BetMarket from "./pages/User_BetMarket";
 import BetHistoryForPl from "./profileAccount/BetHistoryForPl";
 import BetHistoryLotteryForPl from "./profileAccount/BetHistoryLotteryForPl";
 import { DemoMarket_Analysis } from "./pages/DemoMarket_Analysis";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 import DemoNavside from "./Layout/DemoNavside";
 // import WelcomePage from "./screen/WelcomePage";
 
@@ -28,8 +29,8 @@ function App() {
   return (
     <React.Fragment>
       <ToastContainer
-        position="top-right"
-        autoClose={2000}
+        position="top-center"
+        autoClose={500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -42,6 +43,7 @@ function App() {
       <AppProvider>
         <BrowserRouter>
           <Routes>
+          <Route path = "/reset-password" element={<ResetPassword/>} />
             <Route index path="/" element={<Navigate to="/login" />} />
             <Route path = "/login" element={<Login/>} />
             <Route
