@@ -121,7 +121,7 @@ const User_BetMarket = () => {
             color: "#FFFFFF",
           }}
         >
-          <h3 className="mb-0 fw-bold fs-5 text-center text-white p-2">User Bet Market</h3>
+          <h3 className="mb-0 fw-bold fs-5 text-center text-white p-2 text-uppercase">User Bet Market</h3>
         </div>
         <div className="card-body">
           <SingleCard className="mb-5">

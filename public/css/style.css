@@ -3546,16 +3546,21 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child::befor
 /******** header css here *********/
 /* line 2, G:/admin_project/8 admin/management_html/scss/_header.scss */
 .header_iner {
-  position: fixed;
+  /* position: fixed; */
   top: 0;
-  z-index: 99;
+  /* z-index: 99; */
   padding: 18px 30px;
-  position: relative;
+  /* position: relative; */
   border-radius: 0px;
   margin: 0;
   background: linear-gradient(135deg, rgba(132, 185, 223, 0.7), rgba(30, 39, 97, 0.9));
   border-bottom: 2px solid #e8e8e8;
-  padding-left: 600px;
+  /* padding-left: 600px; */
+}
+@media (max-width: 768px) {
+  .WhiteLabel_heading {
+    font-size: 1.25rem;
+  }
 }
 
 /* line 29, G:/admin_project/8 admin/management_html/scss/_header.scss */

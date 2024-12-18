@@ -11,10 +11,10 @@ const WelcomePage = () => {
       <div className="WelcomePage">
         <header className="App-header">
           <h1 className="animated-header1">
-            Welcome to WhiteLabel Application
+            Welcome To WhiteLabel Application
           </h1>
           <h1 className="animated-header2">
-            Welcome to WhiteLabel Application
+            Welcome To WhiteLabel Application
           </h1>
         </header>
         {/* <p className="text-dark">
@@ -37,7 +37,7 @@ const WelcomePage = () => {
           </div>
         </div>
         <section className="welcome-message mt-5">
-          <h5 className="text-white mt-5">We're glad to have you back. Here’s what you can do today:</h5>
+          <h5 className="text-white mt-3">We're glad to have you back. Here’s what you can do today:</h5>
           <h2 className="mt-5 welcome_msg">Welcome,<span> [{store.admin.adminName}!]</span></h2>
         </section>
         <section className="features ">
