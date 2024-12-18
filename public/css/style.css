@@ -1323,7 +1323,7 @@ table.dataTable tbody td {
 @media (max-width: 575.98px) {
   /* line 925, G:/admin_project/8 admin/management_html/scss/_reset.scss */
   .lms_block {
-    display: block !important;
+    display: block/* line 282, G:/admin_project/8 admin/management_html/scss/_header.scss */ !important;
   }
 }
 
@@ -3913,6 +3913,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child::befor
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
+  z-index: 2;
 }
 
 /* line 282, G:/admin_project/8 admin/management_html/scss/_header.scss */
