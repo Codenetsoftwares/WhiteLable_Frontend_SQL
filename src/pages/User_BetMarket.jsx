@@ -69,12 +69,12 @@ const User_BetMarket = () => {
 
   const handleOpenUserBookModal = () => {
     setUserBookModalOpen(true);
-     setBodyData({
-       marketId: marketId,
-       adminId: store?.admin?.id,
-       role: store?.admin?.roles[0]?.role,
-       type: "user-book",
-     });
+    setBodyData({
+      marketId: marketId,
+      adminId: store?.admin?.id,
+      role: store?.admin?.roles[0]?.role,
+      type: "user-book",
+    });
   };
   const handleCloseUserBookModal = () => setUserBookModalOpen(false);
 
@@ -176,7 +176,9 @@ const User_BetMarket = () => {
             color: "#FFFFFF",
           }}
         >
-          <h3 className="mb-0 fw-bold fs-5 text-center text-white p-2 text-uppercase">User Bet Market</h3>
+          <h3 className="mb-0 fw-bold fs-5 text-center text-white p-2 text-uppercase">
+            User Bet Market
+          </h3>
         </div>
         <div className="card-body">
           <SingleCard className="mb-5">
@@ -291,7 +293,7 @@ const User_BetMarket = () => {
 
               {/* Side Content */}
               <div className="card">
-                <div className="rounded-top" style={{ background: "#1E2761"}}>
+                <div className="rounded-top" style={{ background: "#1E2761" }}>
                   <h4 className="card-header text-white fw-bold">
                     Live Streaming
                   </h4>
@@ -331,7 +333,6 @@ const User_BetMarket = () => {
                     </button>
                     <button
                       className="btn text-white fw-bolder px-5"
-
                       style={{ background: "#1E2761" }}
                       disabled={store?.admin?.roles[0]?.role === "superAdmin"}
                       onClick={handleOpenUserBookModal}
@@ -483,12 +484,28 @@ const User_BetMarket = () => {
                           <td
                             style={{ border: "1px solid #ddd", padding: "8px" }}
                           >
-                            {master?.runnerBalance?.[0]?.bal || 0}
+                            {master?.runnerBalance?.[0]?.bal >= 0 ? (
+                              <span className="text-success">
+                                {master?.runnerBalance?.[0]?.bal}
+                              </span>
+                            ) : (
+                              <span className="text-danger">
+                                {master?.runnerBalance?.[0]?.bal}
+                              </span>
+                            )}
                           </td>
                           <td
                             style={{ border: "1px solid #ddd", padding: "8px" }}
                           >
-                            {master?.runnerBalance?.[1]?.bal || 0}
+                            {master?.runnerBalance?.[0]?.bal >= 0 ? (
+                              <span className="text-success">
+                                {master?.runnerBalance?.[0]?.bal}
+                              </span>
+                            ) : (
+                              <span className="text-danger">
+                                {master?.runnerBalance?.[0]?.bal}
+                              </span>
+                            )}
                           </td>
                         </tr>
                       );
@@ -560,12 +577,28 @@ const User_BetMarket = () => {
                           <td
                             style={{ border: "1px solid #ddd", padding: "8px" }}
                           >
-                            {master?.runnerBalance?.[0]?.bal || 0}
+                            {master?.runnerBalance?.[0]?.bal >= 0 ? (
+                              <span className="text-success">
+                                {master?.runnerBalance?.[0]?.bal}
+                              </span>
+                            ) : (
+                              <span className="text-danger">
+                                {master?.runnerBalance?.[0]?.bal}
+                              </span>
+                            )}
                           </td>
                           <td
                             style={{ border: "1px solid #ddd", padding: "8px" }}
                           >
-                            {master?.runnerBalance?.[1]?.bal || 0}
+                            {master?.runnerBalance?.[0]?.bal >= 0 ? (
+                              <span className="text-success">
+                                {master?.runnerBalance?.[0]?.bal}
+                              </span>
+                            ) : (
+                              <span className="text-danger">
+                                {master?.runnerBalance?.[0]?.bal}
+                              </span>
+                            )}
                           </td>
                         </tr>
                       );
