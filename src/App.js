@@ -22,6 +22,7 @@ import BetHistoryForPl from "./profileAccount/BetHistoryForPl";
 import BetHistoryLotteryForPl from "./profileAccount/BetHistoryLotteryForPl";
 import { DemoMarket_Analysis } from "./pages/DemoMarket_Analysis";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
+import DemoNavside from "./Layout/DemoNavside";
 // import WelcomePage from "./screen/WelcomePage";
 
 function App() {
@@ -45,6 +46,10 @@ function App() {
           <Route path = "/reset-password" element={<ResetPassword/>} />
             <Route index path="/" element={<Navigate to="/login" />} />
             <Route path = "/login" element={<Login/>} />
+            <Route
+                path="/demonavside"
+                element={<DemoNavside/>}
+              />
             <Route path="/" element={<AdminLayout />}>
               <Route path="welcome" element={<WelcomePage />} />
               <Route path="allAdminCreate" element={<AllAdminCreate />} />
@@ -86,7 +91,12 @@ function App() {
                 path="betHistLotteryForPL/:userName"
                 element={<BetHistoryLotteryForPl/>}
               />
+ 
+
             </Route>
+
+
+            
             
           </Routes>
         </BrowserRouter>

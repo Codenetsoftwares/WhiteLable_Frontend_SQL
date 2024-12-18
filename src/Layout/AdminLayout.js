@@ -1,6 +1,7 @@
 import React from 'react';
 import NavTop from './NavTop';
 import Navside from './Navside';
+import DemoNavside from './DemoNavside';
 
 const AdminLayout = () => {
   return (
@@ -8,6 +9,7 @@ const AdminLayout = () => {
       {/* <section> */}
       <NavTop />
       <Navside />
+      {/* <DemoNavside/> */}
       {/* <Layout /> */}
       {/* <Footer /> */}
       {/* </section> */}
