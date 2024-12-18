@@ -34,7 +34,6 @@ export async function getHeaderObject(accessToken, contentType) {
 export const getAuthCallParams = async (methodType, body) => {
   const store = JSON.parse(localStorage.getItem(strings.LOCAL_STORAGE_KEY));
   const accessToken = store.admin?.accessToken;
-  console.log(accessToken);
   const params = {
     method: methodType,
     headers: await getHeaderObject(accessToken, strings.applicationJSON),

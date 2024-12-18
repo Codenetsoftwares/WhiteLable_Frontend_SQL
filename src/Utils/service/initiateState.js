@@ -197,3 +197,12 @@ export const getAdminResetPasswordInitialState = (body = {}) => {
   };
 };
 
+export function get_betBook(body = {}) {
+  return {
+    marketId: "",
+    adminId: "",
+    role: "",
+    type: ""
+  };
+}
+
