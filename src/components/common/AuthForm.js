@@ -29,7 +29,7 @@ const Authform = ({ purpose, authFormApi }) => {
 
       return (
         <>
-          <option selected>Open This Select Role</option>
+          <option hidden value="">Open This Select Role</option>
           {availableRoles.map((option) => (
             <option key={option} value={option}>
               {option}
@@ -97,7 +97,7 @@ const Authform = ({ purpose, authFormApi }) => {
     setIsLoading(true);
 
     // API call to authenticate
-    const response = await authFormApi(values, true);
+    const response = values?.roles[0]?.length == 0 ? "" : await authFormApi(values, true);
     console.log("res from login", response);
 
     if (response && response.data) {
