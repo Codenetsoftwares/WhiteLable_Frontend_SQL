@@ -497,13 +497,13 @@ const User_BetMarket = () => {
                           <td
                             style={{ border: "1px solid #ddd", padding: "8px" }}
                           >
-                            {master?.runnerBalance?.[0]?.bal >= 0 ? (
+                            {master?.runnerBalance?.[1]?.bal >= 0 ? (
                               <span className="text-success">
-                                {master?.runnerBalance?.[0]?.bal}
+                                {master?.runnerBalance?.[1]?.bal}
                               </span>
                             ) : (
                               <span className="text-danger">
-                                {master?.runnerBalance?.[0]?.bal}
+                                {master?.runnerBalance?.[1]?.bal}
                               </span>
                             )}
                           </td>
@@ -590,13 +590,13 @@ const User_BetMarket = () => {
                           <td
                             style={{ border: "1px solid #ddd", padding: "8px" }}
                           >
-                            {master?.runnerBalance?.[0]?.bal >= 0 ? (
+                            {master?.runnerBalance?.[1]?.bal >= 0 ? (
                               <span className="text-success">
-                                {master?.runnerBalance?.[0]?.bal}
+                                {master?.runnerBalance?.[1]?.bal}
                               </span>
                             ) : (
                               <span className="text-danger">
-                                {master?.runnerBalance?.[0]?.bal}
+                                {master?.runnerBalance?.[1]?.bal}
                               </span>
                             )}
                           </td>
