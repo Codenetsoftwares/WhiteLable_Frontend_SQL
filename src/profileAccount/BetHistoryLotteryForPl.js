@@ -5,8 +5,8 @@ import { getLotteryBetList } from "../Utils/service/apiService";
 const BetHistoryLotteryForPl = () => {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [betList, SetBetList] = useState([]);
-  const { userName, runnerId } = useParams();
-  console.log("userName", userName, runnerId);
+  const { userName, id } = useParams();
+  console.log("userName", userName, id);
   
   const toggleDropdown = (id) => {
     setDropdownOpen(dropdownOpen === id ? null : id);
@@ -15,6 +15,7 @@ const BetHistoryLotteryForPl = () => {
 
     const response = await getLotteryBetList({
       userName: userName,
+      marketId: id
     });
     SetBetList(response?.data);
   };

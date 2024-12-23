@@ -217,7 +217,7 @@ export async function getUserProfileView(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
 
-    const response =   await makeCall(
+    const response = await makeCall(
       `${UrlConstant.UserProfileView}/${body.userName}`,
       callParams,
       isToast
@@ -529,7 +529,7 @@ export async function getlotteryProfitLossEvent(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.getLotteryProfitLossEvent}/${body.userName}?page=${body.pageNumber}&limit=${body.dataLimit}`, 
+      `${UrlConstant.getLotteryProfitLossEvent}/${body.userName}?page=${body.pageNumber}&limit=${body.dataLimit}`,
       callParams,
       isToast
     );
@@ -543,7 +543,7 @@ export async function getLotteryBetList(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
     const response = await makeCall(
-      `${UrlConstant.betLotteryList}/${body.userName}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
+      `${UrlConstant.betLotteryList}/${body.userName}/${body.marketId}`, ///&limit=${body.limit}&search=${body.searchName} ((by search sending blank server is not giving data))
       callParams,
       isToast
     );

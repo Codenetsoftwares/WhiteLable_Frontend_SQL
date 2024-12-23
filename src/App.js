@@ -88,7 +88,7 @@ function App() {
                 element={<User_BetMarket />}
               />
               <Route
-                path="betHistLotteryForPL/:userName"
+                path="betHistLotteryForPL/:userName/:id"
                 element={<BetHistoryLotteryForPl/>}
               />
  
