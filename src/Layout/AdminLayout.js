@@ -7,7 +7,7 @@ const AdminLayout = () => {
   return (
     <div>
       {/* <section> */}
-      <NavTop purpose="login" />
+      <NavTop/>
       <Navside />
       {/* <DemoNavside/> */}
       {/* <Layout /> */}
