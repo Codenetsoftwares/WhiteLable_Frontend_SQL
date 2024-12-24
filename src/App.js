@@ -23,6 +23,7 @@ import BetHistoryLotteryForPl from "./profileAccount/BetHistoryLotteryForPl";
 import { DemoMarket_Analysis } from "./pages/DemoMarket_Analysis";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import DemoNavside from "./Layout/DemoNavside";
+import LotteryMarketAnalysis from "./pages/LotteryMarketAnalysis";
 // import WelcomePage from "./screen/WelcomePage";
 
 function App() {
@@ -90,6 +91,11 @@ function App() {
               <Route
                 path="betHistLotteryForPL/:userName/:id"
                 element={<BetHistoryLotteryForPl/>}
+              />
+
+<Route
+                path="/Lottery_Market_Analysis/:marketId"
+                element={<LotteryMarketAnalysis/>}
               />
  
 
