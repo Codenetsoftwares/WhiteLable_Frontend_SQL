@@ -6,11 +6,12 @@ import { customErrorHandler } from '../Utils/helper';
 import { useAppContext } from '../contextApi/context';
 import { permissionObj } from '../Utils/constant/permission';
 import SingleCard from '../components/common/singleCard';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 
 const Market_Analysis = () => {
     const { dispatch, store } = useAppContext();
     const [liveGmes, setLiveGmes] = useState(get_liveGames());
+    const navigate = useNavigate();
 
     const handleClearSearch = () => {
         // Placeholder for clearing search functionality
@@ -48,6 +49,14 @@ const Market_Analysis = () => {
             }
         }
     }, []);
+
+    const handleRedirect = (data) => {
+        if (data.gameName === "Lottery") {
+            navigate(`/Lottery_Market_Analysis/${data.marketId}`);
+        } else {
+            navigate(`/User_BetMarket/${data.marketId}`);
+        }
+    };
 
     return (
         <div className="container my-5">
@@ -101,11 +110,11 @@ const Market_Analysis = () => {
                                                 <td>{data.gameName}</td>
                                                 <td>{data.marketName}</td>
                                                 <td>
-                                                    <Link to={`/User_BetMarket/${data.marketId}`}>
-                                                        <button type="button" className="text-white p-2 border-0 rounded-3 betMarket_btn " style={{background:"#1E2761"}}>
-                                                            Go To Bet Market
+                                                    {/* <Link to={`/User_BetMarket/${data.marketId}`}> */}
+                                                        <button type="button" className="text-white p-2 border-0 rounded-3 betMarket_btn " style={{background:"#1E2761"}} onClick={() => handleRedirect(data)}>
+                                                        {data.gameName === "Lottery" ? "Go To Lottery Analysis" : "Go To Bet Market"}
                                                         </button>
-                                                    </Link>
+                                                    {/* </Link> */}
                                                 </td>
                                             </tr>
                                         ))

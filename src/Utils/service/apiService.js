@@ -480,7 +480,6 @@ export async function StatusChange(body = {}, isToast = false) {
   }
 }
 
-
 export async function GetLiveUsers(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.GET, body, isToast);
@@ -495,7 +494,6 @@ export async function GetLiveUsers(body = {}, isToast = false) {
   }
 }
 
-
 export async function GetBetBook(body = {}, isToast = false) {
   try {
     const callParams = await getAuthCallParams(strings.POST, body, isToast);
@@ -509,7 +507,6 @@ export async function GetBetBook(body = {}, isToast = false) {
     throw error;
   }
 }
-
 
 export async function getLotteryBetHistory(body = {}, isToast = false) {
   try {
@@ -553,11 +550,28 @@ export async function getLotteryBetList(body = {}, isToast = false) {
   }
 }
 
-
 export async function ResetAdminPassword(body = {}, isToast = false) {
   try {
     const callParams = getNoAuthCallParams(strings.POST, body, isToast);
-    const response = await makeCall(UrlConstant.resetPassword, callParams, isToast);
+    const response = await makeCall(
+      UrlConstant.resetPassword,
+      callParams,
+      isToast
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getLotteryMarketAnalysis(body = {}, isToast = false) {
+  try {
+    const callParams = await getAuthCallParams(strings.GET, body, isToast);
+    const response = await makeCall(
+      `${UrlConstant.betLotteryMarketAnalysis}/${body.marketId}`,
+      callParams,
+      isToast
+    );
     return response;
   } catch (error) {
     throw error;

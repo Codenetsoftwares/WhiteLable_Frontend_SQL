@@ -66,7 +66,7 @@ const NavTop = () => {
             flex: "1 1 auto",
           }}
         >
-          <span style={{ color: "#F5C93A" }}>WhiteLabel</span> Admin{" "}
+          <span style={{ color: "#F5C93A" }}>{store?.admin?.roles[0]?.role}</span> Admin{" "}
           <span style={{ color: "#F5C93A" }}>Panel</span>
         </h2>
 
